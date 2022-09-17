@@ -1,6 +1,6 @@
 #!/bin/sh
 
-        for SRC in $( ls $1*_source.svg );
+        for SRC in $( ls *_source.svg );
         do
             FILENAME=$(basename $SRC "_source.svg")
             echo Parsing $SRC into ${FILENAME}_colors.svg
