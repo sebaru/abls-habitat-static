@@ -28,7 +28,7 @@
 {"categorie": "divers",      "forme": "comment",            "extension": "none", "default_mode": "annotation", "default_color": "black",   "ihm_affichage": "complexe" },
 {"categorie": "divers",      "forme": "encadre",            "extension": "none", "default_mode": "1x1",        "default_color": "white",   "ihm_affichage": "complexe" },
 {"categorie": "divers",      "forme": "plus",               "extension": "svg",  "default_mode": "default",    "default_color": "green",   "ihm_affichage": "by_color" },
-{"categorie": "electrique",  "forme": "ampoule",            "extension": "svg",  "default_mode": "off",        "default_color": "black",   "ihm_affichage": "by_mode", "modes": ["action_off","action_on","off","on"]},
+{"categorie": "electrique",  "forme": "ampoule",            "extension": "svg",  "default_mode": "off",        "default_color": "black",   "ihm_affichage": "by_mode", "modes": ["action_off","action_on","off","on","tout_allumer", "tout_eteindre"]},
 {"categorie": "electrique",  "forme": "pile",               "extension": "png",  "default_mode": "100",        "default_color": "black",   "ihm_affichage": "by_mode", "modes": ["0","100","20","40","60","80","en_charge"]},
 {"categorie": "electrique",  "forme": "vmc",                "extension": "png",  "default_mode": "default",    "default_color": "green",   "ihm_affichage": "by_color" },
 {"categorie": "electrique",  "forme": "moteur",             "extension": "png",  "default_mode": "default",    "default_color": "green",   "ihm_affichage": "by_color" },
