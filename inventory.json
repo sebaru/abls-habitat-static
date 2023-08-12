@@ -56,7 +56,7 @@
 {"categorie": "ouvrant",     "forme": "fenetre",            "extension": "png",  "default_mode": "default",    "default_color": "default", "ihm_affichage": "by_mode", "modes": ["fermee","ouverte"]},
 {"categorie": "ouvrant",     "forme": "porte_entree",       "extension": "png",  "default_mode": "fermee",     "default_color": "black",   "ihm_affichage": "by_mode", "modes": ["fermee","ouverte"]},
 {"categorie": "ouvrant",     "forme": "porte_fenetre",      "extension": "png",  "default_mode": "ouverte",    "default_color": "black",   "ihm_affichage": "by_mode", "modes": ["fermee","ouverte"]},
-{"categorie": "ouvrant",     "forme": "volet_roulant",      "extension": "png",  "default_mode": "ouvert",     "default_color": "black",   "ihm_affichage": "by_mode", "modes": ["0","100","25","50","75","ferme","ouvert","tout_ouvrir"]},
+{"categorie": "ouvrant",     "forme": "volet_roulant",      "extension": "svg",  "default_mode": "ouvert",     "default_color": "black",   "ihm_affichage": "by_mode", "modes": ["0","100","25","50","75","ferme","ouvert","tout_ouvrir","tout_fermer"]},
 {"categorie": "ouvrant",     "forme": "2d_porte",           "extension": "svg",  "default_mode": "ouverte",    "default_color": "gray",    "ihm_affichage": "by_mode_color", "modes": ["entre_ouverte","fermee","ouverte"]},
 {"categorie": "ouvrant",     "forme": "2d_volets",          "extension": "svg",  "default_mode": "ouverts",    "default_color": "gray",    "ihm_affichage": "by_mode_color", "modes": ["entre_ouverts","fermes","ouverts"]},
 {"categorie": "panneau",     "forme": "panneau_stop",       "extension": "png",  "default_mode": "default",    "default_color": "red",     "ihm_affichage": "by_color" },
