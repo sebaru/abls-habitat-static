@@ -1,16 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Calque_12" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#26325B;}
-	.st1{fill:#E8EC7A;}
-</style>
-<g>
-	<path class="st0" d="M128,64c0,35.3-28.7,64-64,64C28.7,128,0,99.3,0,64C0,28.7,28.7,0,64,0C99.3,0,128,28.7,128,64z"/>
-	<g>
-		<path class="st1" d="M66.2,19.1c5.1,6.7,8.3,15.3,8.3,24.4C74.5,65.9,56.4,84,34,84c-3.9,0-7.5-0.4-11-1.6
-			c7.5,9.4,18.9,15.7,31.8,15.7c22.4,0,40.5-18.1,40.5-40.5C95.3,39.5,83.2,23.8,66.2,19.1z"/>
-	</g>
-</g>
-</svg>
+
+<svg
+   version="1.1"
+   id="Calque_12"
+   x="0px"
+   y="0px"
+   viewBox="0 0 128 128"
+   style="enable-background:new 0 0 128 128;"
+   xml:space="preserve"
+   sodipodi:docname="meteo_nuit.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs3" /><sodipodi:namedview
+   id="namedview3"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="6.5390625"
+   inkscape:cx="75.087216"
+   inkscape:cy="64"
+   inkscape:window-width="1920"
+   inkscape:window-height="979"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g3" />&#10;<style
+   type="text/css"
+   id="style1">&#10;	.st0{fill:#26325B;}&#10;	.st1{fill:#E8EC7A;}&#10;</style>&#10;<g
+   id="g3">&#10;	&#10;	<g
+   id="g2">&#10;		<path
+   class="st1"
+   d="M66.2,19.1c5.1,6.7,8.3,15.3,8.3,24.4C74.5,65.9,56.4,84,34,84c-3.9,0-7.5-0.4-11-1.6    c7.5,9.4,18.9,15.7,31.8,15.7c22.4,0,40.5-18.1,40.5-40.5C95.3,39.5,83.2,23.8,66.2,19.1z"
+   id="path2" />&#10;	</g>&#10;</g>&#10;</svg>
