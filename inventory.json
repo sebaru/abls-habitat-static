@@ -72,6 +72,7 @@
 {"categorie": "voyant",      "forme": "clef",               "extension": "png",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "voyant",      "forme": "croix",              "extension": "png",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
 {"categorie": "voyant",      "forme": "voyant",             "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
+{"categorie": "voyant",      "forme": "afficheur_7seg",     "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "by_js" },
 {"categorie": "voyage",      "forme": "avion",              "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "static" },
 {"categorie": "voyage",      "forme": "valise",             "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "static" }
 ]}
