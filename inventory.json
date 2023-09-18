@@ -41,6 +41,7 @@
 {"categorie": "electrique",  "forme": "2d_ampoule",         "extension": "png",  "default_mode": "default",    "default_color": "yellow",  "controle": "by_color" },
 {"categorie": "electrique",  "forme": "chauffe_eau",        "extension": "svg",  "default_mode": "default",    "default_color": "white",   "controle": "by_color" },
 {"categorie": "electrique",  "forme": "2d_contact",         "extension": "svg",  "default_mode": "NO",         "default_color": "blue",    "controle": "by_mode", "modes": ["NF","NO_NF","NO","off","on"]},
+{"categorie": "electrique",  "forme": "2d_inter_tri",       "extension": "svg",  "default_mode": "open",       "default_color": "blue",    "controle": "by_mode", "modes": ["open","close"]},
 {"categorie": "hydraulique", "forme": "2d_vanne_auto",      "extension": "png",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "2d_vanne_manu",      "extension": "png",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "goutte_eau",         "extension": "png",  "default_mode": "default",    "default_color": "blue",    "controle": "by_color" },
