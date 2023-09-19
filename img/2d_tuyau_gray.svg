@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="16.952459mm"
-   height="1.215035mm"
-   viewBox="0 0 16.952459 1.215035"
+   width="64.072289"
+   height="8.002696"
+   viewBox="0 0 16.952459 2.1173801"
    version="1.1"
    id="svg1"
    inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#676767"
      inkscape:document-units="mm"
-     inkscape:zoom="5.9651515"
-     inkscape:cx="24.140208"
-     inkscape:cy="15.339091"
+     inkscape:zoom="11.930303"
+     inkscape:cx="25.816612"
+     inkscape:cy="7.7533655"
      inkscape:window-width="1920"
      inkscape:window-height="1043"
      inkscape:window-x="0"
@@ -38,22 +38,22 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-96.533331,-90.475335)">
+     transform="translate(-96.533331,-90.475336)">
     <path
-       style="fill:#b6b6b6;fill-opacity:1;stroke:#7b7b7b;stroke-width:0.302735;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
-       d="M 96.552455,91.229106 H 113.48579"
+       style="fill:#b6b6b6;fill-opacity:1;stroke:#7b7b7b;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 96.552455,91.536503 H 113.48579"
        id="path2" />
     <path
        style="fill:#b6b6b6;fill-opacity:1;stroke:#7b7b7b;stroke-width:0.302735;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="M 96.533332,90.940158 H 113.46667"
        id="path2-7" />
     <path
-       style="fill:#b6b6b6;fill-opacity:1;stroke:#000000;stroke-width:0.302735;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
-       d="M 96.533335,90.626703 H 113.46666"
+       style="fill:#b6b6b6;fill-opacity:1;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 96.533335,90.739919 H 113.46666"
        id="path2-5" />
     <path
-       style="fill:#b6b6b6;fill-opacity:1;stroke:#000000;stroke-width:0.302735;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
-       d="M 96.533331,91.539003 H 113.46667"
+       style="fill:#b6b6b6;fill-opacity:1;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="M 96.533331,92.328132 H 113.46667"
        id="path2-5-2" />
   </g>
 </svg>
