@@ -14,5 +14,6 @@
             nice -10 sed s/c8c8c8/ffffff/g $SRC > ${FILENAME}_white.svg
             nice -10 sed s/c8c8c8/7b7b7b/g $SRC > ${FILENAME}_gray.svg
             nice -10 sed s/c8c8c8/add8e6/g $SRC > ${FILENAME}_lightblue.svg
+            nice -10 sed s/c8c8c8/a52a2a/g $SRC > ${FILENAME}_brown.svg
             nice -10 git add ${FILENAME}_*.svg
         done
