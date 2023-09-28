@@ -53,6 +53,7 @@
 {"categorie": "hydraulique", "forme": "2d_pompe",           "extension": "svg",  "default_mode": "off",        "default_color": "white",   "controle": "by_mode_color", "modes": ["on", "off"] },
 {"categorie": "hydraulique", "forme": "2d_pompe_filtration","extension": "svg",  "default_mode": "default",    "default_color": "white",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "2d_tuyau",           "extension": "svg",  "default_mode": "default",    "default_color": "blue",    "controle": "by_color" },
+{"categorie": "hydraulique", "forme": "2d_tuyau_droit",     "extension": "svg",  "default_mode": "repos",      "default_color": "white",   "controle": "by_mode_color", "modes": ["repos", "anime"] },
 {"categorie": "hydraulique", "forme": "pressostat_tor",     "extension": "svg",  "default_mode": "off",        "default_color": "black",   "controle": "by_mode_color", "modes": ["on", "off"] },
 {"categorie": "hydraulique", "forme": "pressostat_0_6_bars", "extension": "svg",  "default_mode": "default",   "default_color": "default", "controle": "by_js" },
 {"categorie": "hydraulique", "forme": "réservoir_eau",      "extension": "svg",  "default_mode": "80",         "default_color": "default", "controle": "by_mode", "modes": ["0","10","20","30","40","50","60","70","80","100"] },

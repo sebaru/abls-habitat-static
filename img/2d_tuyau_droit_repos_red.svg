@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="15.538404"
+   height="131.48805"
+   xml:lang="fr"
+   viewBox="0 0 15.538404 131.48805"
+   preserveAspectRatio="xMidYMid"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="2d_tuyau_droit_128_repos_source.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.4115224"
+     inkscape:cx="-0.4396864"
+     inkscape:cy="119.44814"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <!-- Intérieur du Tuyau en C8C8C8 -->
+  <rect
+     style="display:inline;fill:#ff0000;fill-opacity:1;stroke-width:1.09077;stroke-linejoin:round;paint-order:stroke fill markers"
+     id="rect1"
+     width="6"
+     height="128"
+     x="4.6594419"
+     y="1.7731938" />
+  <!-- Extérieur du Tuyau en NOIR -->
+  <rect
+     style="display:inline;fill:#4c4c4c;fill-opacity:1;stroke-width:0.545385;stroke-linejoin:round;paint-order:stroke fill markers"
+     id="rect1-5"
+     width="1.5"
+     height="128"
+     x="3.1325297"
+     y="1.7731938" />
+  <!-- Extérieur du Tuyau en NOIR -->
+  <rect
+     style="display:inline;fill:#4c4c4c;fill-opacity:1;stroke-width:0.545385;stroke-linejoin:round;paint-order:stroke fill markers"
+     id="rect1-5-2"
+     width="1.5"
+     height="128"
+     x="10.644443"
+     y="1.7731938" />
+  <!-- Bulle 01 à l'Intérieur du Tuyau en BLEU -->
+  <!-- Bulle 02 à l'Intérieur du Tuyau en VERT -->
+  <!-- Petite Bulle 03 à l'Intérieur du Tuyau en ROUGE -->
+  <!-- Petite Bulle 04 à l'Intérieur du Tuyau en JAUNE -->
+  <!-- Bride du Tuyau et ses Boulons en GRIS -->
+  <rect
+     style="display:inline;fill:#4c4c4c;fill-opacity:1;stroke-width:0.187924;stroke-linejoin:round;paint-order:stroke fill markers"
+     id="rect1-5-2-5"
+     width="1.7778383"
+     height="15.538404"
+     x="0"
+     y="-15.538404"
+     transform="rotate(90)"
+     ry="0.92601913"
+     rx="0.92601913" />
+  <path
+     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0711686;stroke-opacity:1;paint-order:stroke fill markers"
+     id="path3"
+     sodipodi:type="arc"
+     sodipodi:cx="1.6286817"
+     sodipodi:cy="1.831033"
+     sodipodi:rx="0.71441561"
+     sodipodi:ry="1.4215361"
+     sodipodi:start="0"
+     sodipodi:end="3.1463993"
+     sodipodi:arc-type="slice"
+     d="M 2.3430973,1.831033 A 0.71441561,1.4215361 0 0 1 1.9848977,3.0632566 0.71441561,1.4215361 0 0 1 1.2694931,3.0598354 0.71441561,1.4215361 0 0 1 0.9142743,1.8242002 l 0.7144074,0.00683 z" />
+  <path
+     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0711686;stroke-opacity:1;paint-order:stroke fill markers"
+     id="path3-2"
+     sodipodi:type="arc"
+     sodipodi:cx="13.700308"
+     sodipodi:cy="1.8210535"
+     sodipodi:rx="0.71441561"
+     sodipodi:ry="1.4215361"
+     sodipodi:start="0"
+     sodipodi:end="3.1463993"
+     sodipodi:arc-type="slice"
+     d="M 14.414723,1.8210535 A 0.71441561,1.4215361 0 0 1 14.056524,3.0532771 0.71441561,1.4215361 0 0 1 13.341119,3.0498559 0.71441561,1.4215361 0 0 1 12.9859,1.8142207 l 0.714408,0.00683 z" />
+  <rect
+     style="display:inline;fill:#4c4c4c;fill-opacity:1;stroke-width:0.187924;stroke-linejoin:round;paint-order:stroke fill markers"
+     id="rect1-5-2-5-5"
+     width="1.7778383"
+     height="15.538404"
+     x="-131.48805"
+     y="0"
+     transform="rotate(-90)"
+     ry="0.92601913"
+     rx="0.92601913" />
+  <path
+     style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0711686;stroke-opacity:1;paint-order:stroke fill markers"
+     id="path3-3"
+     sodipodi:type="arc"
+     sodipodi:cx="-13.709723"
+     sodipodi:cy="-129.65701"
+     sodipodi:rx="0.71441561"
+     sodipodi:ry="1.4215361"
+     sodipodi:start="0"
+     sodipodi:end="3.1463993"
+     sodipodi:arc-type="slice"
+     d="m -12.995308,-129.65701 a 0.71441561,1.4215361 0 0 1 -0.358199,1.23222 0.71441561,1.4215361 0 0 1 -0.715405,-0.003 0.71441561,1.4215361 0 0 1 -0.355219,-1.23564 l 0.714408,0.007 z"
+     transform="scale(-1)" />
+  <path
+     style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0711686;stroke-opacity:1;paint-order:stroke fill markers"
+     id="path3-2-5"
+     sodipodi:type="arc"
+     sodipodi:cx="-1.6380966"
+     sodipodi:cy="-129.66699"
+     sodipodi:rx="0.71441561"
+     sodipodi:ry="1.4215361"
+     sodipodi:start="0"
+     sodipodi:end="3.1463993"
+     sodipodi:arc-type="slice"
+     d="m -0.92368096,-129.66699 a 0.71441561,1.4215361 0 0 1 -0.35819954,1.23222 0.71441561,1.4215361 0 0 1 -0.7154046,-0.003 0.71441561,1.4215361 0 0 1 -0.3552188,-1.23563 l 0.7144073,0.007 z"
+     transform="scale(-1)" />
+</svg>
