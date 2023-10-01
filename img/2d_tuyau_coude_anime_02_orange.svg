@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="39.818016"
+   height="50.80555"
+   xml:lang="fr"
+   viewBox="0 0 39.818016 50.80555"
+   preserveAspectRatio="xMidYMid"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="2d_tuyau_coude_anime_02_source.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="14.89365"
+     inkscape:cx="16.584249"
+     inkscape:cy="20.914954"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <!-- Intérieur du Tuyau en C8C8C8 -->
+  <!-- Extérieur du Tuyau en NOIR -->
+  <!-- Extérieur du Tuyau en NOIR -->
+  <!-- Bulle 02 à l'Intérieur du Tuyau en VERT -->
+  <!-- Petite Bulle 03 à l'Intérieur du Tuyau en ROUGE -->
+  <!-- Petite Bulle 04 à l'Intérieur du Tuyau en JAUNE -->
+  <!-- Bride du Tuyau et ses Boulons en GRIS -->
+  <path
+     id="use1"
+     style="display:inline;fill:#ffbe00;stroke-width:0.747177;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="M 14.192378,4.6377502 11.330169,5.5941713 9.322002,6.6999418 7.933104,8.117899 7.0897779,9.100804 l -0.601821,1.048499 -0.564961,0.988832 -0.444694,0.82299 -0.06987,0.597352 -0.135922,0.60121 -0.275453,1.124984 -0.195618,1.118395 0.04969,31.40792 3.0296401,-0.06808 3.006429,-0.04073 0.174775,-31.36144 2.858234,-4.017374 8.297145,-0.56039 14.965875,0.143511 0.07099,-6.2446413 z"
+     sodipodi:nodetypes="ccccccccccccccccccccc" />
+  <path
+     id="use2"
+     style="display:inline;fill:#4c4c4c;stroke-width:0.230999;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="M 14.306976,3.2325313 V 4.7324921 H 37.270292 V 3.2325313 Z" />
+  <path
+     id="use3"
+     style="display:inline;fill:#4c4c4c;stroke-width:0.220896;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="m 16.233911,10.744244 v 1.499961 h 20.998556 v -1.499961 z" />
+  <path
+     id="rect1-5-2-6"
+     style="display:inline;fill:#4c4c4c;stroke-width:0.266497;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="M 10.854079,46.810723 H 12.35404 V 16.247239 h -1.499961 z" />
+  <path
+     id="use2-3"
+     style="display:inline;fill:#4c4c4c;stroke-width:0.271156;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="m 3.4367269,46.810723 h 1.499961 V 15.169426 h -1.499961 z" />
+  <path
+     style="color:#000000;display:inline;fill:#4c4c4c;-inkscape-stroke:none;paint-order:stroke fill markers"
+     d="m 10.870648,16.342521 c -0.03357,-1.485353 0.542652,-2.92001 1.59375,-3.970703 1.051098,-1.050694 2.486361,-1.628228 3.972656,-1.595703 l -0.0332,1.5 c -1.078089,-0.02359 -2.116882,0.394519 -2.878906,1.15625 -0.762024,0.761731 -1.17862,1.800659 -1.154297,2.876953 z"
+     id="path10" />
+  <g
+     id="path3-1"
+     transform="matrix(0,-1,-1,0,38.701688,0.10008314)"
+     style="display:inline">
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="m -14.650391,1.4980469 v 0.027344 c -0.0013,0.2870886 0.137968,0.5539835 0.367188,0.6992188 0.22922,0.1452342 0.514274,0.1459931 0.74414,0.00195 0.229868,-0.1440391 0.371094,-0.4101737 0.371094,-0.6972656 v -0.027344 h -0.02734 -0.714843 z m 0.06641,0.052734 0.673828,0.00391 h 0.675781 c -0.0099,0.2576078 -0.127043,0.4985039 -0.332031,0.6269531 -0.21332,0.1336711 -0.474763,0.1328375 -0.6875,-0.00195 -0.204437,-0.1295327 -0.321353,-0.371235 -0.330078,-0.6289063 z"
+       id="path20" />
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="m -13.194967,1.5291173 a 0.71439695,0.77823663 0 0 1 -0.35819,0.6745953 0.71439695,0.77823663 0 0 1 -0.715386,-0.00187 0.71439695,0.77823663 0 0 1 -0.355209,-0.676463 l 0.714388,0.00374 z"
+       id="path21" />
+  </g>
+  <g
+     id="path3-2-9"
+     transform="matrix(0,-1,-1,0,38.701688,0.10008314)"
+     style="display:inline">
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="m -2.578125,1.4941406 v 0.025391 c -0.00127,0.2870887 0.1379676,0.5539836 0.3671875,0.6992188 0.2292199,0.1452352 0.5123202,0.1459921 0.7421875,0.00195 0.2298673,-0.144039 0.3710938,-0.4101737 0.3710938,-0.6972656 v -0.025391 h -0.025391 -0.7148437 z m 0.066406,0.052734 0.6738282,0.00391 h 0.6738281 C -1.1744957,1.8076542 -1.2916047,2.047648 -1.4960939,2.1757847 -1.709414,2.3094548 -1.970857,2.308623 -2.183594,2.1738347 -2.3875219,2.044618 -2.5024167,1.8037939 -2.511719,1.5468746 Z"
+       id="path22" />
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="M -1.1236539,1.5236509 A 0.71439695,0.77823663 0 0 1 -1.4818441,2.1982462 0.71439695,0.77823663 0 0 1 -2.19723,2.1963732 0.71439695,0.77823663 0 0 1 -2.5524395,1.5199102 l 0.7143887,0.00374 z"
+       id="path23" />
+  </g>
+  <path
+     id="use4-4"
+     style="display:inline;fill:#4c4c4c;stroke-width:0.172615;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="m 37.951688,0.10008314 c -0.4155,0 -0.75,0.4130045 -0.75,0.92601926 V 14.712062 c 0,0.513015 0.3345,0.926019 0.75,0.926019 0.4155,0 0.75,-0.413004 0.75,-0.926019 V 1.0261024 c 0,-0.51301476 -0.3345,-0.92601926 -0.75,-0.92601926 z" />
+  <g
+     id="path3-10"
+     transform="matrix(1,0,0,-1,38.701688,0.10008314)"
+     style="display:inline">
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="m -37.742187,-46.623047 v 0.02734 c -0.0013,0.287088 0.137967,0.553983 0.367187,0.699219 0.229215,0.145243 0.514269,0.145983 0.744141,0.002 0.229867,-0.144039 0.36914,-0.410174 0.36914,-0.697266 v -0.02734 h -0.02539 -0.714844 z m 0.06641,0.05273 0.673828,0.0039 h 0.673828 c -0.0099,0.257607 -0.127044,0.498504 -0.332031,0.626953 -0.213325,0.133662 -0.472814,0.132846 -0.685547,-0.002 -0.204437,-0.129533 -0.321353,-0.371235 -0.330078,-0.628906 z"
+       id="path28" />
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="m -36.287152,-46.592056 a 0.71439695,0.77823663 0 0 1 -0.35819,0.674595 0.71439695,0.77823663 0 0 1 -0.715386,-0.0019 0.71439695,0.77823663 0 0 1 -0.355209,-0.676463 l 0.714388,0.0037 z"
+       id="path29" />
+  </g>
+  <g
+     id="path3-2-6"
+     transform="matrix(1,0,0,-1,38.701688,0.10008314)"
+     style="display:inline">
+    <path
+       style="color:#000000;display:inline;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="m -25.669922,-46.626953 -0.002,0.02539 c -0.0013,0.287088 0.139921,0.553983 0.369141,0.699218 0.229215,0.145244 0.512315,0.145984 0.742187,0.002 0.229868,-0.144039 0.371094,-0.410173 0.371094,-0.697265 V -46.623 h -0.02734 -0.71289 z m 0.06445,0.05273 0.675782,0.0039 h 0.673828 c -0.01043,0.256869 -0.127542,0.496863 -0.332032,0.625 -0.213324,0.133662 -0.474767,0.132846 -0.6875,-0.002 -0.203939,-0.129217 -0.320788,-0.370017 -0.330078,-0.626953 z"
+       id="path30" />
+    <path
+       style="color:#000000;display:inline;fill:#000000;-inkscape-stroke:none;paint-order:stroke fill markers"
+       d="m -24.215844,-46.597523 a 0.71439695,0.77823663 0 0 1 -0.35819,0.674596 0.71439695,0.77823663 0 0 1 -0.715386,-0.0019 0.71439695,0.77823663 0 0 1 -0.355209,-0.676463 l 0.714388,0.0037 z"
+       id="path31" />
+  </g>
+  <path
+     id="use4-3"
+     style="display:inline;fill:#4c4c4c;stroke-width:0.172615;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="m 15.609498,47.471254 c 0,-0.415501 -0.413004,-0.75 -0.926019,-0.75 H 0.99751882 c -0.513014,0 -0.926019,0.334499 -0.926019,0.75 0,0.4155 0.413005,0.749999 0.926019,0.749999 H 14.683479 c 0.513015,0 0.926019,-0.334499 0.926019,-0.749999 z" />
+  <path
+     style="display:inline;fill:none;fill-rule:evenodd;stroke:#4c4c4c;stroke-width:1.5;stroke-dasharray:none;stroke-opacity:1"
+     id="path1"
+     transform="matrix(-0.14408125,-0.98956586,-0.98956586,0.14408125,0,0)"
+     sodipodi:type="arc"
+     sodipodi:cx="-17.964155"
+     sodipodi:cy="-13.682791"
+     sodipodi:rx="12.000093"
+     sodipodi:ry="12.000093"
+     sodipodi:start="0"
+     sodipodi:end="1.3795057"
+     sodipodi:open="true"
+     sodipodi:arc-type="arc"
+     d="M -5.9640617,-13.682791 A 12.000093,12.000093 0 0 1 -15.682624,-1.9015829" />
+  <!-- MOTIONPATH à l'Intérieur du Tuyau en BLEU -->
+  <path
+     d="M 4.914109,44.60555 C 5.2874075,38.460591 5.0269361,32.966266 5.1603064,29.158282 5.2936767,25.350296 5.0491858,17.956552 5.1707862,16.814697 5.260888,15.968659 4.9962122,11.526243 5.6271477,10.34351 6.1433574,9.3758393 6.4433043,8.3227294 7.2476413,7.5457233 8.0278898,6.7919879 7.9771238,6.9337486 8.6705741,6.13153 9.3640243,5.3293115 9.2488628,6.2909253 9.957113,5.5327538 10.653959,4.7867912 10.568528,5.2358516 12.313933,4.919432 12.873429,4.8180056 20.00994,4.8592165 34.718015,4.743628"
+     stroke="#d3d3d3"
+     stroke-width="0.683577"
+     fill="none"
+     id="coudePath"
+     sodipodi:nodetypes="czssssssc"
+     style="display:inline;fill:none;fill-opacity:1;stroke:none;stroke-opacity:1" />
+  <!-- Grosse Bulle 01 qui sera déplacé le long du chemin. -->
+  <g
+     id="g4"
+     transform="translate(2.5714999,3.0000833)">
+    <use
+       href="#coudePath"
+       id="use4"
+       transform="translate(2.5285001,3.1999168)" />
+    <ellipse
+       cx="0"
+       cy="0"
+       rx="2.5000694"
+       ry="2.9286528"
+       fill="#00fffc"
+       stroke="#000000"
+       id="ellipse1"
+       style="stroke-width:0.142861">
+      <animateMotion
+         begin="0.1s"
+         dur="4s"
+         repeatCount="indefinite"
+         rotate="auto">
+        <mpath
+           xlink:href="#coudePath" />
+      </animateMotion>
+    </ellipse>
+  </g>
+  <!-- Grosse Bulle 02 à l'Intérieur du Tuyau en VERT -->
+  <g
+     id="g5"
+     transform="translate(2.5714999,3.0000833)">
+    <use
+       href="#coudePath"
+       id="use5"
+       transform="translate(2.5285001,3.1999168)" />
+    <ellipse
+       cx="0"
+       cy="0"
+       rx="2.5000694"
+       ry="2.9286528"
+       fill="#00fffc"
+       stroke="#000000"
+       id="ellipse2"
+       style="stroke-width:0.142861">
+      <animateMotion
+         begin="0.25s"
+         dur="3.5s"
+         repeatCount="indefinite"
+         rotate="auto">
+        <mpath
+           xlink:href="#coudePath" />
+      </animateMotion>
+    </ellipse>
+  </g>
+  <!-- Petite Bulle 03 à l'Intérieur du Tuyau en VERT -->
+  <g
+     id="g6"
+     transform="translate(2.5714999,3.0000833)">
+    <use
+       href="#coudePath"
+       id="use6"
+       transform="translate(2.5285001,3.1999168)" />
+    <ellipse
+       cx="0"
+       cy="0"
+       rx="1.7031308"
+       ry="1.453892"
+       fill="#00fffc"
+       stroke="#000000"
+       id="ellipse3"
+       style="stroke-width:0.142861">
+      <animateMotion
+         begin="0.5s"
+         dur="3s"
+         repeatCount="indefinite"
+         rotate="auto">
+        <mpath
+           xlink:href="#coudePath" />
+      </animateMotion>
+    </ellipse>
+  </g>
+  <!-- Petite Bulle 04 à l'Intérieur du Tuyau en VERT -->
+  <g
+     id="g7"
+     transform="translate(2.5714999,3.0000833)">
+    <use
+       href="#coudePath"
+       id="use7"
+       transform="translate(2.5285001,3.1999168)" />
+    <ellipse
+       cx="0"
+       cy="0"
+       rx="1.7031308"
+       ry="1.453892"
+       fill="#00fffc"
+       stroke="#000000"
+       id="ellipse4"
+       style="stroke-width:0.142861">
+      <animateMotion
+         begin="0.75s"
+         dur="2.5s"
+         repeatCount="indefinite"
+         rotate="auto">
+        <mpath
+           xlink:href="#coudePath" />
+      </animateMotion>
+    </ellipse>
+  </g>
+</svg>
