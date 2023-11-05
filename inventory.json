@@ -26,7 +26,7 @@
 {"categorie": "chauffage",   "forme": "thermometre",         "extension": "png",  "default_mode": "ok",         "default_color": "white",   "controle": "by_mode_color", "modes": ["nb","nh","ntb","nth","ok"]},
 {"categorie": "divers",      "forme": "logo",                "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "divers",      "forme": "cadena",              "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "by_mode", "modes": ["ferme","ouvert"]},
-{"categorie": "divers",      "forme": "fleche",              "extension": "png",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
+{"categorie": "divers",      "forme": "fleche",              "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "divers",      "forme": "check",               "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "by_mode", "modes": ["checked","unchecked_but_ok","unchecked"]},
 {"categorie": "divers",      "forme": "question",            "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "divers",      "forme": "comment",             "extension": "none", "default_mode": "annotation", "default_color": "black",   "controle": "complexe" },
