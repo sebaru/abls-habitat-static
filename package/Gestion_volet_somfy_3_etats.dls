@@ -1,0 +1,115 @@
+/******************************************************************************************************************************/
+/* Gestion d'un volet roulant type Somfy                                                                 S.Lefevre 2023-06-22 */
+/* Cible                                                                                                                      */
+/*      - Volet roulant type Somfy à trois fils : Neutre, Phase de Montée, Phase de Descente                                  */
+/*      - Pas de retour d'etat sur l'ouverture ou fermeture du volet                                                          */
+/* Fonctionnalités:                                                                                                           */
+/*      - Un mode Automatique permet la commande par des boutons physiques                                                    */
+/*      - Un mode Manuel permet de reserver les commandes uniquement au système                                               */
+/*      - Ouverture/Fermeture sur manipulation physique de deux boutons poussoirs                                             */
+/*        - Si appui ouverture, ouvre le volet                                                                                */
+/*        - Si appui fermeture, ferme le volet                                                                                */
+/*        - Si appui pendant la fermeture ou ouverture : stoppe la manoeuvre                                                  */
+/*      - Ouverture/Fermeture sur reception d'une commande par messagerie instantanée                                         */
+/*      - Ouverture/Fermeture sur reception d'un SMS                                                                          */
+/*      - Ouverture/Fermeture sur reception d'une commande vocale                                                             */
+/*      - Ouverture/Fermeture sur reception d'une commande interne DLS                                                        */
+/*      - Affichage de l'état sur la console par Messages                                                                     */
+/* N'oubliez pas de faire le mapping avec les entrées/sorties Physiques après compilation du module !                         */
+/* 16/12/2023 Passage en mode package                                                                                         */
+/******************************************************************************************************************************/
+
+ #define BP_OUVRE    <-> _DI; /* Bouton Poussoir Ouverture Volet Roulant */
+ #define BP_FERME    <-> _DI; /* Bouton Poussoir Fermeture Volet Roulant */
+
+ #define OTXT_OUVRE  <-> _DI; /* Ordre TXT Ouverture Volet Roulant */
+ #define OTXT_FERME  <-> _DI; /* Ordre TXT Fermeture Volet Roulant */
+ #define OTXT_AUTO   <-> _DI; /* Ordre TXT d'engagement du mode automatique */
+ #define OTXT_MANU   <-> _DI; /* Ordre TXT de désengagement du mode automatique */
+
+ #define ODLS_OUVRE  <-> _DI; /* Demande DLS d'ouverture */
+ #define ODLS_FERME  <-> _DI; /* Demande DLS de fermeture */
+
+ #define OVOC_OUVRE  <-> _DI; /* Demande VOCALE d'ouverture */
+ #define OVOC_FERME  <-> _DI; /* Demande VOCALE de fermeture */
+
+ #define MSG_VOLET_OUVERT      <-> _MSG(type=etat,libelle="Volet ouvert");
+ #define MSG_VOLET_FERME       <-> _MSG(type=etat,libelle="Volet fermé");
+ #define MSG_VOLET_MODE_AUTO   <-> _MSG(type=etat,libelle="Mode automatique engagé");
+ #define MSG_VOLET_MODE_MANU   <-> _MSG(type=etat,libelle="Mode automatique désengagé");
+
+ #define ACT_TL_OUVRE <-> _DO; /* Activation de la montée */
+ #define ACT_TL_FERME <-> _DO; /* Activation de la descente */
+
+ #define MODE_AUTO <-> _B(groupe=1,libelle="Volet en mode automatique");
+ #define MODE_MANU <-> _B(groupe=1,libelle="Volet en mode manuel");
+
+ #define VOLET_SUPPOSE_FERME <-> _B(libelle="TRUE si l'etat du volet est supposé fermé");
+
+ #define CMD_STOP_WAIT_BP  <-> _B(groupe=2,libelle="Prepare l'arret");
+ #define CMD_STOP          <-> _B(groupe=2,libelle="Volet en mode stop");
+ #define CMD_OUVRE_WAIT_BP <-> _B(groupe=2,libelle="Prepare l'ouverture");
+ #define CMD_OUVRE         <-> _B(groupe=2,libelle="Volet en mode ouverture");
+ #define CMD_FERME_WAIT_BP <-> _B(groupe=2,libelle="Prepare la fermeture");
+ #define CMD_FERME         <-> _B(groupe=2,libelle="Volet en mode fermeture");
+
+ #define TC_MANOEUVRE <-> _T(daa=400,libelle="Tempo de manoeuvre volet");
+ #define CI_MANOEUVRE <-> _CI(libelle="Compteurs de manoeuvre");
+
+ #define VISUEL_AUTO_MANU <-> _I(forme="auto_manu",libelle="Mode de gestion du volet");
+ #define VISUEL_VOLET     <-> _I(forme="volet_roulant",libelle="Volet Roulant");
+
+ #define CH_PROCEDE   <->_CH(libelle="compteur procede");
+ - _TRUE -> CH_PROCEDE;
+
+/**************************************************** Initialisation **********************************************************/
+ -_START -> MODE_AUTO, CMD_STOP;
+
+/**************************************************** Gestion du mode *********************************************************/
+ - OTXT_AUTO ->  MODE_AUTO;
+ - OTXT_MANU ->  MODE_MANU;
+
+ - MODE_AUTO . VISUEL_AUTO_MANU_CLIC -> MODE_MANU;
+ - MODE_MANU . VISUEL_AUTO_MANU_CLIC -> MODE_AUTO;
+
+/************************************** Passe en phase suivante au relachement des boutons ************************************/
+ - CMD_STOP . ( (MODE_AUTO . BP_OUVRE) + ODLS_OUVRE + OVOC_OUVRE + OTXT_OUVRE +
+                            (VISUEL_VOLET_CLIC . VOLET_SUPPOSE_FERME)
+                          ) -> CMD_OUVRE_WAIT_BP, CI_MANOEUVRE;
+ -/BP_OUVRE . /BP_FERME . CMD_OUVRE_WAIT_BP -> CMD_OUVRE;
+
+/**************************************** Détection demande d'ouverture ou fermeture ******************************************/
+ - CMD_STOP . ( (MODE_AUTO . BP_FERME) + ODLS_FERME + OVOC_FERME + OTXT_FERME +
+                            (VISUEL_VOLET_CLIC ./VOLET_SUPPOSE_FERME)
+                          ) -> CMD_FERME_WAIT_BP, CI_MANOEUVRE;
+ -/BP_OUVRE . /BP_FERME . CMD_FERME_WAIT_BP -> CMD_FERME;
+
+/************************************************** Détection demande de stop *************************************************/
+ - MODE_AUTO . CMD_OUVRE . (BP_OUVRE + VISUEL_VOLET_CLIC) -> CMD_STOP_WAIT_BP;
+ - MODE_AUTO . CMD_FERME . (BP_FERME + VISUEL_VOLET_CLIC) -> CMD_STOP_WAIT_BP;
+ -/BP_OUVRE . /BP_FERME . CMD_STOP_WAIT_BP ->  CMD_STOP;
+
+/*************************************************** En mode automatique ******************************************************/
+/* - MODE_AUTO . CMD_STOP . xx -> /CMD_STOP, CMD_FERME; */
+
+/******************************************* Reviens en mode Stop après manoeuvre *********************************************/
+ - CMD_OUVRE + CMD_FERME -> TC_MANOEUVRE;
+ - CMD_OUVRE . TC_MANOEUVRE -> CMD_STOP,/VOLET_SUPPOSE_FERME;
+ - CMD_FERME . TC_MANOEUVRE -> CMD_STOP, VOLET_SUPPOSE_FERME;
+
+ switch
+  | - MEMSA_OK . (CMD_OUVRE + CMD_OUVRE_WAIT_BP) -> /ACT_TL_FERME,  ACT_TL_OUVRE;
+  | - MEMSA_OK . (CMD_FERME + CMD_FERME_WAIT_BP) ->  ACT_TL_FERME, /ACT_TL_OUVRE;
+  | - -> /ACT_TL_FERME, /ACT_TL_OUVRE;
+
+/*************************************************** Reporting Vignettes ******************************************************/
+ - _TRUE -> MEMSSB_VEILLE;
+
+/**************************************************** Reporting Messages ******************************************************/
+ - MODE_AUTO -> MSG_VOLET_MODE_AUTO, VISUEL_AUTO_MANU(mode="auto", libelle="Mode automatique");
+ - MODE_MANU -> MSG_VOLET_MODE_MANU, VISUEL_AUTO_MANU(mode="manu", libelle="Mode manuel");
+
+ - VOLET_SUPPOSE_FERME -> MSG_VOLET_FERME, VISUEL_VOLET(mode="ferme");
+ -/VOLET_SUPPOSE_FERME -> MSG_VOLET_OUVERT, VISUEL_VOLET(mode="ouvert");
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
