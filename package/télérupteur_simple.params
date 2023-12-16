@@ -1,7 +1,0 @@
-{ "params":
-   [ { "acronyme": "PARAM_FORME",       "libelle": "Forme du visuel", "defaut": "ampoule" },
-     { "acronyme": "PARAM_MSG_TELE_ON", "libelle": "Etat du télérupteur quand ON", "defaut": "Allumé" },
-     { "acronyme": "PARAM_VISUEL_ON",   "libelle": "Libellé du visuel quand ON",  "defaut": "Lumière allumé" },
-     { "acronyme": "PARAM_VISUEL_OFF",  "libelle": "Libellé du visuel quand OFF", "defaut": "Lumière éteinte" }
-   ]
-}
