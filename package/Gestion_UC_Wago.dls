@@ -1,0 +1,25 @@
+/******************************************************************************************************************************/
+/* Module DLS de gestion d'un module WAGO                                                                                     */
+/* Auteurs : Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr                                                            */
+/* Date : 24/05/2019                                                                                                          */
+/* 16/12/2023: Passage sous forme de package                                                                                  */
+/******************************************************************************************************************************/
+
+/*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
+/* COMM:         Bit de communication ,calculé a partir des bits de comms de tous les thread I/O alimentant ce module         */
+/* MSG_COMM_OK : Message Communication OK, piloté par le bit de COMM                                                          */
+/* MSG_COMM_HS : Message Communication HS, piloté par le bit de COMM                                                          */
+/*----------------------------------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
+ #define VISU_WAGO     <-> _I(forme="check", libelle="Module Wago");  /* VIsuel de l'etat du Wago RASPI3 */
+
+/*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
+
+ - COMM -> VISU_WAGO(mode="checked", libelle="$THIS connecté");          /* Si le thread dit que le wago est UP, on l'affiche */
+ -/COMM -> MEMSA_DEFAUT,VISU_WAGO(mode="unchecked", cligno, libelle="$THIS déconnecté");
+
+/* Pilotage des bits de remontées */
+ - _TRUE -> MEMSSB_VEILLE;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
