@@ -69,8 +69,9 @@
  - OTXT_AUTO ->  MODE_AUTO;
  - OTXT_MANU ->  MODE_MANU;
 
- - MODE_AUTO . VISUEL_AUTO_MANU_CLIC -> MODE_MANU;
- - MODE_MANU . VISUEL_AUTO_MANU_CLIC -> MODE_AUTO;
+ switch
+  | - MODE_AUTO . VISUEL_AUTO_MANU_CLIC -> MODE_MANU;
+  | - MODE_MANU . VISUEL_AUTO_MANU_CLIC -> MODE_AUTO;
 
 /************************************** Passe en phase suivante au relachement des boutons ************************************/
  - CMD_STOP . ( (MODE_AUTO . BP_OUVRE) + ODLS_OUVRE + OVOC_OUVRE + OTXT_OUVRE +
