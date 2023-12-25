@@ -17,6 +17,7 @@
 /*      - Affichage de l'état sur la console par Messages                                                                     */
 /* N'oubliez pas de faire le mapping avec les entrées/sorties Physiques après compilation du module !                         */
 /* 16/12/2023 Passage en mode package                                                                                         */
+/* 25/12/2023 Separation des modes auto/manu pour simplifier                                                                  */
 /******************************************************************************************************************************/
 
  #define BP_OUVRE    <-> _DI; /* Bouton Poussoir Ouverture Volet Roulant */
@@ -73,28 +74,35 @@
   | - MODE_AUTO . VISUEL_AUTO_MANU_CLIC -> MODE_MANU;
   | - MODE_MANU . VISUEL_AUTO_MANU_CLIC -> MODE_AUTO;
 
-/************************************** Passe en phase suivante au relachement des boutons ************************************/
- - CMD_STOP . ( (MODE_AUTO . BP_OUVRE) + ODLS_OUVRE + OVOC_OUVRE + OTXT_OUVRE +
-                            (VISUEL_VOLET_CLIC . VOLET_SUPPOSE_FERME)
-                          ) -> CMD_OUVRE_WAIT_BP, CI_MANOEUVRE;
- -/BP_OUVRE . /BP_FERME . CMD_OUVRE_WAIT_BP -> CMD_OUVRE;
+/************************************** Passe en phase suivante au relachement des boutons physiques ***************************/
+ - CMD_STOP . MODE_AUTO . BP_OUVRE -> CMD_OUVRE_WAIT_BP;
+ -/BP_OUVRE . CMD_OUVRE_WAIT_BP -> CMD_OUVRE;
 
-/**************************************** Détection demande d'ouverture ou fermeture ******************************************/
- - CMD_STOP . ( (MODE_AUTO . BP_FERME) + ODLS_FERME + OVOC_FERME + OTXT_FERME +
-                            (VISUEL_VOLET_CLIC ./VOLET_SUPPOSE_FERME)
-                          ) -> CMD_FERME_WAIT_BP, CI_MANOEUVRE;
- -/BP_OUVRE . /BP_FERME . CMD_FERME_WAIT_BP -> CMD_FERME;
+ - CMD_STOP . MODE_AUTO . BP_FERME -> CMD_FERME_WAIT_BP;
+ -/BP_FERME . CMD_FERME_WAIT_BP -> CMD_FERME;
 
 /************************************************** Détection demande de stop *************************************************/
- - MODE_AUTO . CMD_OUVRE . (BP_OUVRE + VISUEL_VOLET_CLIC) -> CMD_STOP_WAIT_BP;
- - MODE_AUTO . CMD_FERME . (BP_FERME + VISUEL_VOLET_CLIC) -> CMD_STOP_WAIT_BP;
+ - MODE_AUTO . CMD_OUVRE . BP_OUVRE -> CMD_STOP_WAIT_BP;
+ - MODE_AUTO . CMD_FERME . BP_FERME -> CMD_STOP_WAIT_BP;
  -/BP_OUVRE . /BP_FERME . CMD_STOP_WAIT_BP ->  CMD_STOP;
+
+/**************************************** Détection demande d'action depuis syn ***********************************************/
+ - VISUEL_VOLET_CLIC ->
+   { switch
+      | - CMD_OUVRE -> CMD_STOP;
+      | - CMD_FERME -> CMD_STOP;
+      | - CMD_STOP . VOLET_SUPPOSE_FERME -> CMD_OUVRE;
+      | - CMD_STOP ./VOLET_SUPPOSE_FERME -> CMD_FERME;
+   }
+/**************************************** Détection demande d'ouverture ou fermeture (a positionner apres stop) ***************/
+ - CMD_STOP . (ODLS_OUVRE + OVOC_OUVRE + OTXT_OUVRE) -> CMD_OUVRE;
+ - CMD_STOP . (ODLS_FERME + OVOC_FERME + OTXT_FERME) -> CMD_FERME;
 
 /*************************************************** En mode automatique ******************************************************/
 /* - MODE_AUTO . CMD_STOP . xx -> /CMD_STOP, CMD_FERME; */
 
 /******************************************* Reviens en mode Stop après manoeuvre *********************************************/
- - CMD_OUVRE + CMD_FERME -> TC_MANOEUVRE;
+ - CMD_OUVRE + CMD_FERME -> TC_MANOEUVRE, CI_MANOEUVRE;
  - CMD_OUVRE . TC_MANOEUVRE -> CMD_STOP,/VOLET_SUPPOSE_FERME;
  - CMD_FERME . TC_MANOEUVRE -> CMD_STOP, VOLET_SUPPOSE_FERME;
 
