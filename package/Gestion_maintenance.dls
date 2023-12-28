@@ -1,0 +1,128 @@
+/*****************************************************************************************************************/
+/*  ABLS(C)Habitat                             --------------                                                    */
+/*                                                                                                               */
+/* DLS de gestion de la maintenance                                                                              */
+/* Ce module présente un encadré avec deux boutons "Service" et "Maintenance", une clef a molette, et pilote     */
+/* Le bit de maintenance en $PARAM_TARGET:ME_MTCE                                                                */
+/* Paramètres:                                                                                                   */
+/* PARAM_TARGET: le tech_id cible associé a la maintenance                                                       */
+/* PARAM_DESCRIPTION: libelle à afficher dans l'encadré                                                          */
+/*                                                                                                               */
+/* 13/02/2022  Création ce Jour                                                                  Bruno  W2.V0.0  */
+/* 15/02/2023  Débugs en // ACCPOR_CTRL                                                          Bruno  W2.V0.1  */
+/* 16/02/2023  Mise en Prod des Visuels SYN 10015                                                Bruno  W2.V0.2  */
+/*             --> Gestion de MAINT_LONGUE, revu Conditions MSG FdL                                              */
+/*             --> [MAINT] dispo si Mode en [MANU]                                                               */
+/* 21/04/2023  Debut revue SeB                                                                   SeB    W2.1.0   */
+/* 28/12/2023  Passage en package                                                                                */
+/*                                                                                                               */
+/*****************************************************************************************************************/
+
+                                  /********************************************/
+/**********************************            CREATIONS DES VISUELS           ***********************************/
+                                  /********************************************/
+/* ENCADRE ~~~~~~~~~~~~~~~~~~~~~~*/
+ #define VISUEL_ENCADRE                 <->_I(forme="encadre",mode="1x3",libelle="$PARAM_DESCRIPTION");
+
+/* BOUTONS ~~~~~~~~~~~~~~~~~~~~~~*/
+ #define VSYNB_MTCE                     <->_I(forme="bouton",libelle=" MAINT ");        /* Visuel Bouton [MAINT] */
+ #define VSYNB_SERV                     <->_I(forme="bouton",libelle="SERVICE");      /* Visuel Bouton [SERVICE] */
+
+/* IMAGES ~~~~~~~~~~~~~~~~~~~~~~~*/
+ #define VISUEL_CLEF                    <->_I(forme="clef_a_molette_1",libelle="Etat Maintenance");
+
+                                  /********************************************/
+/**********************************                   BITS MODULE              ***********************************/
+                                  /********************************************/
+/* Etat Fugitif */
+ #define M_MTCE_TROP_LONGUE             <-> _M( libelle="Maintenance trop longue" );
+
+                                   /********************************************/
+/**********************************             MESSAGES IMPRIMANTE           ************************************/
+                                  /********************************************/
+
+ #define MSG_DERANGEMENT_MTCE_TROP_LONGUE <-> _MSG ( type=derangement, libelle="Maintenance trop longue" );
+ #define MSG_EN_MTCE                      <-> _MSG ( type=etat, libelle="En maintenance" );
+ #define MSG_EN_SERV                      <-> _MSG ( type=etat, libelle="En service" );
+
+                                  /********************************************/
+/**********************************               INITIALISATION              ************************************/
+                                  /********************************************/
+/* REMIS A ZERO OU REMIS A UN DES BISTABLES DU MODULE ------------------------*/
+ -_START ->/$PARAM_TARGET:ME_MTCE;                                                         /* <SERVICE> au Start */
+
+                                  /********************************************/
+/**********************************                 EVENEMENTS                ************************************/
+                                  /********************************************/
+/* En Maintenance ou Service */
+ - VSYNB_MTCE_CLIC                      -> $PARAM_TARGET:ME_MTCE;                               /* [MAINTENANCE] */
+ - VSYNB_SERV_CLIC                      ->/$PARAM_TARGET:ME_MTCE;                                   /* [SERVICE] */
+
+/*----------------------------------------------------------------------------*/
+/* Maintenance Trop Longue >24h */
+ - $PARAM_TARGET:ME_MTCE -- daa=864000   -> M_MTCE_TROP_LONGUE;                     /* Maintenance Trop Longue ! */
+
+                                  /********************************************/
+/**********************************          SYNTHESES DEFAUTS/ALARMES         ***********************************/
+                                  /**       ALERTES/DERANGEMENTS/DANGERS     **/
+                                  /********************************************/
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                             SECURITES DES BIENS                            */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* VEILLE */
+ -_TRUE                                      -> MEMSSB_VEILLE;                                  /* Report Veille */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                             SECURITES DES PERSONNES                        */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* DERANGEMENT */
+ - M_MTCE_TROP_LONGUE                       -> MEMSSP_DERANGEMENT;
+
+                                  /********************************************/
+/**********************************           ANIMATIONS DES VISUELS           ***********************************/
+                                  /********************************************/
+/**---------------------------------------------------------------------------*/
+/*                              VISUELS DES BOUTONS                           */
+/**---------------------------------------------------------------------------*/
+/* Entretiens du Portillon Accès au Site */
+/* [MAINT] Dispo si en Mode [MANU] */
+ switch
+  |- $PARAM_TARGET:ME_MTCE     -> VSYNB_MTCE(disable,color="green");                   /* Actif */
+  |-/$PARAM_TARGET:ME_MTCE     -> VSYNB_MTCE(mode="enabled",color="blue");          /* Réceptif */
+  |-                           -> VSYNB_MTCE(disable,color="grey");                   /* Inerte */
+
+/* [SERVICE] */
+ switch
+  |-/$PARAM_TARGET:ME_MTCE     -> VSYNB_SERV(disable,color="green");                 /* Actif */
+  |- $PARAM_TARGET:ME_MTCE     -> VSYNB_SERV(mode="enabled",color="blue");        /* Réceptif */
+  |-                           -> VSYNB_SERV(disable,color="grey");                 /* Inerte */
+
+/**---------------------------------------------------------------------------*/
+/*                              VISUELS CADRE ET OUTILS                       */
+/**---------------------------------------------------------------------------*/
+/* Cadre des Boutons et Outils */
+ switch
+/* MAINTENANCE disponible (en SERVICE) */
+ |-/$PARAM_TARGET:ME_MTCE                -> VISUEL_ENCADRE(color="green"),      /* Cadre Vert */
+                                            VISUEL_CLEF(color="white");       /* Outils Blanc */
+
+/* MAINTENANCE en Cours */
+ |-/M_MTCE_TROP_LONGUE                                             /* Pas en [MAINT] Longue ! */
+                                   -> VISUEL_ENCADRE(color="blue"),            /* Cadre Jaune */
+                                      VISUEL_CLEF(color="yellow");            /* Outils Jaune */
+
+/* MAINTENANCE Trop Longue */
+ |- M_MTCE_TROP_LONGUE                                                      /* [MAINT] Trop Longue ! */
+                                   -> VISUEL_ENCADRE(color="yellow",cligno) ,  /* Cadre Jaune Cligno */
+                                      VISUEL_CLEF(color="yellow",cligno);     /* Outils Jaune Cligno */
+
+
+                                   /*******************************************/
+/**********************************       EDITIONS DES MESSAGES IMPRIMANTE      **********************************/
+                                   /*******************************************/
+/* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
+ - $PARAM_TARGET:ME_MTCE           -> MSG_EN_MTCE;                                              /* [MAINTENANCE] */
+ -/$PARAM_TARGET:ME_MTCE           -> MSG_EN_SERV;                                                  /* [SERVICE] */
+ - M_MTCE_TROP_LONGUE              -> MSG_DERANGEMENT_MTCE_TROP_LONGUE;               /* Maintenance Trop Longue */
+
+/*****************************************************************************************************************/
