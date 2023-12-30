@@ -1,0 +1,280 @@
+/*****************************************************************************************************************/
+/*  ABLS(C)Habitat                                   --------------                                              */
+/*                                                                                                               */
+/*           Circuit Détection par InfraRouge                                                                    */
+/*           Détection sur Activation du Capteur                                                                 */
+/*                                                                                                               */
+/*  26/02/2020   Reprise du Code au Standard à ce jour (Define)                                  Bruno  W2.V2.6  */
+/*                --> Compilation et Débug en Live                                                               */
+/*  27/02/2020   Créations Mnémos MEVIGIE et MFDLPRESENT / MFDLINTRUS                            Bruno  W2.V2.7  */
+/*                --> Reprise du Code Editions Messages Présence et Intrusion (MSG permanent)                    */
+/*  05/03/2020   Suite pb ID, Remplacé IR par IRCOUR                                             Bruno  W2.V2.8  */
+/*                --> Tests en live avec Eclairage Cour                                                          */
+/*                                                                                                               */
+/*  18/05/2020   Gestion de la Fréquence détections du Capteur                                   Bruno  W2.V3.2  */
+/*                                                                                                               */
+/*  18/05/2020   Passage en Machine a Etat                                                       SeB    W2.V4.0  */
+/*  22/05/2020   Simplification du Code MSG FdL, Tests en Live                                   Bruno  W2.V4.4  */
+/*  21/04/2023   Debut Revue SeB                                                                 SeB    V5.0     */
+/*  30/12/2023   Passage en package                                                              SeB    V6.0     */
+/*                                                                                                               */
+/*****************************************************************************************************************/
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+/*                                                                                                               */
+/*                                  DECLARATIONS DES BITS ET MNEMONICS DU MODULE                                 */
+/*                                        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°                                       */
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+                                  /********************************************/
+/**********************************                    ENTREES                 ***********************************/
+                                  /********************************************/
+/* MNEMONICS ET BITS ASSOCIES ENTREES TORS -----------------------------------*/
+/* INFRA ROUGE ~~~~~~~~~~~~~~~~~~*/
+   #define P_BOITIER        <->_DI; /* Position Open/Close du Boitier InfaRouge */
+   #define P_CAPTEUR        <->_DI; /* Position du Capteur InfraRouge */
+
+                                  /********************************************/
+/**********************************                    SORTIES                 ***********************************/
+                                  /********************************************/
+/* MNEMONICS ET BITS ASSOCIES SORTIES TORS -----------------------------------*/
+
+                                  /********************************************/
+/**********************************                TEMPORISATIONS             ************************************/
+                                  /********************************************/
+/* MNEMONICS ET BITS ASSOCIES TEMPOS -----------------------------------------*/
+  #define TC_DETECTION          <->_T(daa=3000,dma=0,dMa=0,dad=0,libelle="Tempo Créneau sur Activation Capteur IR(5mn)");
+
+  #define TRDEFCAPTEUR          <->_T(daa=864000,dma=0,dMa=0,dad=0,libelle="Tempo Retard Défaut Capteur InfraRouge >24H");
+  #define TRALERTEBRIS          <->_T(daa=50,dma=0,dMa=0,dad=0,libelle="Tempo Retard Alerte Effraction du Boitier InfraRouge");
+                                  /********************************************/
+/**********************************                   CADRANS                  ***********************************/
+                                  /********************************************/
+/* HORLOGES ~~~~~~~~~~~~~~~~~~~~~*/
+/* Procédé InfraRouge */
+  #define CH_PROCEDE            <->_CH(libelle="Cadran Horloge Procédé InfraRouge");
+
+/* Service InfraRouge */
+  #define CH_SERVICE            <->_CH(libelle="Cadran Horloge Durée Service du Capteur InfraRouge");
+
+/* COMPTEURS ~~~~~~~~~~~~~~~~~~~~*/
+/* Boitier InfraRouge */
+  #define CI_OPEN_BOITIER       <->_CI(libelle="Compteur Itérations Ouverture du Boitier InfraRouge");
+
+/* Actions InfraRouge */
+  #define CI_DETECTIONS         <->_CI(libelle="Compteur Itérations Détections InfraRouge");
+  #define CI_DETECTIONS_PAR_JOUR<->_CI(libelle="Compteur Itérations Détections par Jour InfraRouge");
+
+                                  /********************************************/
+/**********************************             VISUELS DES OBJETS             ***********************************/
+                                  /********************************************/
+/* MNEMONICS ET BITS ASSOCIES AU MODULE ET AU SYSTEME POUR VISUELS DES OBJETS */
+
+/** PAGE [LE SITE DE SOISY] (00002) ------------------------------------------*/
+/* IMAGES ~~~~~~~~~~~~~~~~~~~~~~~*/
+  #define VISUEL_CAPTEUR      <->_I(forme="detecteur_mouvement", libelle="Capteur Infra Rouge");
+  #define VISUEL_BOITIER      <->_I(forme="encadre", mode="1x1", libelle="$PRAM_TITRE");
+
+                                  /********************************************/
+/**********************************                   BITS MODULE              ***********************************/
+                                  /********************************************/
+/* MNEMONICS ET BITS ASSOCIES BOUTONS DU MODULE ------------------------------*/
+
+/* ETATS ~~~~~~~~~~~~~~~~~~~~~~~~*/
+  #define M_ECOUTE           <->_M(libelle="Mémo Etat Ecoute du Capteur InfraRouge");
+
+  #define ME_MTCE            <->_B(libelle="Etat maintenance");
+
+  #define ME_BOITIER_OPEN    <->_B(groupe=1,libelle="Mémo Etat Open du Boitier InfraRouge");
+  #define ME_BOITIER_CLOS    <->_B(groupe=1,libelle="Mémo Etat Clos du Boitier InfraRouge");
+
+  #define ME_ETAT_PRESENCE   <->_B(libelle="Mémo Etat Présence dans la Cour du Site Hors Veille");
+  #define ME_ETAT_INTRUSION  <->_B(libelle="Mémo Etat Intrusion dans la Cour du Site En Veille");
+
+  #define ME_DETECTION       <->_B(libelle="Mémo Etat Detection IR !");
+
+  #define MEVEILLE           <->_B(libelle="TRUE si l'infrarouge est surveillé");
+
+/* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
+  #define MDEFCAPTEUR        <->_B(libelle="Mémo Défaut Capteur InfraRouge Cour");
+  #define MDEFCAPTEURF       <->_B(libelle="Mémo Défaut Capteur InfraRouge Cour Fixe");
+
+/* VEILLE ~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/* ALERTES ~~~~~~~~~~~~~~~~~~~~~~*/
+  #define MALERBRIS          <->_B(libelle="Mémo Alerte Bris du Boitier InfraRouge Cour");
+  #define MALERBRISF         <->_B(libelle="Mémo Alerte Bris du Boitier InfraRouge Cour Fixe");
+
+                                  /********************************************/
+/**********************************               MESSAGES IMPRIMANTE          ***********************************/
+                                  /********************************************/
+/* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
+/*----------------------------------------------------------------------------*/
+  #define EM_ECOUTE             <->_MSG(type=notification,libelle="InfraRouge Cour à l'Ecoute");
+  #define EM_VEILLE             <->_MSG(type=veille,libelle="Veille du Boitier InfraRouge Cour");
+/*----------------------------------------------------------------------------*/
+  #define MSG_BOITIER_CLOS    <->_MSG(type=etat,libelle="Boitier du Capteur InfraRouge Cour Fermés");
+  #define MSG_BOITIER_OPEN    <->_MSG(type=defaut,libelle="Boitier du Capteur InfraRouge Cour Ouvert");
+/*----------------------------------------------------------------------------*/
+  #define EM_PRESENCE           <->_MSG(type=etat,libelle="$PARAM_MSG_PRESENCE");
+/*----------------------------------------------------------------------------*/
+  #define EMDEFCAPTEUR          <->_MSG(type=defaut,libelle="Défaut InfraRouge sur inactivité depuis 24h");
+/*----------------------------------------------------------------------------*/
+  #define EMALERBRIS            <->_MSG(type=alerte,libelle="Alerte Bris du Boitier InfraRouge");
+  #define EM_INTRUSION          <->_MSG(type=alerte,libelle="$PARAM_MSG_INTRUSION");
+
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+/*                                                                                                               */
+/*                                  CODES DES EVENEMENTS,FONCTIONS ET VISUELS DU MODULE                          */
+/*                                        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°                                  */
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+                                  /********************************************/
+/**********************************                 INITIALISATION             ***********************************/
+                                  /********************************************/
+/* REMIS A ZERO OU A UN BISTABLES MODULE -------------------------------------*/
+/* -_START  -> ME_ETAT_INIT;*/
+                                  /********************************************/
+/**********************************                  EVENEMENTS                ***********************************/
+                                  /********************************************/
+/** ACTIVITES ================================================================*/
+/* CADRANS HORLOGES ~~~~~~~~~~~~~*/
+/* Compteurs Horaires */
+ -_TRUE                                  -> CH_PROCEDE;          /* Durée du Procédé Capteur Infra Rouge */
+ - P_CAPTEUR                             -> CH_SERVICE;       /* Durée de Service du Capteur Infra Rouge */
+
+/* CADRANS COMPTEURS ~~~~~~~~~~~~*/
+/* Actions Jour Détections Infra Rouge */
+ - P_CAPTEUR                             -> CI_DETECTIONS_PAR_JOUR;   /* +1 Cpt Actions Détections Journalier IR */
+
+/* Total Détections Infra Rouge de la Cour */
+ - P_CAPTEUR                             -> CI_DETECTIONS;                   /* +1 Détection Infra Rouge */
+
+/* Total Open/Close du Boitier Infra Rouge de la Cour */
+ -/P_BOITIER                             -> CI_OPEN_BOITIER;                      /* +1 Ouverture Boitier */
+
+/*----------------------------------------------------------------------------*/
+/* Capteur InfraRouge à l'Ecoute après Tempo Matérielle du Capteur */
+ -/ME_MTCE ./P_CAPTEUR                   -> M_ECOUTE;               /* Infra Rouge à l'Ecoute (Bit 'M') */
+
+/*----------------------------------------------------------------------------*/
+/* Gestion de la Détection (Inhibition de 5 Mn), tenir compte du Maintien Matériel de la Détection (3mn) */
+ - P_CAPTEUR . /ME_DETECTION .  OUVENT:MEMSSB_VEILLE -> ME_DETECTION, ME_ETAT_INTRUSION;
+ - P_CAPTEUR . /ME_DETECTION . /OUVENT:MEMSSB_VEILLE -> ME_DETECTION, ME_ETAT_PRESENCE;
+
+ - ME_DETECTION                          -> TC_DETECTION;                  /* Tempo Inhibition Détection IR */
+ - TC_DETECTION                          ->/ME_DETECTION, /ME_ETAT_INTRUSION, /ME_ETAT_PRESENCE;     /* RAZ */
+
+/* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
+/* Passe en Défaut si pas d'Activité pendant 24h , Hors Maintenance */
+ -/ME_MTCE ./P_CAPTEUR                                                         /* Pas d'Activité IR Longue ? */
+                                         -> TRDEFCAPTEUR;             /* --> Inactivité Capteur IR> 24H */
+ - TRDEFCAPTEUR                          -> MDEFCAPTEUR;                  /* Défaut Capteur Infra Rouge */
+ - P_CAPTEUR . MDEFCAPTEURF              ->/MDEFCAPTEURF;      /* Effacer le Défaut Capteur Infra Rouge */
+
+/** SECURITES DES BIENS ======================================================*/
+/* VEILLE BOITIER ~~~~~~~~~~~~~~~*/
+ -/P_BOITIER                             -> ME_BOITIER_CLOS;    /* Boitier IR Fermés */
+ - P_BOITIER                             -> ME_BOITIER_OPEN;    /* Boitier IR Ouvert */
+
+ -/ME_MTCE . ME_BOITIER_CLOS             -> MEVEILLE;       /* Boitier IR01 Fermé et pas de Maintenance */
+
+/* ALERTES BRIS ~~~~~~~~~~~~~~~~~*/
+ - MEVEILLE . ME_BOITIER_OPEN ./MALERBRIS
+                                         -> TRALERTEBRIS;/* Hors Maintenance Alerte Effraction Boitier? */
+ - TRALERTEBRIS                          -> MALERBRIS;         /* Alerte Effraction Boitier Infra Rouge */
+ - ME_BOITIER_CLOS . MALERBRISF          ->/MALERBRISF;          /* Effacer l'Alerte Effraction Boitier */
+
+                                  /********************************************/
+/************************************        COMPTE RENDUS DU PROCEDE        **/
+                                  /**           A L'ADMINISTRATION           *************************************/
+                                  /**       POUR VISUELS DES VIGNETTES       **/
+                                  /********************************************/
+/** SYNTHESE ACTIVITE ========================================================*/
+/* DEFAUTS DE SYNTHESE ~~~~~~~~~~*/
+ - MDEFCAPTEUR                          -> MEMSA_DEFAUT;                   /* Synthèse Défauts Infra Rouge */
+ - MDEFCAPTEURF                         -> MEMSA_DEFAUT_FIXE;         /* Synthèse Défauts Infra Rouge Fixe */
+
+/* ALARMES DE SYNTHESE ~~~~~~~~~~*/
+ - _FALSE                               -> MEMSA_ALARME;                   /* Synthèse Alarmes Infra Rouge */
+ - _FALSE                               -> MEMSA_ALARME_FIXE;         /* Synthèse Alarmes Infra Rouge Fixe */
+
+/** SECURITES DES BIENS ======================================================*/
+/* VEILLE ~~~~~~~~~~~~~~~~~~~~~~~*/
+ - MEVEILLE                             -> MEMSSB_VEILLE;                              /* Report de Veille */
+
+/* ALERTES DE SYNTHESE ~~~~~~~~~~*/
+ - MALERBRIS                            -> MEMSSB_ALERTE;                  /* Synthèse Alertes Infra Rouge */
+ - MALERBRISF                           -> MEMSSB_ALERTE_FIXE;        /* Synthèse Alertes Infra Rouge Fixe */
+
+/** SECURITES DES PERSONNES ==================================================*/
+/* DERANGEMENTS DE SYNTHESE ~~~~~*/
+ - _FALSE                               -> MEMSSP_DERANGEMENT;        /* Synthèse dérangements Infra Rouge */
+ - _FALSE                               -> MEMSSP_DERANGEMENT_FIXE;       /* Synthèse dérangements IR Fixe */
+
+/* DANGER ~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Néant                                -> MEMSSP_DANGER;                                /* Report Dangers */
+/* Néant                                -> MEMSSP_DANGER_FIXE;                      /* Report Dangers Fixe */
+
+                                  /********************************************/
+/**********************************              FONCTIONS COMMANDEES          ***********************************/
+                                  /********************************************/
+/*----------------------------------------------------------------------------*/
+/* ACTIONS Détections Infra Rouge Journalier */
+ /* <RAZ> Automatique Cpt Itérations */
+ - _HEURE = 00:00                            -> CI_DETECTIONS_PAR_JOUR(reset=1);
+
+/** ORDRES PAGE [SITE DE SOISY] (00002) =========================================================================*/
+/* [ACQUIT] DEFAUTS  ~~~~~~~~~~~~*/
+ - (OSYN_ACQUIT + VISUEL_CAPTEUR_CLIC). MDEFCAPTEUR
+                                        ->/MDEFCAPTEUR, MDEFCAPTEURF;       /* Capteur InfraRouge */
+
+/* [ACQUIT] ALERTES ~~~~~~~~~~~~~*/
+ - (OSYN_ACQUIT + VISUEL_CAPTEUR_CLIC) . MALERBRIS
+                                        ->/MALERBRIS, MALERBRISF;    /* Alerte Bris du Boitier IR */
+
+                                  /********************************************/
+/**********************************              VISUELS DES OBJETS            ***********************************/
+                                  /********************************************/
+
+/** PAGE [LE SITE DE SOISY] (00002) ==========================================*/
+/* IMAGES ~~~~~~~~~~~~~~~~~~~~~~~*/
+ switch
+/* InfraRouge */
+ |- ME_MTCE                             -> VISUEL_CAPTEUR(mode="off",color=gris,cligno=1);   /* Maint. Animée */
+
+ |- MEMSA_DEFAUT                        -> VISUEL_CAPTEUR(mode="off",color=jaune,cligno=1);   /* Défaut Animé */
+ |- MEMSA_DEFAUT_FIXE                   -> VISUEL_CAPTEUR(mode="off",color=jaune);                  /* Défaut */
+
+ |- MEMSA_ALARME                        -> VISUEL_CAPTEUR(mode="off",color=rouge,cligno=1);  /* Alarme Animée */
+ |- MEMSA_ALARME_FIXE                   -> VISUEL_CAPTEUR(mode="off",color=rouge);                   /* Aarme */
+
+ |- P_CAPTEUR                           -> VISUEL_CAPTEUR(mode="on",color=orange,cligno=1);    /* Actif Animée */
+
+ |-                                     -> VISUEL_CAPTEUR(mode="off",color=blanc);                 /* Attente */
+
+/*----------------------------------------------------------------------------*/
+ switch
+/* Boitier InfraRouge */
+ |- ME_MTCE                             -> VISUEL_BOITIER(mode=0,color=gris,cligno=1);   /* Maint. Animée */
+
+ |- MEMSSB_ALERTE                       -> VISUEL_BOITIER(mode=0,color=rouge,cligno=1); /* Alerte Animée */
+ |- MEMSSB_ALERTE_FIXE                  -> VISUEL_BOITIER(mode=0,color=rouge);                 /* Alerte */
+
+ |-                                     -> VISUEL_BOITIER(mode=0,color=blanc);                 /* Attente */
+
+                                  /********************************************/
+/**********************************       EDITIONS DES MESSAGES IMPRIMANTE     ***********************************/
+                                  /********************************************/
+/* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES DU MODULE ---------------*/
+/*----------------------------------------------------------------------------*/
+ - M_ECOUTE                               -> EM_ECOUTE;                         /* INFRA ROUGE COUR A L'ECOUTE(I)*/
+ - MEMSSB_VEILLE                          -> EM_VEILLE;                       /* BOITIER INFRA ROUGE EN VEILLE(V)*/
+/*----------------------------------------------------------------------------*/
+ - ME_ETAT_PRESENCE                       -> EM_PRESENCE;           /* DETECTION PRESENCE DANS LA COUR DU SITE(I)*/
+ - ME_ETAT_INTRUSION                      -> EM_INTRUSION;         /* DETECTION INTRUSION DANS LA COUR DU SITE(I)*/
+/*----------------------------------------------------------------------------*/
+ - ME_BOITIER_CLOS                        -> MSG_BOITIER_CLOS;                      /* BOITIER INFRAROUGE FERMES */
+ - ME_BOITIER_OPEN                        -> MSG_BOITIER_OPEN;                      /* BOITIER INFRAROUGE OUVERT */
+/*----------------------------------------------------------------------------*/
+ - MALERBRIS + MALERBRISF                 -> EMALERBRIS;         /* ALERTE EFFRACTION BOITIER INFRA ROUGE COUR(A)*/
+/*----------------------------------------------------------------------------*/
+ - MDEFCAPTEUR + MDEFCAPTEURF             -> EMDEFCAPTEUR;                  /* DEFAUT CAPTEUR INFRA ROUGE COUR(D)*/
+/*****************************************************************************************************************/

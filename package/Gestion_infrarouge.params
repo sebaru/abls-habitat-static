@@ -1,0 +1,5 @@
+{ "params":
+   [ { "acronyme": "PARAM_MSG_PRESENCE",  "libelle": "Message affiché lors d'une détection", "defaut": "Détection présence infrarouge" },
+     { "acronyme": "PARAM_MSG_INTRUSION", "libelle": "Message affiché lors d'une intrusion", "defaut": "Détection intrusion infrarouge" }
+   ]
+}
