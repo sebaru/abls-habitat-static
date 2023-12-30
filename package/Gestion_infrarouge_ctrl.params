@@ -1,0 +1,5 @@
+{ "params":
+   [ { "acronyme": "PARAM_TARGET",  "libelle": "Tech_ID maitre de l'infrarouge controlé", "defaut": "SYS" },
+     { "acronyme": "PARAM_TITRE", "libelle": "Titre de l'encadré", "defaut": "Controle IR" }
+   ]
+}

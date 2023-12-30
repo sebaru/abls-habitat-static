@@ -1,0 +1,59 @@
+/******************************************************************************************************************************/
+/* Gestion_infrarouge_ctrl: Module présentant les visuels et boutons associées au Controle d'un détecteur infrarouge          */
+/* 30/12/2023: Création du Package                                                                        SeB V1.0            */
+/******************************************************************************************************************************/
+
+ #define VISUEL_TITRE       <-> _I(forme="comment", mode="annotation", color="black", libelle="$PARAM_TITRE");
+ #define VISUEL_PROCEDE     <-> _I(forme="comment", mode="annotation", color="black", libelle="Procédé");
+ #link $PARAM_TARGET:CH_PROCEDE(cadran="simple");
+
+ #define VISUEL_SERVICE     <-> _I(forme="comment", mode="annotation", color="black", libelle="Service");
+ #link $PARAM_TARGET:CH_SERVICE(cadran="simple");
+
+ #define VISUEL_DETECTIONS  <-> _I(forme="comment", mode="annotation", color="black", libelle="#Détections");
+ #link $PARAM_TARGET:CI_DETECTIONS(cadran="simple");
+
+ #define VISUEL_DETECTIONS_PAR_JOUR <-> _I(forme="comment", mode="annotation", color="black", libelle="#Détect./Jour");
+ #link $PARAM_TARGET:CI_DETECTIONS_PAR_JOUR(cadran="simple");
+
+ #define VISUEL_OPENBOITIER <-> _I(forme="comment", mode="annotation", color="black", libelle="Ouv. Boitier");
+ #link $PARAM_TARGET:CI_OPEN_BOITIER(cadran="simple");
+
+/* BOUTONS ~~~~~~~~~~~~~~~~~~~~~~*/
+   #define VISUEL_BTN_RAZ_PROCEDE          <->_I(forme="bouton", libelle=" RAZ ");
+   #define VISUEL_BTN_RAZ_SERVICE          <->_I(forme="bouton", libelle=" RAZ ");
+   #define VISUEL_BTN_RAZ_DETECTION        <->_I(forme="bouton", libelle=" RAZ ");
+   #define VISUEL_BTN_RAZ_BOITIER          <->_I(forme="bouton", libelle=" RAZ ");
+   #define VISUEL_BTN_RAZ_DETECT_PAR_JOUR  <->_I(forme="bouton", libelle=" RAZ ");
+
+/* <RAZ> CADRANS ~~~~~~~~~~~~~~~~*/
+ - VISUEL_BTN_RAZ_PROCEDE_CLIC             -> $PARAM_TARGET:CH_PROCEDE(reset=1);                  /* <RAZ> Horloge du Procédé */
+ - VISUEL_BTN_RAZ_SERVICE_CLIC             -> $PARAM_TARGET:CH_SERVICE(reset=1);                       /* <RAZ> Service de la */
+ - VISUEL_BTN_RAZ_DETECTION_CLIC           -> $PARAM_TARGET:CI_DETECTIONS(reset=1);                 /*<RAZ> Dépôts Journalier */
+ - VISUEL_BTN_RAZ_BOITIER_CLIC             -> $PARAM_TARGET:CI_OPEN_BOITIER(reset=1);               /*<RAZ> Dépôts Journalier */
+ - VISUEL_BTN_RAZ_DETECT_PAR_JOUR_CLIC     -> $PARAM_TARGET:CI_DETECTIONS_PAR_JOUR(reset=1);        /*<RAZ> Dépôts Journalier */
+
+/* BOUTONS ~~~~~~~~~~~~~~~~~~~~~~*/
+/* [RAZ] Horloge Procédé */
+  switch
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CH_PROCEDE>1 -> VISUEL_BTN_RAZ_PROCEDE(color=bleu);                  /* Réceptif */
+   | - -> VISUEL_BTN_RAZ_PROCEDE(disable,color=gris);                                                               /* Inerte */
+
+/* [RAZ] Horloge Service */
+  switch
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CH_SERVICE>1 -> VISUEL_BTN_RAZ_SERVICE(color=bleu);                  /* Réceptif */
+   | - -> VISUEL_BTN_RAZ_SERVICE(disable,color=gris);                                                               /* Inerte */
+
+  switch
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CI_DETECTIONS>1 -> VISUEL_BTN_RAZ_DETECTION(color=bleu);             /* Réceptif */
+   | - -> VISUEL_BTN_RAZ_DETECTION(disable,color=gris);                                                             /* Inerte */
+
+  switch
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CI_OPEN_BOITIER>1 -> VISUEL_BTN_RAZ_BOITIER(color=bleu);             /* Réceptif */
+   | - -> VISUEL_BTN_RAZ_BOITIER(disable,color=gris);                                                               /* Inerte */
+
+  switch
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CIDETECTIONS_JOUR>1 -> VISUEL_BTN_RAZ_DETECT_PAR_JOUR(color=bleu);   /* Réceptif */
+   | - -> VISUEL_BTN_RAZ_DETECT_PAR_JOUR(disable,color=gris);                                                       /* Inerte */
+
+/******************************************************************************************************************************/
