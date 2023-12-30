@@ -53,7 +53,7 @@
    | - -> VISUEL_BTN_RAZ_BOITIER(disable,color=gris);                                                               /* Inerte */
 
   switch
-   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CIDETECTIONS_JOUR>1 -> VISUEL_BTN_RAZ_DETECT_PAR_JOUR(color=bleu);   /* Réceptif */
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CI_DETECTIONS_PAR_JOUR>1 -> VISUEL_BTN_RAZ_DETECT_PAR_JOUR(color=bleu);   /* Réceptif */
    | - -> VISUEL_BTN_RAZ_DETECT_PAR_JOUR(disable,color=gris);                                                       /* Inerte */
 
 /******************************************************************************************************************************/
