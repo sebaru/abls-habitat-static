@@ -71,7 +71,7 @@
 /** PAGE [LE SITE DE SOISY] (00002) ------------------------------------------*/
 /* IMAGES ~~~~~~~~~~~~~~~~~~~~~~~*/
   #define VISUEL_CAPTEUR      <->_I(forme="detecteur_mouvement", libelle="Capteur Infra Rouge");
-  #define VISUEL_BOITIER      <->_I(forme="encadre", mode="1x1", libelle="$PRAM_TITRE");
+  #define VISUEL_BOITIER      <->_I(forme="encadre", mode="1x1", libelle="$PARAM_TITRE");
 
                                   /********************************************/
 /**********************************                   BITS MODULE              ***********************************/

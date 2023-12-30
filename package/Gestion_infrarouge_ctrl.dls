@@ -3,7 +3,7 @@
 /* 30/12/2023: Création du Package                                                                        SeB V1.0            */
 /******************************************************************************************************************************/
 
- #define VISUEL_TITRE       <-> _I(forme="comment", mode="annotation", color="black", libelle="$PARAM_TITRE");
+ #define VISUEL_TITRE       <-> _I(forme="encadre", mode="4x5", color="black", libelle="$PARAM_TITRE");
  #define VISUEL_PROCEDE     <-> _I(forme="comment", mode="annotation", color="black", libelle="Procédé");
  #link $PARAM_TARGET:CH_PROCEDE(cadran="simple");
 
