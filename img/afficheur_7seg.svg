@@ -3,12 +3,12 @@
 
 <svg
    id="svg5560"
-   height="26.810734"
-   width="64"
+   height="53.621468"
+   width="128.00002"
    version="1.1"
-   viewBox="0 0 60.001213 25.135538"
+   viewBox="0 0 120.00244 50.271076"
    sodipodi:docname="afficheur_7seg.svg"
-   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -27,17 +27,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#565656"
-     inkscape:document-units="mm"
-     inkscape:zoom="12.968086"
-     inkscape:cx="34.623461"
-     inkscape:cy="1.4265791"
+     inkscape:document-units="px"
+     inkscape:zoom="4.5849108"
+     inkscape:cx="84.407313"
+     inkscape:cy="44.602831"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-height="975"
+     inkscape:window-x="1920"
+     inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g2"
-     showgrid="false" />
+     inkscape:current-layer="svg5560"
+     showgrid="false"
+     showguides="true" />
   <metadata
      id="metadata5565">
     <rdf:RDF>
@@ -51,14 +52,14 @@
   </metadata>
   <rect
      id="rect5967-3"
-     height="25.135571"
-     width="60.001213"
-     y="-3.2804364e-05"
-     x="-3.5527137e-15"
-     style="stroke-width:0.056141" />
+     height="50.271141"
+     width="120.00243"
+     y="-1.6540078e-05"
+     x="0"
+     style="stroke-width:0.112282" />
   <g
      id="g1"
-     transform="matrix(0.02811145,0,0,0.02811145,-17.004057,-27.728644)">
+     transform="matrix(0.0562229,0,0,0.0562229,-34.008113,-55.457239)">
     <path
        id="path1b"
        d="m 1087.676,1063.9521 -58.38,86.785 -9.47,219.32 80.47,53.64 20.52,-20.51 14.2,-277.7 c 0,0 -7.29,-24.26 -17.63,-36.46 -6.8,-8.03 -29.71,-25.075 -29.71,-25.075 z"
@@ -118,7 +119,7 @@
   </g>
   <g
      id="g2"
-     transform="matrix(0.02811145,0,0,0.02811145,-2.5906884,-27.728644)">
+     transform="matrix(0.0562229,0,0,0.0562229,-5.1813765,-55.457239)">
     <path
        id="path2b"
        d="m 1087.676,1063.9521 -58.38,86.785 -9.47,219.32 80.47,53.64 20.52,-20.51 14.2,-277.7 c 0,0 -7.29,-24.26 -17.63,-36.46 -6.8,-8.03 -29.71,-25.075 -29.71,-25.075 z"
@@ -178,7 +179,7 @@
   </g>
   <g
      id="g3"
-     transform="matrix(0.02811145,0,0,0.02811145,-0.23708335,-0.25883428)">
+     transform="matrix(0.0562229,0,0,0.0562229,-0.47416646,-0.51761985)">
     <g
        id="g2-5"
        transform="translate(418.7837,-977.17523)">
@@ -242,7 +243,7 @@
   </g>
   <g
      id="g4"
-     transform="matrix(0.02811145,0,0,0.02811145,14.018586,-0.25883428)">
+     transform="matrix(0.0562229,0,0,0.0562229,28.037172,-0.51761985)">
     <g
        id="g2-5-2"
        transform="translate(418.7837,-977.17523)">
