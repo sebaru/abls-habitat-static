@@ -11,6 +11,7 @@
 {"categorie": "bouton",      "forme": "bouton_panique",      "extension": "png",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
 {"categorie": "bouton",      "forme": "bouton_io",           "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "bouton",      "forme": "bouton",              "extension": "none", "default_mode": "enable",     "default_color": "blue",    "controle": "complexe" },
+{"categorie": "cadrans",     "forme": "cadran",              "extension": "none", "default_mode": "enable",     "default_color": "blue",    "controle": "complexe", "modes": ["texte"] },
 {"categorie": "bouton",      "forme": "switch",              "extension": "svg",  "default_mode": "off",        "default_color": "blue",    "controle": "by_mode", "modes": ["off","on"]},
 {"categorie": "camera",      "forme": "cctv",                "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "capteur",     "forme": "detecteur_mouvement", "extension": "svg",  "default_mode": "off",        "default_color": "white",   "controle": "by_mode_color", "modes": ["off","on"]},
