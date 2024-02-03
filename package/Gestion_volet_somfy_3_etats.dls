@@ -73,6 +73,7 @@
  switch
   | - MODE_AUTO . VISUEL_AUTO_MANU_CLIC -> MODE_MANU;
   | - MODE_MANU . VISUEL_AUTO_MANU_CLIC -> MODE_AUTO;
+  | -                                   -> _NOP;
 
 /************************************** Passe en phase suivante au relachement des boutons physiques ***************************/
  - CMD_STOP . MODE_AUTO . BP_OUVRE -> CMD_OUVRE_WAIT_BP;
@@ -93,6 +94,7 @@
       | - CMD_FERME -> CMD_STOP;
       | - CMD_STOP . VOLET_SUPPOSE_FERME -> CMD_OUVRE;
       | - CMD_STOP ./VOLET_SUPPOSE_FERME -> CMD_FERME;
+      | -                                -> _NOP;
    }
 /**************************************** Détection demande d'ouverture ou fermeture (a positionner apres stop) ***************/
  - CMD_STOP . (ODLS_OUVRE + OVOC_OUVRE + OTXT_OUVRE) -> CMD_OUVRE;
