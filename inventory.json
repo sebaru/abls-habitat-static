@@ -52,6 +52,7 @@
 {"categorie": "electrique",  "forme": "2d_disj_mono",        "extension": "svg",  "default_mode": "open",       "default_color": "white",   "controle": "by_mode_color", "modes": ["open","close"]},
 {"categorie": "electrique",  "forme": "2d_differentiel",     "extension": "svg",  "default_mode": "default",    "default_color": "white",   "controle": "by_color" },
 {"categorie": "electrique",  "forme": "2d_elec_thermique",   "extension": "svg",  "default_mode": "default",    "default_color": "white",   "controle": "by_color" },
+{"categorie": "electrique",  "forme": "led",                 "extension": "svg",  "default_mode": "default",    "default_color": "white",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "2d_vanne_auto",       "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "2d_vanne_manu",       "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "goutte_eau",          "extension": "svg",  "default_mode": "default",    "default_color": "blue",    "controle": "by_color" },
