@@ -54,6 +54,7 @@
 {"categorie": "electrique",  "forme": "2d_elec_thermique",   "extension": "svg",  "default_mode": "default",    "default_color": "white",   "controle": "by_color" },
 {"categorie": "electrique",  "forme": "led",                 "extension": "svg",  "default_mode": "default",    "default_color": "white",   "controle": "by_color" },
 {"categorie": "electrique",  "forme": "prise",               "extension": "svg",  "default_mode": "fiche",      "default_color": "white",   "controle": "by_mode_color", "modes": ["fiche"] },
+{"categorie": "energie",     "forme": "energie",             "extension": "svg",  "default_mode": "edf",        "default_color": "white",   "controle": "by_mode", "modes": ["edf","gaz","solaire"] },
 {"categorie": "hydraulique", "forme": "2d_vanne_auto",       "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "2d_vanne_manu",       "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "hydraulique", "forme": "goutte_eau",          "extension": "svg",  "default_mode": "default",    "default_color": "blue",    "controle": "by_color" },
