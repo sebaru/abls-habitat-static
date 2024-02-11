@@ -103,18 +103,13 @@
 /* Cadre des Boutons et Outils */
  switch
 /* MAINTENANCE disponible (en SERVICE) */
- |-/$PARAM_TARGET:ME_MTCE                -> VISUEL_ENCADRE(color="green"),      /* Cadre Vert */
-                                            VISUEL_CLEF(color="white");       /* Outils Blanc */
-
-/* MAINTENANCE en Cours */
- |-/M_MTCE_TROP_LONGUE                                             /* Pas en [MAINT] Longue ! */
-                                   -> VISUEL_ENCADRE(color="blue"),            /* Cadre Jaune */
-                                      VISUEL_CLEF(color="yellow");            /* Outils Jaune */
+ |-/$PARAM_TARGET:ME_MTCE -> VISUEL_ENCADRE(color="green"), VISUEL_CLEF(color="white");
 
 /* MAINTENANCE Trop Longue */
- |- M_MTCE_TROP_LONGUE                                                      /* [MAINT] Trop Longue ! */
-                                   -> VISUEL_ENCADRE(color="yellow",cligno) ,  /* Cadre Jaune Cligno */
-                                      VISUEL_CLEF(color="yellow",cligno);     /* Outils Jaune Cligno */
+ |- M_MTCE_TROP_LONGUE    -> VISUEL_ENCADRE(color="yellow",cligno),  VISUEL_CLEF(color="yellow",cligno);
+
+/* MAINTENANCE en Cours */
+ |-                       -> VISUEL_ENCADRE(color="blue"), VISUEL_CLEF(color="yellow");
 
 
                                    /*******************************************/
