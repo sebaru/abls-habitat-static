@@ -94,6 +94,7 @@
 {"categorie": "ouvrant",     "forme": "portail_battant",     "extension": "svg",  "default_mode": "ouvert",     "default_color": "gray",    "controle": "by_mode", "modes": ["ouvert","ferme"]},
 {"categorie": "panneau",     "forme": "panneau_stop",        "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
 {"categorie": "panneau",     "forme": "panneau_au",          "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
+{"categorie": "panneau",     "forme": "panneau_danger",      "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "static" },
 {"categorie": "sonorisation","forme": "haut_parleur",        "extension": "svg",  "default_mode": "actif",      "default_color": "red",     "controle": "by_mode_color", "modes": ["actif","inactif","stop"]},
 {"categorie": "voyant",      "forme": "voyant_moteur",       "extension": "svg",  "default_mode": "default",    "default_color": "orange",  "controle": "by_color" },
 {"categorie": "voyant",      "forme": "eclair",              "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },

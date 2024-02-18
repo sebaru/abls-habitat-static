@@ -86,33 +86,33 @@
   #define ME_BOITIER_OPEN    <->_B(groupe=1,libelle="Mémo Etat Open du Boitier InfraRouge");
   #define ME_BOITIER_CLOS    <->_B(groupe=1,libelle="Mémo Etat Clos du Boitier InfraRouge");
 
-  #define ME_ETAT_PRESENCE   <->_B(libelle="Mémo Etat Présence dans la Cour du Site Hors Veille");
-  #define ME_ETAT_INTRUSION  <->_B(libelle="Mémo Etat Intrusion dans la Cour du Site En Veille");
+  #define ME_ETAT_PRESENCE   <->_B(libelle="Mémo Etat Présence Hors Veille");
+  #define ME_ETAT_INTRUSION  <->_B(libelle="Mémo Etat Intrusion En Veille");
 
   #define ME_DETECTION       <->_B(libelle="Mémo Etat Detection IR !");
 
   #define MEVEILLE           <->_B(libelle="TRUE si l'infrarouge est surveillé");
 
 /* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
-  #define MDEFCAPTEUR        <->_B(libelle="Mémo Défaut Capteur InfraRouge Cour");
-  #define MDEFCAPTEURF       <->_B(libelle="Mémo Défaut Capteur InfraRouge Cour Fixe");
+  #define MDEFCAPTEUR        <->_B(libelle="Mémo Défaut Capteur InfraRouge");
+  #define MDEFCAPTEURF       <->_B(libelle="Mémo Défaut Capteur InfraRouge Fixe");
 
 /* VEILLE ~~~~~~~~~~~~~~~~~~~~~~~*/
 
 /* ALERTES ~~~~~~~~~~~~~~~~~~~~~~*/
-  #define MALERBRIS          <->_B(libelle="Mémo Alerte Bris du Boitier InfraRouge Cour");
-  #define MALERBRISF         <->_B(libelle="Mémo Alerte Bris du Boitier InfraRouge Cour Fixe");
+  #define MALERBRIS          <->_B(libelle="Mémo Alerte Bris du Boitier InfraRouge");
+  #define MALERBRISF         <->_B(libelle="Mémo Alerte Bris du Boitier InfraRouge Fixe");
 
                                   /********************************************/
 /**********************************               MESSAGES IMPRIMANTE          ***********************************/
                                   /********************************************/
 /* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
 /*----------------------------------------------------------------------------*/
-  #define EM_ECOUTE             <->_MSG(type=notification,libelle="InfraRouge Cour à l'Ecoute");
-  #define EM_VEILLE             <->_MSG(type=veille,libelle="Veille du Boitier InfraRouge Cour");
+  #define EM_ECOUTE             <->_MSG(type=notification,libelle="InfraRouge à l'Ecoute");
+  #define EM_VEILLE             <->_MSG(type=veille,libelle="Veille du Boitier InfraRouge");
 /*----------------------------------------------------------------------------*/
-  #define MSG_BOITIER_CLOS    <->_MSG(type=etat,libelle="Boitier du Capteur InfraRouge Cour Fermés");
-  #define MSG_BOITIER_OPEN    <->_MSG(type=defaut,libelle="Boitier du Capteur InfraRouge Cour Ouvert");
+  #define MSG_BOITIER_CLOS    <->_MSG(type=etat,libelle="Boitier du Capteur InfraRouge Fermés");
+  #define MSG_BOITIER_OPEN    <->_MSG(type=defaut,libelle="Boitier du Capteur InfraRouge Ouvert");
 /*----------------------------------------------------------------------------*/
   #define EM_PRESENCE           <->_MSG(type=etat,libelle="$PARAM_MSG_PRESENCE");
 /*----------------------------------------------------------------------------*/
@@ -144,10 +144,10 @@
 /* Actions Jour Détections Infra Rouge */
  - P_CAPTEUR                             -> CI_DETECTIONS_PAR_JOUR;   /* +1 Cpt Actions Détections Journalier IR */
 
-/* Total Détections Infra Rouge de la Cour */
+/* Total Détections Infra Rouge */
  - P_CAPTEUR                             -> CI_DETECTIONS;                   /* +1 Détection Infra Rouge */
 
-/* Total Open/Close du Boitier Infra Rouge de la Cour */
+/* Total Open/Close du Boitier Infra Rouge */
  -/P_BOITIER                             -> CI_OPEN_BOITIER;                      /* +1 Ouverture Boitier */
 
 /*----------------------------------------------------------------------------*/
@@ -265,16 +265,16 @@
                                   /********************************************/
 /* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES DU MODULE ---------------*/
 /*----------------------------------------------------------------------------*/
- - M_ECOUTE                               -> EM_ECOUTE;                         /* INFRA ROUGE COUR A L'ECOUTE(I)*/
+ - M_ECOUTE                               -> EM_ECOUTE;                         /* INFRA ROUGE A L'ECOUTE(I)*/
  - MEMSSB_VEILLE                          -> EM_VEILLE;                       /* BOITIER INFRA ROUGE EN VEILLE(V)*/
 /*----------------------------------------------------------------------------*/
- - ME_ETAT_PRESENCE                       -> EM_PRESENCE;           /* DETECTION PRESENCE DANS LA COUR DU SITE(I)*/
- - ME_ETAT_INTRUSION                      -> EM_INTRUSION;         /* DETECTION INTRUSION DANS LA COUR DU SITE(I)*/
+ - ME_ETAT_PRESENCE                       -> EM_PRESENCE;           /* DETECTION PRESENCE(I)*/
+ - ME_ETAT_INTRUSION                      -> EM_INTRUSION;         /* DETECTION INTRUSION(I)*/
 /*----------------------------------------------------------------------------*/
  - ME_BOITIER_CLOS                        -> MSG_BOITIER_CLOS;                      /* BOITIER INFRAROUGE FERMES */
  - ME_BOITIER_OPEN                        -> MSG_BOITIER_OPEN;                      /* BOITIER INFRAROUGE OUVERT */
 /*----------------------------------------------------------------------------*/
- - MALERBRIS + MALERBRISF                 -> EMALERBRIS;         /* ALERTE EFFRACTION BOITIER INFRA ROUGE COUR(A)*/
+ - MALERBRIS + MALERBRISF                 -> EMALERBRIS;         /* ALERTE EFFRACTION BOITIER INFRA ROUGE(A)*/
 /*----------------------------------------------------------------------------*/
- - MDEFCAPTEUR + MDEFCAPTEURF             -> EMDEFCAPTEUR;                  /* DEFAUT CAPTEUR INFRA ROUGE COUR(D)*/
+ - MDEFCAPTEUR + MDEFCAPTEURF             -> EMDEFCAPTEUR;                  /* DEFAUT CAPTEUR INFRA ROUGE(D)*/
 /*****************************************************************************************************************/
