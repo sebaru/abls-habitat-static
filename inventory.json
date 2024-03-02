@@ -77,7 +77,6 @@
 {"categorie": "io",          "forme": "wago_750342",         "extension": "webp", "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "io",          "forme": "satellite",           "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "io",          "forme": "sms",                 "extension": "jpg",  "default_mode": "default",    "default_color": "default", "controle": "static" },
-{"categorie": "lieu",        "forme": "soisy",               "extension": "gif",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "lieu",        "forme": "2d_soisy",            "extension": "gif",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "lieu",        "forme": "2d_soisy_niv00",      "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "meteo",       "forme": "meteo",               "extension": "svg",  "default_mode": "soleil",     "default_color": "gray",    "controle": "by_mode", "modes": ["nuageux","nuit","orage","pluie","soleil","","vent"]},
