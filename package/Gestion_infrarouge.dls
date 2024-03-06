@@ -204,6 +204,8 @@
  - MALERBRIS                            -> MEMSSB_ALERTE;                  /* Synthèse Alertes Infra Rouge */
  - MALERBRISF                           -> MEMSSB_ALERTE_FIXE;        /* Synthèse Alertes Infra Rouge Fixe */
 
+ - MEMSSB_ALERTE                        -> SYS:TOP_ALERTE_1;
+
 /** SECURITES DES PERSONNES ==================================================*/
 /* DERANGEMENTS DE SYNTHESE ~~~~~*/
  - _FALSE                               -> MEMSSP_DERANGEMENT;        /* Synthèse dérangements Infra Rouge */
