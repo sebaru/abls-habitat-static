@@ -1,0 +1,325 @@
+/*****************************************************************************************************************/
+/*  ABLS(C)Habitat                             --------------                                                    */
+/*                                                                                                               */
+/* DLS de gestion d'un volet battant                                                                             */
+/* Ce DLS s'appuie sur les I/O suivantes:                                                                        */
+/*  - Un capteur de fin de course (ouvert/ferme)                                                                 */
+/*  - Un capteur de choc                                                                                         */
+/* Paramètres:                                                                                                   */
+/*  - Aucun pour le moment                                                                                       */
+/*                                                                                                               */
+/* 30/03/2024  Création ce Jour                                                                  SeB    V1.0     */
+/*                                                                                                               */
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+/*                                                                                                               */
+/*                                   DECLARATIONS DES BITS ET MNEMONICS DU MODULE                                */
+/*                                         °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°                                      */
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+                                  /********************************************/
+/**********************************                   ENTREES                  ***********************************/
+                                  /********************************************/
+/* ORDRES <ACQUIT> GSM */
+ #define O_GSM_ACQUIT    <->_DI;                                         /* Ordre GSM <acqvbburo> */
+
+/* Contact CHOCS et OPEN/CLOSE */
+/* WAGO_03 750-431-12A ED04 DI091 */
+ #define P_CHOCS          <->_DI;/* Position Capteur Chocs et Ouverture des Volets Battants */
+
+ #define O_START_VEILLE <-> _DI; /* Demande d'activation de la veille volets */
+ #define O_STOP_VEILLE  <-> _DI; /* Demande de désactivation de la veille volets */
+
+                                  /********************************************/
+/***********************************               TEMPORISATIONS              ***********************************/
+                                  /********************************************/
+/* VOLETS BATTANTS ~~~~~~~~~~~~~~~*/
+ #define TR_DEF_OPEN
+                    <->_T(daa=648000,dma=0,dMa=0,dad=0,libelle="Tempo Retard DEFAUT Volets Battants Ouvert long(18h)");
+
+ #define TR_ALA_OPEN
+                    <->_T(daa=864000,dma=0,dMa=0,dad=0,libelle="Tempo Retard ALARME Volets Battants Ouvert trop long(24h)");
+
+ #define TR_ALE_CHOCS_DETECTE_VBBURO
+                    <->_T(daa=5,dma=0,dMa=0,dad=0,libelle="ALERTE premisse CHOCS Volet Battant du(0.5s)");
+
+                                   /*******************************************/
+/***********************************             VISUELS DES ITEMS             ***********************************/
+                                   /*******************************************/
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-*/
+/**                                          PAGE [NIVEAU 00] (00012)                                            */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-*/
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                              VISUELS DES IMAGES                           */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Volets Battants */
+ #define VISUEL_VOLETS     <->_I(forme="2d_volets",libelle="Volets Battants du");
+
+                                  /********************************************/
+/**********************************                 BITS MODULE                ***********************************/
+                                  /********************************************/
+/**---------------------------------------------------------------------------*/
+/**                                   ETATS                                   */
+/**---------------------------------------------------------------------------*/
+ #define ME_OPEN          <->_B(groupe=1,libelle="Mémo Etat Volets Battants Ouvert");
+ #define ME_CLOSE         <->_B(groupe=1,libelle="Mémo Etat Volets Battants Fermés");
+
+/**---------------------------------------------------------------------------*/
+/**                                  DEFAUTS                                  */
+/**---------------------------------------------------------------------------*/
+ #define MDEF_OPEN        <->_B(libelle="Mémo Défaut Ouverture Volets Battants longue");
+ #define MDEF_OPENF       <->_B(libelle="Mémo Défaut Ouverture Volets Battants longue Fixe");
+
+/**---------------------------------------------------------------------------*/
+/**                                  ALARMES                                  */
+/**---------------------------------------------------------------------------*/
+ #define MALA_OPEN        <->_B(libelle="Mémo Alarme Ouverture Volets Battants trop longue");
+ #define MALA_OPENF       <->_B(libelle="Mémo Alarme Ouverture Volets Battants trop longue Fixe");
+
+/**---------------------------------------------------------------------------*/
+/**                                  VEILLE                                   */
+/**---------------------------------------------------------------------------*/
+ #define ME_VEILLE        <->_B(libelle="Mémo Veille Volets Battants");
+ #define ME_MTCE                        <->_B(libelle="Maintenance Volet Battans");
+
+/**---------------------------------------------------------------------------*/
+/**                                  ALERTES                                  */
+/**---------------------------------------------------------------------------*/
+
+/**---------------------------------------------------------------------------*/
+/* Capteur CHOCS Volets Battants Utilisés en OPEN/CLOSE ou CHOCS,        PAS DE RUPTURE BOUCLE POUR LES VOLETS BATTANTS !! */
+/* Chocs <0.5S -> CHOCS Volets Battants -> TOP_ALERTE_1 Alerte Sonore (10s) */
+ #define ME_CHOCS              <->_B(libelle="Mémo Etat CHOCS Détectés Volets Battants");
+
+/* Pour Editions MSG FdL TOP_ALERTE et Visuels */
+ #define MALE_CHOCS            <->_B(libelle="Mémo Alerte Chocs Volets Battants");
+ #define MALE_CHOCSF           <->_B(libelle="Mémo Alerte Chocs Volets Battants Fixe");
+
+/*----------------------------------------------------------------------------*/
+/* Effraction >4S BRIS ou RUPTURE BOUCLE (Inutilisé=BRIS) Volets Battants -> TOP_ALERTE_2 Alerte Sonore (2mn30s) */
+ #define MALE_BRIS             <->_B(libelle="Mémo Alerte Effraction Volets Battants");
+ #define MALE_BRISF            <->_B(libelle="Mémo Alerte Effraction Volets Battants Fixe");
+
+                                  /********************************************/
+/**********************************              MESSAGES IMPRIMANTE           ***********************************/
+                                  /********************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                               MESSAGES INFOS                              */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ #define EMSG_VOLETS_OPEN        <->_MSG(type=etat,libelle="Volets Battants du Ouvert");
+ #define EMSG_VOLETS_CLOSE       <->_MSG(type=etat,libelle="Volets Battants du Fermés");
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                               MESSAGES VEILLE                             */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ #define EMSG_VEILLE      <->_MSG(type=veille,libelle="Veille sur les Volets Battants du");
+ #define EMSG_CHOCS_ECOUTE<->_MSG(type=veille,libelle="Chocs à l'Ecoute sur les Volets Battants du");
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                                 MSG DEFAUTS                                */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ #define EMSG_DEF_OPEN   <->_MSG(type=defaut,libelle="Défaut Volets Battants du Ouvert Longtemps");
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                                 MSG ALARMES                                */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ #define EMSG_ALA_OPEN   <->_MSG(type=alarme,libelle="Alarme Volets Battants du Ouvert Trop Long");
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                                 MSG ALERTES                                */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* VOLETS BATTANTS BUREAU ~~~~~~~~*/
+ #define EMSG_ALE_BRIS   <->_MSG(type=alerte,libelle="ALERTE Effraction des Volets Battants");
+
+/* CHOCS Volets Battants du (Attention -> Type=notification) */
+ #define EMSG_ALE_CHOCS  <->_MSG(type=notification,libelle="ALERTE_CHOCS sur les Volets Battants");
+
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+/*                                                                                                               */
+/*                              CODES DES EVENEMENTS,FONCTIONS ET VISUELS DU MODULE                              */
+/*                                 °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°                                 */
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+                                  /********************************************/
+/**********************************               INITIALISATION               ***********************************/
+                                  /********************************************/
+/* REMIS A ZERO OU A UN BISTABLES MODULE -------------------------------------*/
+ -_START ->    /MDEF_OPEN ,/MDEF_OPENF ,
+               /MALA_OPEN ,/MALA_OPENF ,
+               /MALE_BRIS ,/MALE_BRISF;
+
+                                  /********************************************/
+/**********************************                 EVENEMENTS                 ***********************************/
+                                  /********************************************/
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                                                                                                              */
+/**                                       VOLETS BATTANTS BUREAU                       EN COURS 05/08/2023              */
+/**                                                                                                              */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                                   ETATS                                   */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Volets Battants Fermés AntiRebond (Délai 2s) */
+ - P_CHOCS -- daa =10-> ME_CLOSE;                          /* Volets Battants Fermés */
+ - ME_CLOSE          -> EMSG_VOLETS_CLOSE;      /* MSG FdL Volets Battants du Fermés */
+
+ -/P_CHOCS -- daa =5 -> ME_OPEN;                          /* Volets Battants Ouverts */
+ - ME_OPEN           -> EMSG_VOLETS_OPEN;       /* MSG FdL Volets Battants du Ouvert */
+
+/*----------------------------------------------------------------------------*/
+/* CHOCS A L'ECOUTE ~~~~~~~~~~~~~~*/
+/* Boucle Chocs Fermés, Pas d'ALERTE BOUCLE_CHOCS */
+ - ME_VEILLE . MEMSA_OK -> EMSG_CHOCS_ECOUTE;       /* Edition MSG FdL Chocs à l'écoute */
+
+/*----------------------------------------------------------------------------*/
+/* Pas en Maintenance, Volets Battants Fermés et Verrou sur Fenêtre du */
+ -/ME_MTCE . ME_CLOSE . O_START_VEILLE -> ME_VEILLE;               /* VEILLE Volets Battants du */
+ - O_STOP_VEILLE                       ->/ME_VEILLE;      /* RAZ Etat VEILLE Volets Battants du */
+ - ME_VEILLE         -> EMSG_VEILLE;     /* MSG FdL VEILLE VOLETS BATTANTS DU BUREAU */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                        DEFAUTS VOLETS BATTANTS BUREAU                     */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Hors Maintenance, Volets Battants Ouvert Longtemps */
+/* <ACQ> Distant ou en Local sur VERROU Fenêtre du ou VEILLE Volet Roulant */
+
+ -/ME_MTCE . ME_OPEN ./MDEF_OPENF -> TR_DEF_OPEN;                /* Ouverture des Volets longue >18h ? */
+ - TR_DEF_OPEN  -> MDEF_OPEN;
+
+/* Notification du DEFAUT ~~~~~~~~*/
+ - MDEF_OPEN + MDEF_OPENF  /* MSG FdL DEFAUT VOLETS BATTANTS BUREAU OUVERT LONGTEMPS */
+                              -> EMSG_DEF_OPEN;
+
+/* ACQUITEMENT DEFAUT OPEN ~~~~~~~*/
+/* Sur Ordre Opérateur */
+ - OSYN_ACQUIT . MDEF_OPEN    ->/MDEF_OPEN , MDEF_OPENF;     /* Fixer le DEFAUT OPEN */
+
+/* RAZ du DEFAUT OPEN ~~~~~~~~~~~~*/
+/* Sur Ordre Opérateur ou sur Place */
+/* En Maintenance ou sur VERROU Fenêtre du */
+ - ME_MTCE + ME_CLOSE + O_GSM_ACQUIT
+                              ->/MDEF_OPEN ,     /* RAZ DEFAUT Volets Battants Ouverts >18h */
+                                /MDEF_OPENF; /* RAZ DEFAUT Fixe Volets Battants Ouverts>18h */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                         ALARMES VOLETS BATTANTS BUREAU                    */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Hors Maintenance, Volets Battants Ouvert Trop Longtemps */
+/* <ACQ> Distant ou en Local sur VERROU Fenêtre du ou CLOSE Volet Roulant */
+
+ -/ME_MTCE . ME_OPEN ./MALA_OPENF -> TR_ALA_OPEN;           /* Ouverture des Volets Trop longue >24h ? */
+ - TR_ALA_OPEN  -> MALA_OPEN;
+
+/* Notification de l'ALARME ~~~~~~*/
+ - MALA_OPEN + MALA_OPENF     -> EMSG_ALA_OPEN;/* MSG FdL DEFAUT VOLETS BATTANTS BUREAU OUVERT TROP LONG */
+
+/* ACQUITEMENT ALARME OPEN ~~~~~~~*/
+/* Sur Ordre Opérateur */
+ - OSYN_ACQUIT . MALA_OPEN    ->/MALA_OPEN , MALA_OPENF;      /* Fixer l'ALARME OPEN */
+
+/* RAZ de l'ALARME OPEN ~~~~~~~~~~*/
+/* Sur Ordre Opérateur ou sur Place */
+/* En Maintenance ou sur VERROU Fenêtre du */
+ - ME_MTCE + ME_CLOSE + O_GSM_ACQUIT
+                              ->/MALA_OPEN ,      /* RAZ ALARME Volets Battants Ouverts>24h */
+                                /MALA_OPENF; /* RAZ ALARME Fixe Volets Battants Ouverts>24h */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                     ALERTE CHOCS VOLETS BATTANTS BUREAU                   */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Pas en Maintenance, En VEILLE_VOLETS Battants, sur Détection CHOCS Déterminer le CHOCS Fugitif (<0.5s> (TOP_ALERTE_1) */
+ -/ME_MTCE ./MALE_CHOCSF . ME_VEILLE .
+   P_CHOCS(edge_down)                                   /* Trapper l'Etat Bas Capteur CHOCS_VOLETS */
+                                   -> ME_CHOCS;                                  /* C'est un CHOCS */
+
+ - ME_CHOCS          -> TR_ALE_CHOCS_DETECTE_VBBURO;    /* CHOCS Volets Battants Tempo 0.5s */
+
+ - ME_CHOCS . P_CHOCS                                               /* CHOCS FUGITIF */
+                                   -> TOP_ALERTE_1,      /* Emission TOP_ALERTE_1 Vers KL_CMDE */
+                                      MALE_CHOCS;         /* Pour [ACQ] et Visuels Volets Battants */
+
+ - TR_ALE_CHOCS_DETECTE_VBBURO     ->/ME_CHOCS;             /* Fin Tempo -> RAZ Etat CHOCS_DETECTE */
+
+/* ACQUITEMENT ALERTE CHOCS ~~~~~~*/
+ - OSYN_ACQUIT . MALE_CHOCS        ->/MALE_CHOCS , MALE_CHOCSF;/* Fixer ALERTE CHOCS */
+
+/* RAZ de l'ALERTE CHOCS ~~~~~~~~~*/
+ - MALE_CHOCSF . P_CHOCS           ->/MALE_CHOCSF;   /* [ACQ] et [MAINT] Effacer ALERTE CHOCS Fixe */
+
+/* Notification de l'ALERTE ~~~~~~*/
+ - MALE_CHOCS + MALE_CHOCSF        -> EMSG_ALE_CHOCS;      /* MSG FdL ALERTE CHOCS Volets Battants */
+
+/* DEBUG: Acquit HARD by GSM ~~~~~*/
+ - ME_MTCE + O_GSM_ACQUIT          ->/MALE_CHOCS ,/MALE_CHOCSF;   /* <ACQ> GSM CHOCS */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                     ALERTE BRIS VOLETS BATTANTS BUREAU                    */
+/**                     OU RUPTURE BOUCLE CHOCS (INUTILISE)                   */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* En VEILLE_VOLETS, P_CHOCS_VOLETS Utilisé Comme OPEN/CLOSE, BRIS ou CHOCS (TOP_ALERTE_2) */
+/* DETECTION ALERTE BRIS ~~~~~~~~~~~~~~~~~~~*/
+ - /ME_MTCE . ME_VEILLE . ME_OPEN ./MALE_BRISF    /* P_CHOCS_VOLETS Reste Ouvert! */
+   -- daa = 40                -> TOP_ALERTE_2, MALE_BRIS;      /* C'est un BRIS -> Emission Sonore 2mn30s Klaxon */
+
+/* ACQUITEMENT ALERTE BRIS ~~~~~~~*/
+ - OSYN_ACQUIT . MALE_BRIS    ->/MALE_BRIS , MALE_BRISF;        /* Fixer ALERTE BRIS */
+
+/* RAZ de l'ALERTE ~~~~~~~~~~~~~~~*/
+/* Après Actions <ACQ> et <CLOSE> Volets Battants Opérateur */
+ - ME_CLOSE                   ->/MALE_BRISF;          /* [ACQ] et [MAINT] Effacer ALERTE BRIS Fixe */
+
+/* Notification de l'ALERTE ~~~~~~*/
+ - MALE_BRIS + MALE_BRISF     -> EMSG_ALE_BRIS;      /* Editer MSG FdL ALERTE BRIS_VOLETS Battants */
+
+/* DEBUG: Acquit HARD by GSM ~~~~~*/
+ - ME_MTCE + O_GSM_ACQUIT     ->/MALE_BRIS ,/MALE_BRISF;     /* <ACQ> GSM EFFRACTION */
+
+                                  /********************************************/
+/**********************************          SYNTHESES DEFAUTS/ALARMES         ***********************************/
+                                  /**       ALERTES/DERANGEMENTS/DANGERS     **/
+                                  /********************************************/
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                                 ACTIVITES                                 */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
+ - MDEF_OPEN              -> MEMSA_DEFAUT;                                        /* Report Défaut */
+ - MDEF_OPENF             -> MEMSA_DEFAUT_FIXE;                              /* Report Défaut Fixe */
+
+/* ALARMES ~~~~~~~~~~~~~~~~~~~~~~*/
+/* - Néant                -> MEMSA_ALARME;                                        /* Report Alarme */
+/* - Néant                -> MEMSA_ALARME_FIXE;                              /* Report Alarme Fixe */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                            SECURITES DES BIENS                            */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* VEILLE ~~~~~~~~~~~~~~~~~~~~~~~*/
+ - ME_VEILLE              -> MEMSSB_VEILLE;                                       /* Report Veille */
+
+/* ALERTES ~~~~~~~~~~~~~~~~~~~~~~*/
+/* Hors Maintenance Volets Battants du, Depuis P_CHOCS (Masselote) */
+ - MALE_BRIS + MALE_CHOCS               -> MEMSSB_ALERTE;                                       /* Report Alerte */
+ - MALE_BRISF + MALE_CHOCSF             -> MEMSSB_ALERTE_FIXE;                             /* Report Alerte Fixe */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                          SECURITES DES PERSONNES                          */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+                                  /********************************************/
+/**********************************           ANIMATIONS DES VISUELS           ***********************************/
+                                  /********************************************/
+
+/**---------------------------------------------------------------------------*/
+/**                          PAGE [NIVEAU 00] (00012)                         */
+/**---------------------------------------------------------------------------*/
+/* (Volets Battants) */
+ switch
+ |- MALE_BRIS        -> VISUEL_VOLETS(mode="entre_ouverts",color="red",cligno);  /* Animé */
+ |- MALE_BRISF       -> VISUEL_VOLETS(mode="entre_ouverts",color="red");        /* Alerte */
+
+ |- MALE_CHOCS       -> VISUEL_VOLETS(mode="fermes",color="red",cligno);   /* Chocs Animé */
+ |- MALE_CHOCSF      -> VISUEL_VOLETS(mode="fermes",color="red");                /* Chocs */
+
+ |- ME_VEILLE        -> VISUEL_VOLETS(mode="fermes",color="green");                /* Veille */
+
+ |- ME_CLOSE         -> VISUEL_VOLETS(mode="fermes",color="white");  /*Attente Fermés */
+
+ |-                  -> VISUEL_VOLETS(mode="ouverts",color="white");      /* Attente Ouverts */
+
+/*****************************************************************************************************************/
