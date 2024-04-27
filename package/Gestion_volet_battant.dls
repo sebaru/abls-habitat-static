@@ -104,8 +104,8 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                               MESSAGES INFOS                              */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_VOLETS_OPEN        <->_MSG(type=etat,libelle="Volets Battants du Ouvert");
- #define EMSG_VOLETS_CLOSE       <->_MSG(type=etat,libelle="Volets Battants du Fermés");
+ #define EMSG_VOLETS_OPEN        <->_MSG(type=etat,libelle="Volets Battants Ouvert");
+ #define EMSG_VOLETS_CLOSE       <->_MSG(type=etat,libelle="Volets Battants Fermés");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                               MESSAGES VEILLE                             */
@@ -116,12 +116,12 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                                 MSG DEFAUTS                                */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_DEF_OPEN   <->_MSG(type=defaut,libelle="Défaut Volets Battants du Ouvert Longtemps");
+ #define EMSG_DEF_OPEN   <->_MSG(type=defaut,libelle="Défaut Volets Battants Ouvert Longtemps");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                                 MSG ALARMES                                */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_ALA_OPEN   <->_MSG(type=alarme,libelle="Alarme Volets Battants du Ouvert Trop Long");
+ #define EMSG_ALA_OPEN   <->_MSG(type=alarme,libelle="Alarme Volets Battants Ouvert Trop Long");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                                 MSG ALERTES                                */
@@ -129,8 +129,8 @@
 /* VOLETS BATTANTS BUREAU ~~~~~~~~*/
  #define EMSG_ALE_BRIS   <->_MSG(type=alerte,libelle="ALERTE Effraction des Volets Battants");
 
-/* CHOCS Volets Battants du (Attention -> Type=notification) */
- #define EMSG_ALE_CHOCS  <->_MSG(type=notification,libelle="ALERTE_CHOCS sur les Volets Battants");
+/* CHOCS Volets Battants (Attention -> Type=notification) */
+ #define EMSG_ALE_CHOCS  <->_MSG(type=etat,libelle="ALERTE_CHOCS sur les Volets Battants");
 
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -157,11 +157,11 @@
 /**                                   ETATS                                   */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Volets Battants Fermés AntiRebond (Délai 2s) */
- - P_CHOCS -- daa =10-> ME_CLOSE;                          /* Volets Battants Fermés */
- - ME_CLOSE          -> EMSG_VOLETS_CLOSE;      /* MSG FdL Volets Battants du Fermés */
+ - P_CHOCS -- daa =10-> ME_CLOSE;                   /* Volets Battants Fermés */
+ - ME_CLOSE          -> EMSG_VOLETS_CLOSE;  /* MSG FdL Volets Battants Fermés */
 
- -/P_CHOCS -- daa =5 -> ME_OPEN;                          /* Volets Battants Ouverts */
- - ME_OPEN           -> EMSG_VOLETS_OPEN;       /* MSG FdL Volets Battants du Ouvert */
+ -/P_CHOCS -- daa =5 -> ME_OPEN;                   /* Volets Battants Ouverts */
+ - ME_OPEN           -> EMSG_VOLETS_OPEN;   /* MSG FdL Volets Battants Ouvert */
 
 /*----------------------------------------------------------------------------*/
 /* CHOCS A L'ECOUTE ~~~~~~~~~~~~~~*/
@@ -169,16 +169,16 @@
  - ME_VEILLE . MEMSA_OK -> EMSG_CHOCS_ECOUTE;       /* Edition MSG FdL Chocs à l'écoute */
 
 /*----------------------------------------------------------------------------*/
-/* Pas en Maintenance, Volets Battants Fermés et Verrou sur Fenêtre du */
- -/ME_MTCE . ME_CLOSE . O_START_VEILLE -> ME_VEILLE;               /* VEILLE Volets Battants du */
- - O_STOP_VEILLE                       ->/ME_VEILLE;      /* RAZ Etat VEILLE Volets Battants du */
- - ME_VEILLE         -> EMSG_VEILLE;     /* MSG FdL VEILLE VOLETS BATTANTS DU BUREAU */
+/* Pas en Maintenance, Volets Battants Fermés et Verrou sur Fenêtre */
+ -/ME_MTCE . ME_CLOSE . O_START_VEILLE -> ME_VEILLE;               /* VEILLE Volets Battants*/
+ - O_STOP_VEILLE                       ->/ME_VEILLE;      /* RAZ Etat VEILLE Volets Battants*/
+ - ME_VEILLE         -> EMSG_VEILLE;     /* MSG FdL VEILLE VOLETS BATTANTS */
 
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                        DEFAUTS VOLETS BATTANTS BUREAU                     */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Hors Maintenance, Volets Battants Ouvert Longtemps */
-/* <ACQ> Distant ou en Local sur VERROU Fenêtre du ou VEILLE Volet Roulant */
+/* <ACQ> Distant ou en Local sur VERROU Fenêtre ou VEILLE Volet Roulant */
 
  -/ME_MTCE . ME_OPEN ./MDEF_OPENF -> TR_DEF_OPEN;                /* Ouverture des Volets longue >18h ? */
  - TR_DEF_OPEN  -> MDEF_OPEN;
@@ -193,7 +193,7 @@
 
 /* RAZ du DEFAUT OPEN ~~~~~~~~~~~~*/
 /* Sur Ordre Opérateur ou sur Place */
-/* En Maintenance ou sur VERROU Fenêtre du */
+/* En Maintenance ou sur VERROU Fenêtre */
  - ME_MTCE + ME_CLOSE + O_GSM_ACQUIT
                               ->/MDEF_OPEN ,     /* RAZ DEFAUT Volets Battants Ouverts >18h */
                                 /MDEF_OPENF; /* RAZ DEFAUT Fixe Volets Battants Ouverts>18h */
@@ -202,7 +202,7 @@
 /**                         ALARMES VOLETS BATTANTS BUREAU                    */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Hors Maintenance, Volets Battants Ouvert Trop Longtemps */
-/* <ACQ> Distant ou en Local sur VERROU Fenêtre du ou CLOSE Volet Roulant */
+/* <ACQ> Distant ou en Local sur VERROU Fenêtre ou CLOSE Volet Roulant */
 
  -/ME_MTCE . ME_OPEN ./MALA_OPENF -> TR_ALA_OPEN;           /* Ouverture des Volets Trop longue >24h ? */
  - TR_ALA_OPEN  -> MALA_OPEN;
@@ -216,7 +216,7 @@
 
 /* RAZ de l'ALARME OPEN ~~~~~~~~~~*/
 /* Sur Ordre Opérateur ou sur Place */
-/* En Maintenance ou sur VERROU Fenêtre du */
+/* En Maintenance ou sur VERROU Fenêtre */
  - ME_MTCE + ME_CLOSE + O_GSM_ACQUIT
                               ->/MALA_OPEN ,      /* RAZ ALARME Volets Battants Ouverts>24h */
                                 /MALA_OPENF; /* RAZ ALARME Fixe Volets Battants Ouverts>24h */
