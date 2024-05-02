@@ -263,17 +263,16 @@
  -/ME_MTCE . ME_VEILLE . P_CHOCS_BAIE(edge_down)
                                    -> ME_CHOCS_DETECTE;     /* Trapper l'Etat Bas Capteur CHOCS_BAIE */
 
- - ME_CHOCS_DETECTE    -> TR_ALE_CHOCS_DETECTE;    /* CHOCS Fugitif Baie Tempo 0.5s */
+ - ME_CHOCS_DETECTE    -> TR_ALE_CHOCS_DETECTE;           /* CHOCS Fugitif Baie Tempo 0.5s */
 
- - ME_CHOCS_DETECTE . P_CHOCS_BAIE                                           /* CHOCS FUGITIF */
-                                   -> TOP_ALERTE_1,       /* Emission TOP_ALERTE_1 Vers KL_CMDE */
+ - ME_CHOCS_DETECTE . P_CHOCS_BAIE                                        /* CHOCS FUGITIF */
+                                   -> TOP_ALERTE_1,  /* Emission TOP_ALERTE_1 Vers KL_CMDE */
                                       MALE_CHOCS;         /* Pour [ACQ] et Visuels Fenêtre */
 
- - TR_ALE_CHOCS_DETECTE     ->/ME_CHOCS_DETECTE;       /* Fin Tempo -> RAZ Etat CHOCS_DETECTE */
+ - TR_ALE_CHOCS_DETECTE     ->/ME_CHOCS_DETECTE;    /* Fin Tempo -> RAZ Etat CHOCS_DETECTE */
 
 /* ACQUITEMENT ALERTE CHOCS ~~~~~~*/
- - OSYN_ACQUIT . MALE_CHOCS
-                                   ->/MALE_CHOCS;               /* Pas d'ALERTE CHOCS Fixe (AutoACQ) */
+ - OSYN_ACQUIT . MALE_CHOCS ->/MALE_CHOCS;     /* Pas d'ALERTE CHOCS Fixe (AutoACQ) */
 
 /* RAZ de l'alerte ~~~~~~~~~~~~~~~*/
 
@@ -352,7 +351,8 @@
  switch /* VERROU */
 /* Fenêtre en Maintenance */
  |- ME_MTCE                -> VISUEL_VERROU(mode="ouvert",disable);         /* Maintenance */
- |- MDEF_DEVERROU_CLOSE    -> VISUEL_VERROU(mode="ouvert",cligno);
+ |- MDEF_DEVERROU_CLOSE + MDEF_DEVERROU_CLOSEF
+                           -> VISUEL_VERROU(mode="ferme",cligno);
  |- ME_VERROU              -> VISUEL_VERROU(mode="ferme");
  |-                        -> VISUEL_VERROU(mode="ouvert");
 
@@ -378,6 +378,13 @@
 /* Fenêtre en Alerte Chocs */
  |- MALE_CHOCS                   -> VISUEL_FENETRE(mode="fermes",color="red",cligno);             /* Chocs */
  |- MALE_CHOCSF                  -> VISUEL_FENETRE(mode="fermes",color="red");               /* Chocs Fixe */
+
+/* Fenêtre en Alarme ouverture trop longtemps */
+ |- MALA_OPEN + MALA_OPENF       -> VISUEL_FENETRE(mode="ouverts",color="orange", cligno);
+
+/* Fenêtre en Défaut deverrouillé fermée */
+ |- MDEF_DEVERROU_CLOSE + MDEF_DEVERROU_CLOSEF
+                                 -> VISUEL_FENETRE(mode="fermes",color="yellow",cligno);             /* Chocs */
 
 /* Fenêtre en Veille */
  |- ME_VEILLE                    -> VISUEL_FENETRE(mode="fermes",color="green");                    /* Veille */
