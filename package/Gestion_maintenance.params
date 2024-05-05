@@ -1,5 +1,5 @@
 { "params":
    [ { "acronyme": "PARAM_TARGET",      "libelle": "TechID cible", "defaut": "SYS" },
-     { "acronyme": "PARAM_DESCRIPTION", "libelle": "Texte de l'encadré", "defaut": "Maintenande du TECH_ID" }
+     { "acronyme": "PARAM_DESCRIPTION", "libelle": "Texte de l'encadré", "defaut": "Maintenance du TECH_ID" }
    ]
 }

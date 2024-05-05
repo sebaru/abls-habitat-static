@@ -102,15 +102,17 @@
 /**---------------------------------------------------------------------------*/
 /* Cadre des Boutons et Outils */
  switch
-/* MAINTENANCE disponible (en SERVICE) */
- |-/$PARAM_TARGET:ME_MTCE -> VISUEL_ENCADRE(color="green"), VISUEL_CLEF(color="white");
 
-/* MAINTENANCE Trop Longue */
- |- M_MTCE_TROP_LONGUE    -> VISUEL_ENCADRE(color="yellow",cligno),  VISUEL_CLEF(color="yellow",cligno);
+ |- M_MTCE_TROP_LONGUE       -> VISUEL_ENCADRE(color="yellow",cligno); /* MAINTENANCE Trop Longue */
+ |- $PARAM_TARGET:ME_MTCE    -> VISUEL_ENCADRE(color="yellow");  /* MAINTENANCE en Cours */
+ |- /$PARAM_TARGET:MEMSA_OK
+  + /$PARAM_TARGET:MEMSSP_OK -> VISUEL_ENCADRE(color="blue");
+ |-                          -> VISUEL_ENCADRE(color="green"); /* MAINTENANCE disponible (en SERVICE) */
 
-/* MAINTENANCE en Cours */
- |-                       -> VISUEL_ENCADRE(color="blue"), VISUEL_CLEF(color="yellow");
-
+ switch
+  |- M_MTCE_TROP_LONGUE    -> VISUEL_CLEF(color="yellow",cligno); /* MAINTENANCE Trop Longue */
+  |- $PARAM_TARGET:ME_MTCE -> VISUEL_CLEF(color="yellow");        /* MAINTENANCE en Cours */
+  |-                       -> VISUEL_CLEF(color="white");          /* MAINTENANCE disponible (en SERVICE) */
 
                                    /*******************************************/
 /**********************************       EDITIONS DES MESSAGES IMPRIMANTE      **********************************/
