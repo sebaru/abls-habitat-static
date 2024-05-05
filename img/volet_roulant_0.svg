@@ -6,6 +6,8 @@
    id="Calque_3"
    x="0px"
    y="0px"
+   width="128px"
+   height="128px"
    viewBox="0 0 128 128"
    style="enable-background:new 0 0 128 128;"
    xml:space="preserve"
@@ -1172,8 +1174,8 @@
    id="g2167"
    transform="matrix(2.0779221,0,0,2.0779221,-26.610488,-67.263507)"
    style="stroke-width:0.48125">
-	
-	
+
+
 		<linearGradient
    id="SVGID_1_"
    gradientUnits="userSpaceOnUse"
@@ -1191,16 +1193,16 @@
    style="stop-color:#000000"
    id="stop8" />
 	</linearGradient>
-	
+
 	<g
    id="g2165"
    style="stroke-width:0.48125">
-		
-		
+
+
 		<g
    id="g2163"
    style="stroke-width:0.48125">
-			
+
 			<g
    id="g2161"
    transform="translate(0.20479671,-0.82943808)"
@@ -1208,7 +1210,7 @@
 				<g
    id="g2159"
    style="stroke-width:0.48125">
-					
+
 					<path
    class="st162"
    d="m 24.4,39.3 v 55.5 h 38 V 39.3 Z m 35,52.5 h -32 V 42.4 h 31.9 v 49.4 z"
@@ -2822,7 +2824,7 @@
          r="0.40000001"
          id="circle2149-4"
          style="stroke-width:0.48125" /></g></g></g>
-					
+
 				</g>
 			</g>
 		</g>
