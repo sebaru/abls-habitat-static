@@ -61,10 +61,12 @@
  #define VISUEL_VOLET     <-> _I(forme="volet_roulant",libelle="Volet Roulant");
 
  #define CH_PROCEDE   <->_CH(libelle="compteur procede");
- - _TRUE -> CH_PROCEDE;
 
 /**************************************************** Initialisation **********************************************************/
  -_START -> MODE_AUTO, CMD_STOP;
+
+/**************************************************** Compteur procédé ********************************************************/
+ - _TRUE -> CH_PROCEDE;
 
 /**************************************************** Gestion du mode *********************************************************/
  - OTXT_AUTO ->  MODE_AUTO;
@@ -77,15 +79,15 @@
 
 /************************************** Passe en phase suivante au relachement des boutons physiques ***************************/
  - CMD_STOP . MODE_AUTO . BP_OUVRE -> CMD_OUVRE_WAIT_BP;
- -/BP_OUVRE . CMD_OUVRE_WAIT_BP -> CMD_OUVRE;
+ -/BP_OUVRE . CMD_OUVRE_WAIT_BP    -> CMD_OUVRE;
 
  - CMD_STOP . MODE_AUTO . BP_FERME -> CMD_FERME_WAIT_BP;
- -/BP_FERME . CMD_FERME_WAIT_BP -> CMD_FERME;
+ -/BP_FERME . CMD_FERME_WAIT_BP    -> CMD_FERME;
 
 /************************************************** Détection demande de stop *************************************************/
- - MODE_AUTO . CMD_OUVRE . BP_OUVRE -> CMD_STOP_WAIT_BP;
- - MODE_AUTO . CMD_FERME . BP_FERME -> CMD_STOP_WAIT_BP;
- -/BP_OUVRE . /BP_FERME . CMD_STOP_WAIT_BP ->  CMD_STOP;
+ - MODE_AUTO . CMD_OUVRE . (BP_OUVRE + BP_FERME) -> CMD_STOP_WAIT_BP;
+ - MODE_AUTO . CMD_FERME . (BP_FERME + BP_OUVRE) -> CMD_STOP_WAIT_BP;
+ -/BP_OUVRE . /BP_FERME . CMD_STOP_WAIT_BP       -> CMD_STOP;
 
 /**************************************** Détection demande d'action depuis syn ***********************************************/
  - VISUEL_VOLET_CLIC ->
