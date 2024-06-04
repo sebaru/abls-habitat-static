@@ -74,7 +74,7 @@
 {"categorie": "piscine",     "forme": "piscine",             "extension": "gif",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "piscine",     "forme": "piscine_bassin",      "extension": "gif",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "piscine",     "forme": "phmetre_piscine",     "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "by_js" },
-{"categorie": "piscine",     "forme": "filtration",          "extension": "svg",  "default_mode": "inerte",     "default_color": "black",   "controle": "by_mode_color", "modes": ["inerte","animé"] },
+{"categorie": "piscine",     "forme": "filtration",          "extension": "svg",  "default_mode": "inerte",     "default_color": "black",   "controle": "by_mode_color", "modes": ["inerte","animé","lavage","rincage","bypass"] },
 {"categorie": "io",          "forme": "wago_750342",         "extension": "webp", "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "io",          "forme": "satellite",           "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "io",          "forme": "sms",                 "extension": "jpg",  "default_mode": "default",    "default_color": "default", "controle": "static" },
