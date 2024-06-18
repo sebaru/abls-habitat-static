@@ -39,7 +39,7 @@
                     <->_T(daa=864000,dma=0,dMa=0,dad=0,libelle="Tempo Retard ALARME Volets Battants Ouvert trop long(24h)");
 
  #define TR_ALE_CHOCS_DETECTE_VBBURO
-                    <->_T(daa=5,dma=0,dMa=0,dad=0,libelle="ALERTE premisse CHOCS Volet Battant du(0.5s)");
+                    <->_T(daa=5,dma=0,dMa=0,dad=0,libelle="ALERTE premisse CHOCS Volet Battant(0.5s)");
 
                                    /*******************************************/
 /***********************************             VISUELS DES ITEMS             ***********************************/
@@ -51,7 +51,7 @@
 /**                              VISUELS DES IMAGES                           */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Volets Battants */
- #define VISUEL_VOLETS     <->_I(forme="2d_volets",libelle="Volets Battants du");
+ #define VISUEL_VOLETS     <->_I(forme="2d_volets",libelle="Volets Battants");
 
                                   /********************************************/
 /**********************************                 BITS MODULE                ***********************************/
@@ -110,8 +110,8 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                               MESSAGES VEILLE                             */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_VEILLE      <->_MSG(type=veille,libelle="Veille sur les Volets Battants du");
- #define EMSG_CHOCS_ECOUTE<->_MSG(type=veille,libelle="Chocs à l'Ecoute sur les Volets Battants du");
+ #define EMSG_VEILLE      <->_MSG(type=veille,libelle="Veille sur les Volets Battants");
+ #define EMSG_CHOCS_ECOUTE<->_MSG(type=veille,libelle="Chocs à l'Ecoute sur les Volets Battants");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                                 MSG DEFAUTS                                */
@@ -293,7 +293,7 @@
  - ME_VEILLE              -> MEMSSB_VEILLE;                                       /* Report Veille */
 
 /* ALERTES ~~~~~~~~~~~~~~~~~~~~~~*/
-/* Hors Maintenance Volets Battants du, Depuis P_CHOCS (Masselote) */
+/* Hors Maintenance Volets Battants, Depuis P_CHOCS (Masselote) */
  - MALE_BRIS + MALE_CHOCS               -> MEMSSB_ALERTE;                                       /* Report Alerte */
  - MALE_BRISF + MALE_CHOCSF             -> MEMSSB_ALERTE_FIXE;                             /* Report Alerte Fixe */
 
