@@ -48,6 +48,9 @@
   #define VISUEL_FENETRE           <->_I(forme="2d_volets", libelle="Fenêtre");
   #define VISUEL_VERROU            <->_I(forme="cadena", libelle="Verrou de la fenêtre");
 
+/* (Marteau) */
+  #define VISUEL_MARTEAU           <->_I(forme="marteau_1", libelle="Choc sur fenêtre");
+
                                   /********************************************/
 /**********************************                 BITS MODULE                ***********************************/
                                   /********************************************/
@@ -192,7 +195,7 @@
  - TR_DEF_DEVERROU_CLOSE-> MDEF_DEVERROU_CLOSE;            /* Défaut Fenêtre Déverrouillée et Fermée */
 
 /* ACQUITEMENT DEFAUT DEVERROU ~~~*/
- - OSYN_ACQUIT . MDEF_DEVERROU_CLOSE
+ - (OSYN_ACQUIT + VISUEL_FENETRE_CLIC) . MDEF_DEVERROU_CLOSE
                               ->/MDEF_DEVERROU_CLOSE , MDEF_DEVERROU_CLOSEF;/* Fixer ALARME DEVERROU */
 
 /* RAZ du DEFAUT ~~~~~~~~~~~~~~~~~*/
@@ -269,7 +272,7 @@
  - TR_ALE_CHOCS_DETECTE     ->/ME_CHOCS_DETECTE;    /* Fin Tempo -> RAZ Etat CHOCS_DETECTE */
 
 /* ACQUITEMENT ALERTE CHOCS ~~~~~~*/
- - OSYN_ACQUIT . MALE_CHOCS ->/MALE_CHOCS;     /* Pas d'ALERTE CHOCS Fixe (AutoACQ) */
+ - (OSYN_ACQUIT + VISUEL_MARTEAU_CLIC) . MALE_CHOCS ->/MALE_CHOCS;     /* Pas d'ALERTE CHOCS Fixe (AutoACQ) */
 
 /* RAZ de l'alerte ~~~~~~~~~~~~~~~*/
 
@@ -294,7 +297,7 @@
                                    -> MALE_BOUCLE_CHOCS;  /* Rupture Boucle Chocs -> Klaxon = 2mn30s */
 
 /* ACQUITEMENT ALERTE RUPTURE ~~~~*/
- - OSYN_ACQUIT . MALE_BOUCLE_CHOCS                                      /* Fixer ALERTE BOUCLE_CHOCS */
+ - (OSYN_ACQUIT + VISUEL_MARTEAU_CLIC) . MALE_BOUCLE_CHOCS                                      /* Fixer ALERTE BOUCLE_CHOCS */
                                    ->/MALE_BOUCLE_CHOCS , MALE_BOUCLEF_CHOCS;
 
 /* RAZ de l'ALERTE RUPTURE ~~~~~~~*/
@@ -353,6 +356,12 @@
  |- ME_VERROU              -> VISUEL_VERROU(mode="ferme");
  |-                        -> VISUEL_VERROU(mode="ouvert");
 
+ switch /* Marteau */
+/* Fenêtre en Maintenance */
+ |- ME_MTCE                 -> VISUEL_MARTEAU(color="grey",disable);         /* Maintenance */
+ |- MALE_CHOCS              -> VISUEL_MARTEAU(color="red",cligno);
+ |- MALE_CHOCSF             -> VISUEL_MARTEAU(color="red");
+ |-                         -> VISUEL_MARTEAU(color="white");
 
 /**---------------------------------------------------------------------------*/
 /**                          PAGE [NIVEAU 0] (00012)                          */

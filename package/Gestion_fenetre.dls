@@ -4,7 +4,6 @@
 /* DLS de gestion d(une fenetre                                                                                  */
 /* Ce DLS s'appuie sur les I/O suivantes:                                                                        */
 /*  - Un capteur de fin de course (ouvert/ferme)                                                                 */
-/*  - Un capteur de choc                                                                                         */
 /*  - Un capteur de verrouillage de la poignee                                                                   */
 /* Paramètres:                                                                                                   */
 /*  - Aucun pour le moment                                                                                       */
@@ -24,7 +23,6 @@
 
 /* FENÊTRE */
   #define P_FDC_BAIE                    <->_DI;                                 /* Position Fin De Course Fenêtre*/
-  #define P_CHOCS_BAIE                  <->_DI;                                         /* Position Chocs Fenêtre*/
   #define P_VERROU_BAIE                 <->_DI;                                        /* Position Verrou Fenêtre*/
 
                                   /********************************************/
@@ -36,8 +34,6 @@
 
  #define TR_ALA_OPEN        <->_T(daa=432000,dma=0,dMa=0,dad=0,libelle="Alarme Fenêtre Ouverte >12h");
 
- #define TR_ALE_CHOCS_DETECTE    <->_T(daa=20,dma=0,dMa=0,dad=0,libelle="Alerte premisse CHOCS Fenêtre (0.5s)");
-
                                   /********************************************/
 /***********************************          VISUELS NIVEAU 00 (00012)        ***********************************/
                                   /********************************************/
@@ -47,9 +43,6 @@
 /* (Fenêtre) */
   #define VISUEL_FENETRE           <->_I(forme="2d_volets", libelle="Fenêtre");
   #define VISUEL_VERROU            <->_I(forme="cadena", libelle="Verrou de la fenêtre");
-
-/* (Marteau) */
-  #define VISUEL_MARTEAU           <->_I(forme="marteau_1", libelle="Choc sur fenêtre");
 
                                   /********************************************/
 /**********************************                 BITS MODULE                ***********************************/
@@ -87,15 +80,6 @@
  #define MALE_BRIS          <->_B(libelle="Mémo Alerte Effraction Fenêtre");
  #define MALE_BRISF         <->_B(libelle="Mémo Alerte Effraction Fenêtre Fixe");
 
- #define MALE_BOUCLE_CHOCS  <->_B(libelle="Mémo Alerte Boucle Capteur Chocs Fenêtre Hors Contrôles");
- #define MALE_BOUCLEF_CHOCS <->_B(libelle="Mémo Alerte Boucle Capteur Chocs Fenêtre Hors Contrôles Fixe");
-
-/* ALERTE CHOCS ~~~~~~~~~~~~~~~~~~*/
- #define MALE_CHOCS         <->_B(libelle="Mémo Alerte Chocs sur la Fenêtre");
- #define MALE_CHOCSF        <->_B(libelle="Mémo Alerte Chocs sur la Fenêtre Fixe");
-
- #define ME_CHOCS_DETECTE   <->_B(libelle="Mémo Etat Chocs sur la Fenêtre");
-
                                   /********************************************/
 /**********************************              MESSAGES IMPRIMANTE           ***********************************/
                                   /********************************************/
@@ -104,7 +88,6 @@
 /**                               MESSAGES VEILLE                             */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
  #define EMSG_VEILLE             <->_MSG(type=veille,libelle="Veille sur la Fenêtre");
- #define EMSG_CHOCS_ECOUTE       <->_MSG(type=veille,libelle="Chocs à l'Ecoute sur la Fenêtre");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                               MESSAGES INFOS                              */
@@ -131,10 +114,7 @@
 /**                              MESSAGES ALERTES                             */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /** ALERTES ~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_ALE_CHOCS          <->_MSG(type=alerte,libelle="Alerte CHOCS sur la Fenêtre"); /* OK */
-
  #define EMSG_ALE_BRIS           <->_MSG(type=alerte,libelle="Alerte Effraction de la Fenêtre");
- #define EMSG_ALE_BOUCLE_CHOCS   <->_MSG(type=alerte,libelle="Alerte Rupture Boucle CHOCS Fenêtre");
 
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -255,62 +235,6 @@
 /* DEBUG: Acquit HARD by GSM ~~~~~*/
  - ME_MTCE + O_GSM_ACQUIT        ->/MALE_BRIS ,/MALE_BRISF;         /* <ACQ> GSM EFFRACTION */
 
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                            ALERTE CHOCS BAIE                               */
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/* Alerte Chocs (TOP_ALERTE_1) ~~~*/
-/* En VEILLE_BAIE, sur Détection CHOCS Déterminer le CHOCS Fugitif (<0.5s> (TOP_ALERTE_1) NO ACQ (automatique) */
- -/ME_MTCE . ME_VEILLE . P_CHOCS_BAIE(edge_down)
-                                   -> ME_CHOCS_DETECTE;     /* Trapper l'Etat Bas Capteur CHOCS_BAIE */
-
- - ME_CHOCS_DETECTE    -> TR_ALE_CHOCS_DETECTE;           /* CHOCS Fugitif Baie Tempo 0.5s */
-
- - ME_CHOCS_DETECTE . P_CHOCS_BAIE                                        /* CHOCS FUGITIF */
-                                   -> TOP_ALERTE_1,  /* Emission TOP_ALERTE_1 Vers KL_CMDE */
-                                      MALE_CHOCS;         /* Pour [ACQ] et Visuels Fenêtre */
-
- - TR_ALE_CHOCS_DETECTE     ->/ME_CHOCS_DETECTE;    /* Fin Tempo -> RAZ Etat CHOCS_DETECTE */
-
-/* ACQUITEMENT ALERTE CHOCS ~~~~~~*/
- - (OSYN_ACQUIT + VISUEL_MARTEAU_CLIC) . MALE_CHOCS ->/MALE_CHOCS;     /* Pas d'ALERTE CHOCS Fixe (AutoACQ) */
-
-/* RAZ de l'alerte ~~~~~~~~~~~~~~~*/
-
-/* Notification de l'alerte ~~~~~~*/
- - MALE_CHOCS               -> EMSG_ALE_CHOCS;  /* MSG FdL ALERTE CHOCS sur la Fenêtre */
-
-/* DEBUG: Acquit HARD by GSM ~~~~~*/
- - ME_MTCE + O_GSM_ACQUIT   ->/MALE_CHOCS;                                 /* <ACQ> GSM CHOCS */
-
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                     ALERTE RUPTURE BOUCLE CHOCS BAIE                       */
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/* Si Rupture Boucle Capteur CHOCS --> (TOP_ALERTE_2) */
-/* Pas en Maintenance, sur Détection CHOCS Déterminer la Rupture Boucle CHOCS >1s */
-/* CHOCS A L'ECOUTE ~~~~~~~~~~~~~~*/
-/* Boucle Chocs Fermés, Pas d'ALERTE BOUCLE_CHOCS */
- - P_CHOCS_BAIE ./MALE_BOUCLE_CHOCS ./MALE_BOUCLEF_CHOCS
-                                   -> EMSG_CHOCS_ECOUTE;              /* Edition MSG FdL Chocs à l'écoute */
-
-/* ALERTE BOUCLE CHOCS ~~~~~~~~~~~*/
- -/P_CHOCS_BAIE ./MALE_BOUCLEF_CHOCS  -- daa = 20                                /* Tempo =2S */
-                                   -> MALE_BOUCLE_CHOCS;  /* Rupture Boucle Chocs -> Klaxon = 2mn30s */
-
-/* ACQUITEMENT ALERTE RUPTURE ~~~~*/
- - (OSYN_ACQUIT + VISUEL_MARTEAU_CLIC) . MALE_BOUCLE_CHOCS                                      /* Fixer ALERTE BOUCLE_CHOCS */
-                                   ->/MALE_BOUCLE_CHOCS , MALE_BOUCLEF_CHOCS;
-
-/* RAZ de l'ALERTE RUPTURE ~~~~~~~*/
- - P_CHOCS_BAIE . MALE_BOUCLEF_CHOCS
-                                   ->/MALE_BOUCLEF_CHOCS;        /* Effacer ALERTE BOUCLE_CHOCS Fixe */
-
-/* Notification de l'ALERTE ~~~~~~*/
- - MALE_BOUCLE_CHOCS + MALE_BOUCLEF_CHOCS
-                                   -> EMSG_ALE_BOUCLE_CHOCS;  /* MSG FdL ALERTE BOUCLE_CHOCS Fenêtre */
-
-/* DEBUG: Acquit HARD by GSM ~~~~~*/
- - ME_MTCE + O_GSM_ACQUIT   ->/MALE_BOUCLE_CHOCS ,/MALE_BOUCLEF_CHOCS;    /* <ACQ> GSM */
-
                                   /********************************************/
 /**********************************          SYNTHESES DEFAUTS/ALARMES         ***********************************/
                                   /**       ALERTES/DERANGEMENTS/DANGERS     **/
@@ -334,10 +258,10 @@
 
 /* ALERTE ~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Hors Maintenance Fenêtre */
- - MALE_BRIS + MALE_BOUCLE_CHOCS
+ - MALE_BRIS
                                         -> MEMSSB_ALERTE;                                      /* Report Alertes */
 
- - MALE_BRISF + MALE_BOUCLEF_CHOCS
+ - MALE_BRISF
                                         -> MEMSSB_ALERTE_FIXE;                            /* Report Alertes Fixe */
 
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -356,13 +280,6 @@
  |- ME_VERROU              -> VISUEL_VERROU(mode="ferme");
  |-                        -> VISUEL_VERROU(mode="ouvert");
 
- switch /* Marteau */
-/* Fenêtre en Maintenance */
- |- ME_MTCE                 -> VISUEL_MARTEAU(color="grey",disable);         /* Maintenance */
- |- MALE_CHOCS              -> VISUEL_MARTEAU(color="red",cligno);
- |- MALE_CHOCSF             -> VISUEL_MARTEAU(color="red");
- |-                         -> VISUEL_MARTEAU(color="white");
-
 /**---------------------------------------------------------------------------*/
 /**                          PAGE [NIVEAU 0] (00012)                          */
 /**---------------------------------------------------------------------------*/
@@ -375,16 +292,12 @@
  |- MALE_BRIS                    -> VISUEL_FENETRE(mode="ouverts",color="red",cligno);        /* Effraction */
  |- MALE_BRISF                   -> VISUEL_FENETRE(mode="ouverts",color="red");          /* Effraction Fixe */
 
-/* Fenêtre en Alerte Chocs */
- |- MALE_CHOCS                   -> VISUEL_FENETRE(mode="fermes",color="red",cligno);             /* Chocs */
- |- MALE_CHOCSF                  -> VISUEL_FENETRE(mode="fermes",color="red");               /* Chocs Fixe */
-
 /* Fenêtre en Alarme ouverture trop longtemps */
  |- MALA_OPEN + MALA_OPENF       -> VISUEL_FENETRE(mode="ouverts",color="orange", cligno);
 
 /* Fenêtre en Défaut deverrouillé fermée */
  |- MDEF_DEVERROU_CLOSE + MDEF_DEVERROU_CLOSEF
-                                 -> VISUEL_FENETRE(mode="fermes",color="yellow",cligno);             /* Chocs */
+                                 -> VISUEL_FENETRE(mode="fermes",color="yellow",cligno);             /* Deverrou */
 
 /* Fenêtre en Veille */
  |- ME_VEILLE                    -> VISUEL_FENETRE(mode="fermes",color="green");                    /* Veille */
