@@ -7,6 +7,7 @@
 
 /*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
 /* IO_COMM:      Bit de communication positionné par le thread lui-meme                                                       */
+ #define IO_COMM <-> _WATCHDOG(libelle="Etat communication avec l'unité WAGO");
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
