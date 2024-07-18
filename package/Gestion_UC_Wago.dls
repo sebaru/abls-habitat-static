@@ -6,9 +6,7 @@
 /******************************************************************************************************************************/
 
 /*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
-/* COMM:         Bit de communication ,calculé a partir des bits de comms de tous les thread I/O alimentant ce module         */
-/* MSG_COMM_OK : Message Communication OK, piloté par le bit de COMM                                                          */
-/* MSG_COMM_HS : Message Communication HS, piloté par le bit de COMM                                                          */
+/* IO_COMM:      Bit de communication positionné par le thread lui-meme                                                       */
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
@@ -16,8 +14,8 @@
 
 /*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
 
- - COMM -> VISU_WAGO(mode="checked", libelle="$THIS connecté");          /* Si le thread dit que le wago est UP, on l'affiche */
- -/COMM -> MEMSA_DEFAUT,VISU_WAGO(mode="unchecked", cligno, libelle="$THIS déconnecté");
+ - IO_COMM -> VISU_WAGO(mode="checked", libelle="$THIS connecté");          /* Si le thread dit que le wago est UP, on l'affiche */
+ -/IO_COMM -> MEMSA_DEFAUT,VISU_WAGO(mode="unchecked", cligno, libelle="$THIS déconnecté");
 
 /* Pilotage des bits de remontées */
  - _TRUE -> MEMSSB_VEILLE;
