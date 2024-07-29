@@ -1,6 +1,6 @@
 /*****************************************************************************************************************/
 /* ABLS(C)Habitat                                                                                     29/07/2024 */
-/* Description: Gestion d'une vanne motorisée                                                                    */
+/* Description: Gestion d'une vanne motorisée. Position normale : Normalement fermée                             */
 /*                                                                                                               */
 /* IO:                                                                                                           */
 /*   - 2 retours d'état indépendants ouverte/fermée                                                              */
