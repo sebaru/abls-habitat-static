@@ -1,0 +1,202 @@
+/*****************************************************************************************************************/
+/* ABLS(C)Habitat                                                                                     29/07/2024 */
+/* Description: Gestion d'une vanne motorisée                                                                    */
+/*                                                                                                               */
+/* IO:                                                                                                           */
+/*   - 2 retours d'état indépendants ouverte/fermée                                                              */
+/*   - 2 sorties séparées ouvrir et fermer                                                                       */
+/*                                                                                                               */
+/* Service:                                                                                                      */
+/*   - Demande d'ouverture                                                                                       */
+/*   - Demande de fermeture                                                                                      */
+/*   - Demande d'acquit                                                                                          */
+/*   - Demande de mise en maintenance et de sortie de maintenance                                                */
+/*                                                                                                               */
+/* Anomalies gérées:                                                                                             */
+/*   - Défaut à l'ouverture                                                                                      */
+/*   - Alarme à la fermeture                                                                                     */
+/*   - Alarme à position ambigue                                                                                 */
+/*                                                                                                               */
+/* S.LEFEVRE                                                                                                     */
+/**--------------------------------------------------------------------------------------------------------------*/
+/* 28/07/2024 v1.0 Création                                                                                      */
+/*****************************************************************************************************************/
+
+/* Déclarations des services ------------------------------------------------------------------------------------*/
+ #define O_OPEN     <-> _DI; /* Demande d'ouverture */
+ #define O_CLOSE    <-> _DI; /* Demande de fermeture */
+ #define O_ACQUIT   <-> _DI; /* Demande d'acquit */
+ #define O_MTCE_ON  <-> _DI; /* Demande de mise en maintenance */
+ #define O_MTCE_OFF <-> _DI; /* Demande de sortie de maintenance */
+
+/* Déclaration des Entrees/Sorties ------------------------------------------------------------------------------*/
+ #define P_OPEN     <-> _DI; /* Position Ouverte Vanne Motorisée */
+ #define P_CLOSE    <-> _DI; /* Position Fermée Vanne Motorisée */
+
+ #define AC_OPEN    <-> _DO; /* Accès Ouverture Vanne Motorisée */
+ #define AC_CLOSE   <-> _DO; /* Accès Fermeture Vanne Motorisée */
+
+/* Déclaration des bits de gestion des anomalies ----------------------------------------------------------------*/
+ #define TR_DEF_OPEN     <->_T(daa=200,dma=0,dMa=0,dad=0,libelle="Retard Défaut Ouverture");
+ #define MDEF_OPEN       <->_B(libelle="Défaut Ouverture Vanne Motorisée");
+ #define MDEF_OPENF      <->_B(libelle="Défaut Ouverture Vanne Motorisée Fixe");
+
+ #define TR_ALA_CLOSE    <->_T(daa=150,dma=0,dMa=0,dad=0,libelle="Retard Alarme Fermeture");
+ #define MALA_CLOSE      <->_B(libelle="Alarme Fermeture Vanne Motorisée");
+ #define MALA_CLOSEF     <->_B(libelle="Alarme Fermeture Vanne Motorisée Fixe");
+
+ #define TR_ALA_POS      <->_T(daa=200,dma=0,dMa=0,dad=0,libelle="Retard Alarme Position Ambigüe");
+ #define MALA_POS        <->_B(libelle="Mémo Alarme Position Ambigüe");
+ #define MALA_POSF       <->_B(libelle="Mémo Alarme Position Ambigüe Fixe");
+
+/* Déclaration des bits de gestion maintenance -----------------------------------------------------------------*/
+ #define ME_MTCE                    <->_B(libelle="Bit de maintenance");
+
+/* Déclaration des Visuels -------------------------------------------------------------------------------------*/
+ #define VISUEL_VANNE           <->_I(forme="2d_vanne_auto",libelle="$PARAM_TITRE");  /* Visuel Vanne Motorisée */
+ #define VISUEL_LABEL           <->_I(forme="comment",libelle="$PARAM_TITRE",mode="annotation");
+
+/* Déclaration des bits mémoire --------------------------------------------------------------------------------*/
+/* <open> <close> Vanne Motorisée */
+ #define MO_OPEN         <->_B(libelle="Mémo Ordre <OPEN>");
+ #define MO_CLOSE        <->_B(libelle="Mémo Ordre <CLOSE>");
+
+/* Déclaration des messages ------------------------------------------------------------------------------------*/
+ #define EMSG_OPEN       <->_MSG(type=etat,libelle="Vanne Motorisée Ouverte");
+ #define EMSG_CLOSE      <->_MSG(type=etat,libelle="Vanne Motorisée Fermée");
+ #define EMSG_OUVERTURE  <->_MSG(type=etat,libelle="Action Ouverture en Cours Vanne");
+ #define EMSG_FERMETURE  <->_MSG(type=etat,libelle="Action Fermeture en Cours Vanne");
+
+ #define EMSG_DEF_OPEN   <->_MSG(type=defaut,libelle="Défaut Ouverture Vanne Motorisée");
+ #define EMSG_ALA_CLOSE  <->_MSG(type=alarme,libelle="Alarme Fermeture Vanne Motorisée");
+ #define EMSG_ALA_ETAT   <->_MSG(type=alarme,libelle="Alarme Position Ambigüe");
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                            ACTIONS MAINTENANCE                                                             */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ - O_MTCE_ON  -> ME_MTCE;
+ - O_MTCE_OFF ->/ME_MTCE;
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                            ACTIONS <OPEN>                                                                  */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* ACTION <OPEN> */
+ - /ME_MTCE . O_OPEN ./P_OPEN ./MO_CLOSE
+                                   -> MO_OPEN;        /* Mémo Synthèse des Ordre <OPEN> */
+
+/* Manoeuvre */
+ - MO_OPEN                         -> AC_OPEN,                         /* Action <OPEN> */
+                                     /AC_CLOSE,                   /* RAZ Action <CLOSE> */
+                                      TR_DEF_OPEN;                /* DEFAUT Ouverture ? */
+
+ - MO_OPEN                         -> EMSG_OUVERTURE;  /* MSG ACTION OUVERTURE EN COURS */
+
+/* Fin de manoeuvre */
+ - /MEMSA_OK + TR_DEF_OPEN + P_OPEN->/MO_OPEN, /AC_OPEN;
+
+/* Retours message d'ouverture */
+ - P_OPEN                          -> EMSG_OPEN;                     /* MSG FdL OUVERTE */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                             DEFAUT <OPEN>                                                                  */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* DEFAUT OUVERTURE */
+ - TR_DEF_OPEN ./P_OPEN ./MDEF_OPENF  /* Open ? */
+                                   -> MDEF_OPEN;         /* DEFAUT Ouverture en PROCESS */
+ - MDEF_OPEN + MDEF_OPENF          -> EMSG_DEF_OPEN;        /* MSG FdL DEFAUT OUVERTURE */
+
+/* ACQUITEMENT DEFAUT OUVERTURE */
+ - (OSYN_ACQUIT + O_ACQUIT + VISUEL_VANNE_CLIC) . MDEF_OPEN /* Fixer DEFAUT OPEN */
+                                   ->/MDEF_OPEN , MDEF_OPENF;
+
+/* Retrait du defaut */
+ - P_OPEN + P_CLOSE                ->/MDEF_OPENF;
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                             ACTIONS <CLOSE>                                                                */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* ACTION <CLOSE> */
+ - /ME_MTCE . O_CLOSE ./P_CLOSE ./MO_OPEN
+                                   -> MO_CLOSE;      /* Mémo Synthèse des Ordre <CLOSE> */
+
+ - MO_CLOSE                        -> AC_CLOSE,                       /* Action <CLOSE> */
+                                     /AC_OPEN,                     /* RAZ Action <OPEN> */
+                                      TR_ALA_CLOSE;               /* DEFAUT Fermeture ? */
+
+ - MO_CLOSE                        -> EMSG_FERMETURE;  /* MSG ACTION FERMETURE EN COURS */
+
+/* Fin de manoeuvre */
+ - /MEMSA_OK + TR_ALA_CLOSE + P_CLOSE
+                                   ->/MO_CLOSE, /AC_CLOSE;
+
+/* Retours message fermeture */
+ - P_CLOSE                         -> EMSG_CLOSE;                     /* MSG FdL FERMEE */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                             ALARME <CLOSE>                                                                 */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* ALARME FERMETURE ~~~~~~~~~*/
+ - TR_ALA_CLOSE ./P_CLOSE ./MALA_CLOSEF
+                                   -> MALA_CLOSE;        /* ALARME Fermeture en PROCESS */
+
+ - MALA_CLOSE + MALA_CLOSEF        -> EMSG_ALA_CLOSE;       /* MSG FdL ALARME FERMETURE */
+
+/* ACQUITEMENT ALARME FERMETURE */
+ - (OSYN_ACQUIT + O_ACQUIT + VISUEL_VANNE_CLIC) . MALA_CLOSE /* Fixer ALARME CLOSE */
+                                   ->/MALA_CLOSE , MALA_CLOSEF;
+
+/* Retrait du defaut */
+ - P_OPEN + P_CLOSE                ->/MALA_CLOSEF;
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                            ALARME POSITION                                                                 */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Pas en [MAINT], ALARME Position Ambigüe Open et Close? */
+ -/ME_MTCE ./P_OPEN ./P_CLOSE      -> TR_ALA_POS;            /* Position Ambigüe > 20S ? */
+ - TR_ALA_POS ./MALA_POSF          -> MALA_POS;               /* ALARME Position Ambigû */
+
+ - MALA_POS + MALA_POSF            -> EMSG_ALA_ETAT; /* MSG FdL Alarme Position Ambigüe */
+
+/* ACQUITEMENT ALARME POSITION */
+ - (OSYN_ACQUIT + O_ACQUIT + VISUEL_VANNE_CLIC) . MALA_POS  /* Fixer ALARME POSITION */
+                                   ->/MALA_POS , MALA_POSF;
+/* Retrait du defaut */
+ - P_OPEN + P_CLOSE                ->/MALA_POSF;
+
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                            Synthèse defaut / alarme                                                        */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ - MDEF_OPEN                       -> MEMSA_DEFAUT;
+ - MDEF_OPENF                      -> MEMSA_DEFAUT_FIXE;
+
+ - MALA_POS  + MALA_CLOSE          -> MEMSA_ALARME;
+ - MALA_POSF + MALA_CLOSEF         -> MEMSA_ALARME_FIXE;
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                                              VISUELS VANNE                                                  */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ switch
+ |- ME_MTCE                        -> VISUEL_VANNE(color="grey");                               /* Maintenance */
+ |- MEMSA_ALARME                   -> VISUEL_VANNE(color="red",cligno);                        /* Alarme Animé */
+ |- MEMSA_ALARME_FIXE              -> VISUEL_VANNE(color="red");                                /* Alarme Fixe */
+ |- MEMSA_DEFAUT                   -> VISUEL_VANNE(color="yellow",cligno);                           /* DEFAUT */
+ |- MEMSA_DEFAUT_FIXE              -> VISUEL_VANNE(color="yellow");                             /* DEFAUT FIXE */
+
+ |- P_OPEN                         -> VISUEL_VANNE(color="green");                                  /* OUVERTE */
+ |- P_CLOSE                        -> VISUEL_VANNE(color="brown");                                   /* FERMEE */
+ |-                                -> VISUEL_VANNE(color="white",cligno);                       /* EN ROTATION */
+
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**                                 VISUEL LABEL                                                               */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ switch
+ |- ME_MTCE                        -> VISUEL_LABEL(color="grey");                               /* MAINTENANCE */
+ |- MEMSA_ALARME                   -> VISUEL_LABEL(color="red",cligno);                              /* ALARME */
+ |- MEMSA_ALARME_FIXE              -> VISUEL_LABEL(color="red");                                /* ALARME FIXE */
+ |- MEMSA_DEFAUT                   -> VISUEL_LABEL(color="yellow",cligno);                           /* DEFAUT */
+ |- MEMSA_DEFAUT_FIXE              -> VISUEL_LABEL(color="yellow");                             /* DEFAUT FIXE */
+ |-                                -> VISUEL_LABEL(color="white");                                  /* ATTENTE */
+
+
+/***************************************************************************************************************/
