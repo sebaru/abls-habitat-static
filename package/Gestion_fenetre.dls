@@ -5,7 +5,8 @@
 /* Ce DLS s'appuie sur les I/O suivantes:                                                                        */
 /*  - Un capteur d'ouverture (ouvert/ferme) en sécurité active: 1 = fermée                                       */
 /* Paramètres:                                                                                                   */
-/*  - PARAM_Aucun pour le moment                                                                                       */
+/*  - PARAM_VISUEL: Visuel de l'ouvrant: 2d_volets, fenetre, porte_fenetre, ...                                  */
+/*  - PARAM_OUVRANT: Libellé de l'ouvrant: Fenetre, Porte Feneetre par exemple                                   */
 /*                                                                                                               */
 /* 24/03/2024  Création ce Jour                                                                  SeB    V1.0     */
 /*                                                                                                               */
@@ -17,20 +18,16 @@
                                   /********************************************/
 /**********************************                   ENTREES                  ***********************************/
                                   /********************************************/
-/* ORDRES <ACQUIT> GSM */
- #define O_GSM_ACQUIT                   <->_DI;                                                     /* Ordre GSM */
-
 /* FENÊTRE */
-  #define P_FDC_BAIE                    <->_DI;                                 /* Position Fin De Course Fenêtre*/
-  #define P_VERROU_BAIE                 <->_DI;                                        /* Position Verrou Fenêtre*/
+ #define P_CLOSE                       <->_DI;                                 /* Position Fin De Course Fenêtre*/
+
+ #define ME_MTCE                        <->_B(libelle="Bit de maintenance");
 
                                   /********************************************/
 /***********************************              TEMPORISATIONS               ***********************************/
                                   /********************************************/
 /** MNEMONICS ET BITS ASSOCIES TEMPOS ----------------------------------------*/
 /* FENÊTRE ~~~~~~~~~~~~~~~~~~~~~~*/
- #define TR_DEF_DEVERROU_CLOSE    <->_T(daa=600,dma=0,dMa=0,dad=0,libelle="Défaut Verrou Fenêtre(1mn)");
-
  #define TR_ALA_OPEN        <->_T(daa=432000,dma=0,dMa=0,dad=0,libelle="Alarme Fenêtre Ouverte >12h");
 
                                   /********************************************/
@@ -40,48 +37,22 @@
 /**                              VISUELS DES IMAGES                           */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* (Fenêtre) */
-  #define VISUEL_FENETRE           <->_I(forme="2d_volets", libelle="Fenêtre");
-  #define VISUEL_VERROU            <->_I(forme="cadena", libelle="Verrou de la fenêtre");
+  #define VISUEL_FENETRE           <->_I(forme="$PARAM_VISUEL", libelle="$PARAM_OUVRANT");
 
                                   /********************************************/
 /**********************************                 BITS MODULE                ***********************************/
                                   /********************************************/
 
 /**---------------------------------------------------------------------------*/
-/*                                 ETATS FENÊTRE                              */
-/**---------------------------------------------------------------------------*/
- #define ME_OPEN                 <->_B(groupe=1,libelle="Mémo Etat Fenêtre Ouverte");
- #define ME_CLOSE                <->_B(groupe=1,libelle="Mémo Etat Fenêtre Fermée");
-
- #define ME_VERROU               <->_B(groupe=2,libelle="Mémo Etat Fenêtre Verrouillée");
- #define ME_DEVERROU             <->_B(groupe=2,libelle="Mémo Etat Fenêtre Déverrouillée");
- #define ME_MTCE                 <->_B(libelle="Maintenance de la fenêtre");
-
-/**---------------------------------------------------------------------------*/
-/*                                   DEFAUTS                                  */
-/**---------------------------------------------------------------------------*/
- #define MDEF_DEVERROU_CLOSE   <->_B(libelle="Mémo Défaut Fenêtre Déverrouillée et Resté Fermée");
- #define MDEF_DEVERROU_CLOSEF  <->_B(libelle="Mémo Défaut Fenêtre Déverrouillée et Resté Fermée Fixe");
-
-/**---------------------------------------------------------------------------*/
 /*                                   ALARMES                                  */
 /**---------------------------------------------------------------------------*/
- #define MALA_OPEN     <->_B(libelle="Mémo Alarme Ouverture Fenêtre trop long");
- #define MALA_OPENF    <->_B(libelle="Mémo Alarme Ouverture Fenêtre trop long Fixe");
+ #define MALA_OPEN     <->_B(libelle="Mémo Alarme Ouverture fenetre trop long");
+ #define MALA_OPENF    <->_B(libelle="Mémo Alarme Ouverture fenetre trop long Fixe");
 
 /**---------------------------------------------------------------------------*/
 /*                                   VEILLE                                   */
 /**---------------------------------------------------------------------------*/
- #define ME_VEILLE                 <->_B(libelle="Mémo Etat Veille sur la Fenêtre");
-
-/*----------------------------------------------------------------------------*/
-/* ALERTES EFFRACTIONS ~~~~~~~~~~~*/
- #define MALE_BRIS          <->_B(libelle="Mémo Alerte Effraction Fenêtre");
- #define MALE_BRISF         <->_B(libelle="Mémo Alerte Effraction Fenêtre Fixe");
-
-                                  /********************************************/
-/**********************************              MESSAGES IMPRIMANTE           ***********************************/
-                                  /********************************************/
+ #define ME_VEILLE                 <->_B(libelle="Mémo Etat Veille sur la fenetre");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                               MESSAGES VEILLE                             */
@@ -94,26 +65,10 @@
  #define EMSG_OPEN               <->_MSG(type=etat,libelle="Fenêtre Ouverte");
  #define EMSG_CLOSE              <->_MSG(type=etat,libelle="Fenêtre Fermée");
 
- #define EMSG_VERROU             <->_MSG(type=etat,libelle="Fenêtre verrouillée");
- #define EMSG_DEVERROU           <->_MSG(type=etat,libelle="Fenêtre déverrouillée");
-
- #define EMSG_VERROU_OPEN        <->_MSG(type=etat,libelle="Fenêtre Verrouillée Ouverte");
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/**                              MESSAGES DEFAUTS                             */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_DEF_DEVERROU_CLOSE     <->_MSG(type=defaut,libelle="Défaut Fenêtre Déverrouillée Fermée");
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                              MESSAGES ALARMES                             */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
  #define EMSG_ALA_OPEN      <->_MSG(type=alarme,libelle="Alarme Fenêtre Ouverte Trop Longtemps");
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/**                              MESSAGES ALERTES                             */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/** ALERTES ~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_ALE_BRIS           <->_MSG(type=alerte,libelle="Alerte Effraction de la Fenêtre");
 
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -122,80 +77,26 @@
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 
                                   /********************************************/
-/**********************************                INITIALISATION              ***********************************/
-                                  /********************************************/
-/** REMIS A ZERO OU A UN BISTABLES MODULE ------------------------------------*/
-/** -_START -> INIT_AUX;                        /* RAZ [CH] PROCEDE de FENBURO_CTRL à Chaques Compil FENBURO   UTILE ICI ?? */
-                                               /* Repasser en [SERVICE] de FENBURO_MTCE à Chaques Compil FENBURO */
-
-                                  /********************************************/
 /**********************************                  EVENEMENTS                ***********************************/
                                   /********************************************/
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                              ETATS BAIE                                    */
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Fenêtre Ouverte/ Fermée */
- - P_FDC_BAIE    -- daa=10  -> ME_CLOSE,       /* Fenêtre Fermée */
+ - P_CLOSE                  -> ME_CLOSE,       /* Fenêtre Fermée */
                                EMSG_CLOSE;     /* MSG FdL FENÊTRE FERMEE */
 
- -/P_FDC_BAIE               -> ME_OPEN,        /* Fenêtre Ouverte */
+ -/P_CLOSE                  -> ME_OPEN,        /* Fenêtre Ouverte */
                                EMSG_OPEN;      /* MSG FdL FENÊTRE OUVERTE */
-
-/*----------------------------------------------------------------------------*/
-/* Fenêtre Verrouillée/ Déverrouillée */
- - P_VERROU_BAIE  -- daa=10 -> ME_VERROU,      /* Fenêtre Verrouillée */
-                               EMSG_VERROU;    /* MSG FdL VERROU SUR LA FENÊTRE */
-
-
- -/P_VERROU_BAIE            -> ME_DEVERROU,    /* Fenêtre Déverrouillée */
-                               EMSG_DEVERROU;         /* MSG FdL DEVERROU SUR LA FENÊTRE */
-
-/*----------------------------------------------------------------------------*/
-/* Fenêtre Verrouillée Ouverte --> Passer les Volets Battants en VEILLE si Fermés */
- - ME_OPEN . ME_VERROU      -> EMSG_VERROU_OPEN;  /* MSG FdL FENÊTRE VERROUILLEE OUVERTE */
-
-/*----------------------------------------------------------------------------*/
-/* Pas en Maintenance et Fenêtre Verrouillée et Fermée dans son Bâti (VEILLE) ou */
-/* Pas en Maintenance et  Fenêtre Verrouillée Ouverte (bit M) Hors de son Bâti (NOVEILLE) */
-/* Pas d'Alerte si Approche Fenêtre de son Bâti (Aléas Réaction Capteur OPEN */
-
- -/ME_MTCE . MEMSA_OK . ME_CLOSE . ME_VERROU
-                            -> ME_VEILLE;             /* Fermée Verrouillée -> VEILLE Fenêtre */
- - ME_VEILLE                -> EMSG_VEILLE;                  /* MSG FdL VEILLE SUR LA FENÊTRE */
- - ME_MTCE + ME_DEVERROU    ->/ME_VEILLE;                              /* Stop Veille Fenêtre */
-
-/**é~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                              DEFAUTS BAIE                                  */
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/* Fenêtre DéVerrouillée et restée Fermée (Délai = 1mn) */
- -/ME_MTCE . ME_DEVERROU . ME_CLOSE ./MDEF_DEVERROU_CLOSEF
-                              -> TR_DEF_DEVERROU_CLOSE;           /* Fenêtre Déverrouillée >1mn? */
-
- - TR_DEF_DEVERROU_CLOSE-> MDEF_DEVERROU_CLOSE;            /* Défaut Fenêtre Déverrouillée et Fermée */
-
-/* ACQUITEMENT DEFAUT DEVERROU ~~~*/
- - (OSYN_ACQUIT + VISUEL_FENETRE_CLIC) . MDEF_DEVERROU_CLOSE
-                              ->/MDEF_DEVERROU_CLOSE , MDEF_DEVERROU_CLOSEF;/* Fixer ALARME DEVERROU */
-
-/* RAZ du DEFAUT ~~~~~~~~~~~~~~~~~*/
- - ME_CLOSE . ME_VERROU . MDEF_DEVERROU_CLOSEF
-                              ->/MDEF_DEVERROU_CLOSEF;                     /* Effacer DEFAUT DEVERROU Fixe */
-
-/* Notification du DEFAUT ~~~~~~~~*/
- - MDEF_DEVERROU_CLOSE + MDEF_DEVERROU_CLOSEF
-                              -> EMSG_DEF_DEVERROU_CLOSE;   /* MSG FdL DEFAUT FENÊTRE DEVERROUILLEE FERMEE */
-
- /* DEBUG: Acquit HARD by GSM ~~~~~*/
- - ME_MTCE + O_GSM_ACQUIT        ->/MDEF_DEVERROU_CLOSE,/MDEF_DEVERROU_CLOSEF;     /* <ACQ> GSM DEFAUT */
 
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                       ALARME OPEN BAIE TROP LONG                           */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Fenêtre restée Ouverte trop longtemps => On Efface par sa Fermeture */
- -/ME_MTCE . ME_OPEN ./MALA_OPENF
-                              -> TR_ALA_OPEN;              /* Ouverture Fenêtre trop longue ? */
+ -/ME_MTCE . /P_CLOSE ./MALA_OPENF
+                            -> TR_ALA_OPEN;              /* Ouverture Fenêtre trop longue ? */
 
- - TR_ALA_OPEN    -> MALA_OPEN;                        /* Fenêtre Ouverte trop longtemps */
+ - TR_ALA_OPEN              ->  MALA_OPEN;                        /* Fenêtre Ouverte trop longtemps */
 
 /* ACQUITEMENT ALARME OPEN ~~~~~~~*/
  - (OSYN_ACQUIT + VISUEL_FENETRE_CLIC) . MALA_OPEN
@@ -209,31 +110,6 @@
  - MALA_OPEN + MALA_OPENF
                               -> EMSG_ALA_OPEN;   /* MSG FdL ALARME FENÊTRE OUVERTE TROP LONG */
 
-/* DEBUG: Acquit HARD by GSM ~~~~~*/
- - ME_MTCE + O_GSM_ACQUIT        ->/MALA_OPEN ,/MALA_OPENF;             /* <ACQ> GSM ALARME */
-
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                             ALERTE BRIS BAIE                               */
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/* Alerte BRIS (TOP_ALERTE_2) ~~~~*/
- - /ME_MTCE . ME_VEILLE . ME_OPEN ./MALE_BRISF  -- daa = 5
-                              -> TOP_ALERTE_2, MALE_BRIS;        /* C'est un BRIS -> Emission Sonore 2mn30s Klaxon */
-
-/* ACQUITEMENT ALERTE BRIS ~~~~~~~*/
- - OSYN_ACQUIT . MALE_BRIS
-                              ->/MALE_BRIS , MALE_BRISF;            /* Fixer ALERTE BRIS */
-
-/* RAZ de l'alerte ~~~~~~~~~~~~~~~*/
- - ME_CLOSE . ME_VERROU . MALE_BRISF
-                              ->/MALE_BRISF;            /* [ACQ] et [MAINT] Effacer ALERTE BRIS Fixe */
-
-/* Notification de l'alerte ~~~~~~*/
- - MALE_BRIS + MALE_BRISF
-                              -> EMSG_ALE_BRIS;       /* MSG FdL ALERTE EFFRACTION FENÊTRE */
-
-/* DEBUG: Acquit HARD by GSM ~~~~~*/
- - ME_MTCE + O_GSM_ACQUIT        ->/MALE_BRIS ,/MALE_BRISF;         /* <ACQ> GSM EFFRACTION */
-
                                   /********************************************/
 /**********************************          SYNTHESES DEFAUTS/ALARMES         ***********************************/
                                   /**       ALERTES/DERANGEMENTS/DANGERS     **/
@@ -241,9 +117,6 @@
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                                    ACTIVITES                               */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
- - MDEF_DEVERROU_CLOSE           -> MEMSA_DEFAUT;                                       /* Report Défauts */
- - MDEF_DEVERROU_CLOSEF          -> MEMSA_DEFAUT_FIXE;                             /* Report Défauts Fixe */
 
 /* ALARMES ~~~~~~~~~~~~~~~~~~~~~~*/
  - MALA_OPEN              -> MEMSA_ALARME;                                       /* Report Alarmes */
@@ -255,59 +128,26 @@
 /* VEILLE ~~~~~~~~~~~~~~~~~~~~~~~*/
  - ME_VEILLE                -> MEMSSB_VEILLE;                                       /* Report Veille */
 
-/* ALERTE ~~~~~~~~~~~~~~~~~~~~~~~*/
-/* Hors Maintenance Fenêtre */
- - MALE_BRIS
-                                        -> MEMSSB_ALERTE;                                      /* Report Alertes */
-
- - MALE_BRISF
-                                        -> MEMSSB_ALERTE_FIXE;                            /* Report Alertes Fixe */
-
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                             SECURITES DES PERSONNES                        */
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
                                   /********************************************/
 /**********************************           ANIMATIONS DES VISUELS           ***********************************/
                                   /********************************************/
 
- switch /* VERROU */
-/* Fenêtre en Maintenance */
- |- ME_MTCE                -> VISUEL_VERROU(mode="ouvert",disable);         /* Maintenance */
- |- MDEF_DEVERROU_CLOSE + MDEF_DEVERROU_CLOSEF
-                           -> VISUEL_VERROU(mode="ouvert",cligno);
- |- ME_VERROU              -> VISUEL_VERROU(mode="ferme");
- |-                        -> VISUEL_VERROU(mode="ouvert");
-
-/**---------------------------------------------------------------------------*/
-/**                          PAGE [NIVEAU 0] (00012)                          */
-/**---------------------------------------------------------------------------*/
 /* FENÊTRE ~~~~~~~~~~~~~~~~~~~~~~~*/
  switch /* Fenêtre */
 /* Fenêtre en Maintenance */
- |- ME_MTCE                      -> VISUEL_FENETRE(mode="ouverts",color="grey",disable);               /* Maintenance */
-
-/* Fenêtre en Alerte Effraction */
- |- MALE_BRIS                    -> VISUEL_FENETRE(mode="ouverts",color="red",cligno);        /* Effraction */
- |- MALE_BRISF                   -> VISUEL_FENETRE(mode="ouverts",color="red");          /* Effraction Fixe */
+ |- ME_MTCE                      -> VISUEL_FENETRE(mode="ouverte",color="grey",disable);               /* Maintenance */
 
 /* Fenêtre en Alarme ouverture trop longtemps */
- |- MALA_OPEN + MALA_OPENF       -> VISUEL_FENETRE(mode="ouverts",color="orange", cligno);
+ |- MEMSA_ALARME                 -> VISUEL_FENETRE(mode="ouverte",color="orange", cligno);
 
 /* Fenêtre en Défaut deverrouillé fermée */
- |- MDEF_DEVERROU_CLOSE + MDEF_DEVERROU_CLOSEF
-                                 -> VISUEL_FENETRE(mode="fermes",color="yellow",cligno);             /* Deverrou */
-
-/* Fenêtre en Veille */
- |- ME_VEILLE                    -> VISUEL_FENETRE(mode="fermes",color="green");                    /* Veille */
+ |- MEMSA_ALARME_FIXE            -> VISUEL_FENETRE(mode="ouverte",color="orange");
 
 /* Fenêtre en Attente Fermée */
- |- ME_CLOSE                     -> VISUEL_FENETRE(mode="fermes",color="white");      /* Attente Animé */
+ |- P_CLOSE                      -> VISUEL_FENETRE(mode="fermee",color="white");      /* Attente Animé */
 
-/* Fenêtre en Attente Ouverte */
- |- ME_OPEN                      -> VISUEL_FENETRE(mode="ouverts",color="white");                   /* Attente */
-
-/* Non Renseignée */
- |-                              -> VISUEL_FENETRE(mode="ouverts",color="black");                   /* Inconnu */
+/* Ouverte */
+ |-                              -> VISUEL_FENETRE(mode="ouverte",color="black");
 
 /*****************************************************************************************************************/
