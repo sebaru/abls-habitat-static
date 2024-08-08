@@ -1,12 +1,11 @@
 /*****************************************************************************************************************/
 /*  ABLS(C)Habitat                             --------------                                                    */
 /*                                                                                                               */
-/* DLS de gestion d(une fenetre                                                                                  */
+/* DLS de gestion d'une fenetre                                                                                  */
 /* Ce DLS s'appuie sur les I/O suivantes:                                                                        */
-/*  - Un capteur de fin de course (ouvert/ferme)                                                                 */
-/*  - Un capteur de verrouillage de la poignee                                                                   */
+/*  - Un capteur d'ouverture (ouvert/ferme) en sécurité active: 1 = fermée                                       */
 /* Paramètres:                                                                                                   */
-/*  - Aucun pour le moment                                                                                       */
+/*  - PARAM_Aucun pour le moment                                                                                       */
 /*                                                                                                               */
 /* 24/03/2024  Création ce Jour                                                                  SeB    V1.0     */
 /*                                                                                                               */

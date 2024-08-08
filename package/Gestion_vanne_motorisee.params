@@ -1,0 +1,4 @@
+{ "params":
+   [ { "acronyme": "PARAM_TITRE",      "libelle": "Nom de la vanne", "defaut": "VMxx" }
+   ]
+}
