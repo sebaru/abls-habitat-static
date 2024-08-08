@@ -83,11 +83,8 @@
 /*                              ETATS BAIE                                    */
 /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Fenêtre Ouverte/ Fermée */
- - P_CLOSE                  -> ME_CLOSE,       /* Fenêtre Fermée */
-                               EMSG_CLOSE;     /* MSG FdL FENÊTRE FERMEE */
-
- -/P_CLOSE                  -> ME_OPEN,        /* Fenêtre Ouverte */
-                               EMSG_OPEN;      /* MSG FdL FENÊTRE OUVERTE */
+ - P_CLOSE                  -> EMSG_CLOSE;     /* MSG FdL FENÊTRE FERMEE */
+ -/P_CLOSE                  -> EMSG_OPEN;      /* MSG FdL FENÊTRE OUVERTE */
 
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                       ALARME OPEN BAIE TROP LONG                           */
@@ -103,7 +100,7 @@
                               ->/MALA_OPEN , MALA_OPENF;            /* Fixer ALARME OPEN */
 
 /* RAZ de l'ALARME ~~~~~~~~~~~~~~~*/
- - ME_CLOSE . MALA_OPENF
+ - P_CLOSE . MALA_OPENF
                               ->/MALA_OPENF;                             /* Effacer ALARME OPEN Fixe */
 
 /* Notification de l'ALARME ~~~~~~*/
