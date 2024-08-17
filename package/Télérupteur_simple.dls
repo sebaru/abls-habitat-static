@@ -38,6 +38,7 @@
  #define MDEF_TRAVAIL         <-> _B(libelle="Mémorisation du défaut travail non acquitté du TL");
  #define MDEF_TRAVAIL_F       <-> _B(libelle="Mémorisation du défaut travail acquitté (Fixe) du TL");
  #define MSG_TELE_ON          <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_ON"); /* TL activé */
+ #define MSG_TELE_OFF         <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_OFF"); /* TL activé */
  #define MSG_DEF_REPOS        <-> _MSG(type=defaut,libelle="Défaut repos"); /* Defaut repos */
  #define MSG_DEF_TRAVAIL      <-> _MSG(type=defaut,libelle="Défaut travail"); /* Defaut travail */
  #define VISU_POS_TL          <-> _I(forme="$PARAM_FORME",libelle="$PARAM_VISUEL_OFF"); /* Position du Télérupteur */
@@ -114,3 +115,4 @@
 /*************************************              MESSAGES IMPRIMANTES         **********************************************/
                                      /*******************************************/
   - POS_TL                        -> MSG_TELE_ON, CH_TL;
+  -/POS_TL                        -> MSG_TELE_OFF;
