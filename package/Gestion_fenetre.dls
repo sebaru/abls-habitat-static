@@ -4,11 +4,13 @@
 /* DLS de gestion d'une fenetre                                                                                  */
 /* Ce DLS s'appuie sur les I/O suivantes:                                                                        */
 /*  - Un capteur d'ouverture (ouvert/ferme) en sécurité active: 1 = fermée                                       */
+/*                                                                                                               */
 /* Paramètres:                                                                                                   */
 /*  - PARAM_VISUEL: Visuel de l'ouvrant: 2d_volets, fenetre, porte_fenetre, ...                                  */
-/*  - PARAM_OUVRANT: Libellé de l'ouvrant: Fenetre, Porte Feneetre par exemple                                   */
+/*  - PARAM_OUVRANT: Libellé de l'ouvrant: Fenetre, Porte Fenêtre par exemple                                    */
 /*                                                                                                               */
 /* 24/03/2024  Création ce Jour                                                                  SeB    V1.0     */
+/* 17/08/2024  Renommage des bits d'alarme trop longue                                           SeB    V1.1     */
 /*                                                                                                               */
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -28,7 +30,7 @@
                                   /********************************************/
 /** MNEMONICS ET BITS ASSOCIES TEMPOS ----------------------------------------*/
 /* FENÊTRE ~~~~~~~~~~~~~~~~~~~~~~*/
- #define TR_ALA_OPEN        <->_T(daa=432000,dma=0,dMa=0,dad=0,libelle="Alarme Fenêtre Ouverte >12h");
+ #define TR_ALA_OPEN        <->_T(daa=432000,dma=0,dMa=0,dad=0,libelle="Alarme $PARAM_OUVRANT Ouverte >12h");
 
                                   /********************************************/
 /***********************************          VISUELS NIVEAU 00 (00012)        ***********************************/
@@ -46,8 +48,8 @@
 /**---------------------------------------------------------------------------*/
 /*                                   ALARMES                                  */
 /**---------------------------------------------------------------------------*/
- #define MALA_OPEN     <->_B(libelle="Mémo Alarme Ouverture fenetre trop long");
- #define MALA_OPENF    <->_B(libelle="Mémo Alarme Ouverture fenetre trop long Fixe");
+ #define MALA_OPEN_TROP_LONG     <->_B(libelle="Mémo Alarme Ouverture $PARAM_OUVRANT trop long");
+ #define MALA_OPEN_TROP_LONGF    <->_B(libelle="Mémo Alarme Ouverture $PARAM_OUVRANT trop long Fixe");
 
 /**---------------------------------------------------------------------------*/
 /*                                   VEILLE                                   */
@@ -57,18 +59,18 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                               MESSAGES VEILLE                             */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_VEILLE             <->_MSG(type=veille,libelle="Veille sur la Fenêtre");
+ #define EMSG_VEILLE             <->_MSG(type=veille,libelle="Veille sur la $PARAM_OUVRANT");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                               MESSAGES INFOS                              */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_OPEN               <->_MSG(type=etat,libelle="Fenêtre Ouverte");
- #define EMSG_CLOSE              <->_MSG(type=etat,libelle="Fenêtre Fermée");
+ #define EMSG_OPEN               <->_MSG(type=etat,libelle="$PARAM_OUVRANT Ouverte");
+ #define EMSG_CLOSE              <->_MSG(type=etat,libelle="$PARAM_OUVRANT Fermée");
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /**                              MESSAGES ALARMES                             */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- #define EMSG_ALA_OPEN      <->_MSG(type=alarme,libelle="Alarme Fenêtre Ouverte Trop Longtemps");
+ #define EMSG_ALA_OPEN_TROP_LONG      <->_MSG(type=alarme,libelle="Alarme $PARAM_OUVRANT Ouverte Trop Longtemps");
 
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -90,22 +92,22 @@
 /*                       ALARME OPEN BAIE TROP LONG                           */
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* Fenêtre restée Ouverte trop longtemps => On Efface par sa Fermeture */
- -/ME_MTCE . /P_CLOSE ./MALA_OPENF
+ -/ME_MTCE . /P_CLOSE ./MALA_OPEN_TROP_LONGF
                             -> TR_ALA_OPEN;              /* Ouverture Fenêtre trop longue ? */
 
- - TR_ALA_OPEN              ->  MALA_OPEN;                        /* Fenêtre Ouverte trop longtemps */
+ - TR_ALA_OPEN              ->  MALA_OPEN_TROP_LONG;                        /* Fenêtre Ouverte trop longtemps */
 
 /* ACQUITEMENT ALARME OPEN ~~~~~~~*/
- - (OSYN_ACQUIT + VISUEL_FENETRE_CLIC) . MALA_OPEN
-                              ->/MALA_OPEN , MALA_OPENF;            /* Fixer ALARME OPEN */
+ - (OSYN_ACQUIT + VISUEL_FENETRE_CLIC) . MALA_OPEN_TROP_LONG
+                              ->/MALA_OPEN_TROP_LONG , MALA_OPEN_TROP_LONGF;            /* Fixer ALARME OPEN */
 
 /* RAZ de l'ALARME ~~~~~~~~~~~~~~~*/
- - P_CLOSE . MALA_OPENF
-                              ->/MALA_OPENF;                             /* Effacer ALARME OPEN Fixe */
+ - P_CLOSE . MALA_OPEN_TROP_LONGF
+                              ->/MALA_OPEN_TROP_LONGF;                             /* Effacer ALARME OPEN Fixe */
 
 /* Notification de l'ALARME ~~~~~~*/
- - MALA_OPEN + MALA_OPENF
-                              -> EMSG_ALA_OPEN;   /* MSG FdL ALARME FENÊTRE OUVERTE TROP LONG */
+ - MALA_OPEN_TROP_LONG + MALA_OPEN_TROP_LONGF
+                              -> EMSG_ALA_OPEN_TROP_LONG;   /* MSG FdL ALARME FENÊTRE OUVERTE TROP LONG */
 
                                   /********************************************/
 /**********************************          SYNTHESES DEFAUTS/ALARMES         ***********************************/
@@ -116,8 +118,8 @@
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 /* ALARMES ~~~~~~~~~~~~~~~~~~~~~~*/
- - MALA_OPEN              -> MEMSA_ALARME;                                       /* Report Alarmes */
- - MALA_OPENF             -> MEMSA_ALARME_FIXE;                             /* Report Alarmes Fixe */
+ - MALA_OPEN_TROP_LONG              -> MEMSA_ALARME;                                       /* Report Alarmes */
+ - MALA_OPEN_TROP_LONGF             -> MEMSA_ALARME_FIXE;                             /* Report Alarmes Fixe */
 
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                               SECURITES DES BIENS                          */
