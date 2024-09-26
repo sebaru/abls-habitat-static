@@ -1,0 +1,31 @@
+/******************************************************************************************************************************/
+/* Télérupteur_simple_ctrl: Module présentant les visuels et boutons associées au Controle d'un télérupteur                   */
+/* 26/09/2024: Création du Package                                                                        SeB V1.0            */
+/******************************************************************************************************************************/
+
+ #define VISUEL_TITRE       <-> _I(forme="encadre", mode="3x4", color="black", libelle="$PARAM_TITRE");
+ #define VISUEL_PROCEDE     <-> _I(forme="comment", mode="annotation", color="black", libelle="Procédé");
+ #define VISUEL_CH_PROCEDE  <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CH_TL);
+
+ #define VISUEL_IMPULSIONS    <-> _I(forme="comment", mode="annotation", color="black", libelle="#Impulsion");
+ #define VISUEL_CI_IMPULSIONS <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CI_TL);
+
+ /* BOUTONS ~~~~~~~~~~~~~~~~~~~~~~*/
+   #define VISUEL_BTN_RAZ_PROCEDE          <->_I(forme="bouton", libelle=" RAZ ");
+   #define VISUEL_BTN_RAZ_IMPULSIONS       <->_I(forme="bouton", libelle=" RAZ ");
+
+/* <RAZ> CADRANS ~~~~~~~~~~~~~~~~*/
+ - VISUEL_BTN_RAZ_PROCEDE_CLIC             -> $PARAM_TARGET:CH_TL(reset=1);                       /* <RAZ> Horloge du Procédé */
+ - VISUEL_BTN_RAZ_IMPULSIONS_CLIC          -> $PARAM_TARGET:CI_TL(reset=1);                         /*<RAZ> Dépôts Journalier */
+
+/* BOUTONS ~~~~~~~~~~~~~~~~~~~~~~*/
+/* [RAZ] Horloge Procédé */
+  switch
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CH_TL>1 -> VISUEL_BTN_RAZ_PROCEDE(color=bleu);                       /* Réceptif */
+   | - -> VISUEL_BTN_RAZ_PROCEDE(disable,color=gris);                                                               /* Inerte */
+
+  switch
+   | - $PARAM_TARGET:ME_MTCE . $PARAM_TARGET:CI_TL>1 -> VISUEL_BTN_RAZ_IMPULSIONS(color=bleu);                    /* Réceptif */
+   | - -> VISUEL_BTN_RAZ_IMPULSIONS(disable,color=gris);                                                            /* Inerte */
+
+/******************************************************************************************************************************/
