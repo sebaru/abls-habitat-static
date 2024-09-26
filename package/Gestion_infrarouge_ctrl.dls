@@ -5,19 +5,19 @@
 
  #define VISUEL_TITRE       <-> _I(forme="encadre", mode="3x4", color="black", libelle="$PARAM_TITRE");
  #define VISUEL_PROCEDE     <-> _I(forme="comment", mode="annotation", color="black", libelle="Procédé");
- #link $PARAM_TARGET:CH_PROCEDE(cadran="simple");
+ #define VISUEL_CH_PROCEDE  <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CH_PROCEDE);
 
  #define VISUEL_SERVICE     <-> _I(forme="comment", mode="annotation", color="black", libelle="Service");
- #link $PARAM_TARGET:CH_SERVICE(cadran="simple");
+ #define VISUEL_CH_SERVICE  <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CH_SERVICE);
 
  #define VISUEL_DETECTIONS  <-> _I(forme="comment", mode="annotation", color="black", libelle="#Détections");
- #link $PARAM_TARGET:CI_DETECTIONS(cadran="simple");
+ #define VISUEL_CI_DETECTIONS <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CI_DETECTIONS);
 
- #define VISUEL_DETECTIONS_PAR_JOUR <-> _I(forme="comment", mode="annotation", color="black", libelle="#Détect./Jour");
- #link $PARAM_TARGET:CI_DETECTIONS_PAR_JOUR(cadran="simple");
+ #define VISUEL_DETECTIONS_PAR_JOUR    <-> _I(forme="comment", mode="annotation", color="black", libelle="#Détect./Jour");
+ #define VISUEL_CI_DETECTIONS_PAR_JOUR <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CI_DETECTIONS_PAR_JOUR);
 
- #define VISUEL_OPENBOITIER <-> _I(forme="comment", mode="annotation", color="black", libelle="Ouv. Boitier");
- #link $PARAM_TARGET:CI_OPEN_BOITIER(cadran="simple");
+ #define VISUEL_OPENBOITIER     <-> _I(forme="comment", mode="annotation", color="black", libelle="Ouv. Boitier");
+ #define VISUEL_CI_OPEN_BOITIER <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CI_OPEN_BOITIER);
 
 /* BOUTONS ~~~~~~~~~~~~~~~~~~~~~~*/
    #define VISUEL_BTN_RAZ_PROCEDE          <->_I(forme="bouton", libelle=" RAZ ");
