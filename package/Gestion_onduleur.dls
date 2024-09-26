@@ -1,0 +1,200 @@
+/*****************************************************************************************************************/
+/* ABLS Habitat(c)                                                                           26.09.2024 18:55:27 */
+/*                                                                                                               */
+/*            UPS ==> Uninteruptible Power Supply                                                                */
+/*                                                                                                               */
+/* 26/09/2024  Reprise ancien code et passage en pakcage                                                         */
+/*                                                                                                               */
+/*****************************************************************************************************************/
+
+   #define LOAD                 <-> _AI();
+   #define VISUEL_LOAD          <-> _I(forme="cadran",mode="progress-vor", min=0.0, max=100, seuil_nh=50,  seuil_nth=80,  decimal=1, input=LOAD);
+
+   #define REALPOWER            <-> _AI();
+   #define VISUEL_REALPOWER     <-> _I(forme="cadran",mode="progress-vor", min=0.0, max=2200, seuil_nh=700, seuil_nth=1000, decimal=0, input=REALPOWER);
+
+   #define BATTERY_CHARGE       <-> _AI();
+   #define VISUEL_BATTERY_CHARGE<-> _I(forme="cadran",mode="progress-rov", min=0.0, max=100, seuil_nb=50,  seuil_ntb=20,  decimal=0, input=BATTERY_CHARGE);
+
+   #define ME_SOURCE_VOLTAGE_OK <-> _M(libelle="Presence tension 220V");
+   #define ME_SORTIE_VOLTAGE_OK <-> _M(libelle="Sortie ondulée OK");
+
+   #define MALA_CHARGE_BAT      <-> _B(libelle="Memo Alarme Charge batterie");
+   #define MALAF_CHARGE_BAT     <-> _B(libelle="Memo Alarme Fixe Charge batterie");
+
+   #define MALA_VOLTAGE_BAT     <-> _B(libelle="Memo Alarme Voltage batterie");
+   #define MALAF_VOLTAGE_BAT    <-> _B(libelle="Memo Alarme Fixe Voltage batterie");
+
+   #define MDEF_NTH_LOAD        <-> _B(libelle="Memo Défaut Niveau Très Haut Charge de sortie");
+   #define MALA_NTH_LOAD        <-> _B(libelle="Memo Alarme Niveau Très Haut Charge de sortie");
+   #define MALAF_NTH_LOAD       <-> _B(libelle="Memo Alarme Fixe Niveau Très Haut Charge de sortie");
+
+                                   /*******************************************/
+/***********************************                TEMPORISATION              ***********************************/
+                                   /*******************************************/
+/* MNEMONIC ET BIT ASSOCIE TEMPO RETARD (10/10 de Secondes) ------------------*/
+   #define TRDEFCHARGEBAT <-> _T(daa=864000,dma=0,dMa=0,dad=0,libelle="Retard Défaut charge Batterie(24h) ");
+
+                                   /*******************************************/
+/***********************************                 COMPTEURS                 ***********************************/
+                                    /******************************************/
+/* MNEMONICS ET BITS ASSOCIES DES COMPTEURS ----------------------------------*/
+   #define CH_VIE_BATTERIE  <->_CH(libelle="Compteur Horaire Vie Batteries");
+   #define CH_VIE_ONDULEUR  <->_CH(libelle="Compteur Horaire Vie Onduleur");
+   #define CH_ON_BATTERIE   <->_CH(libelle="Compteur Horaire de passage sur Batteries Onduleur");
+
+   #define CI_ON_BATTERIE   <->_CI(libelle="Compteur Itérations Passage sur Batteries Onduleur");
+
+                                   /*******************************************/
+/***********************************            MESSAGES IMPRIMANTES           ***********************************/
+                                   /*******************************************/
+/* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
+   #define MSG_CHARGE_BATTERIE_75  <->_MSG(type=etat,libelle="Charge Batterie <= 75%");
+   #define MSG_CHARGE_BATTERIE_50  <->_MSG(type=defaut,libelle="Charge Batterie <= 50%");
+   #define MSG_CHARGE_BATTERIE_25  <->_MSG(type=alarme,libelle="Charge Batterie <= 25%");
+   #define MSG_CHARGE_BATTERIE_10  <->_MSG(type=alarme,libelle="Charge Batterie <= 10%");
+
+   #define MSG_ALARME_CHARGE_BAT   <->_MSG(type=alarme,libelle="Alarme: Les batteries onduleur sont à plat");
+   #define MSG_ALARME_VOLTAGE_BAT  <->_MSG(type=alarme,libelle="Alarme: Tension trop faible sur batterie onduleur");
+   #define MSG_DEFAUT_NTH_LOAD     <->_MSG(type=defaut,libelle="Défaut: La charge de sortie dépasse les 80%");
+   #define MSG_ALARME_NTH_LOAD     <->_MSG(type=alarme,libelle="Alarme: La charge de sortie dépasse les 90%");
+
+   #define MSG_UPS_ONLINE          <->_MSG(type=etat,libelle="Onduleur Online");
+   #define MSG_UPS_OFFLINE         <->_MSG(type=alarme,libelle="Onduleur Hors tension !");
+   #define MSG_UPS_CHARGING        <->_MSG(type=etat,libelle="Batterie en charge");
+   #define MSG_UPS_ON_BAT          <->_MSG(type=alarme,libelle="Onduleur sur Batterie");
+   #define MSG_UPS_REPLACE_BATT    <->_MSG(type=defaut,libelle="Remplacez les batteries !");
+   #define MSG_UPS_ALARM           <->_MSG(type=alarme,libelle="Onduleur en Alarme !");
+
+                                   /*******************************************/
+/***********************************                   VISUELS                 ***********************************/
+                                    /******************************************/
+   #define VISU_ECLAIR             <->_I(forme="eclair", libelle="Sous tension" );
+   #define VISU_BATTERIE           <->_I(forme="pile", libelle="Batteries" );
+   #define VISU_COMM_UPS           <->_I(forme="check",libelle="Comm Onduleur");
+
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+/*                                                                                                               */
+/*                              CODES DES EVENEMENTS,FONCTIONS ET VISUELS DU MODULE                              */
+/*                                 °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°                                 */
+/*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+                                  /********************************************/
+/**********************************                 INITIALISATION             ***********************************/
+                                  /********************************************/
+
+                                  /********************************************/
+/**********************************                 EVENEMENTS                 ***********************************/
+                                  /********************************************/
+/* ETATS ---------------------------------------------------------------------*/
+ - INPUT_VOLTAGE   > 210.0              -> ME_SOURCE_VOLTAGE_OK;
+ - OUTPUT_VOLTAGE  > 210.0              -> ME_SORTIE_VOLTAGE_OK;
+
+/* - BATTERY_RUNTIME < 300.               -> MECHARGEBAT;                     /* DéCharge Batteries imminente (S)*/
+/* - BATTERY_RUNTIME > 1000.              ->/MECHARGEBAT;                 /* Fin DéCharge Batteries imminente (S)*/
+
+/* DEFAUTS -------------------------------------------------------------------*/
+
+/* ALARMES -------------------------------------------------------------------*/
+ - BATTERY_CHARGE < 5.0  ./MALAF_CHARGE_BAT  -> TRDEFCHARGEBAT;
+ - TRDEFCHARGEBAT                            -> MALA_CHARGE_BAT;                   /* Alarme Charge Batteries (%)*/
+ - OSYN_ACQUIT . MALA_CHARGE_BAT            ->/MALA_CHARGE_BAT, MALAF_CHARGE_BAT;
+ - BATTERY_CHARGE > 60.0                     ->/MALAF_CHARGE_BAT;            /* Fin d'Alarme Charge Batteries (%)*/
+
+ - _FALSE . BATTERY_VOLTAGE   < 45.0 ./MALAF_VOLTAGE_BAT/*  Ellipse PRO 1600 ne dispose pas du capteur de tension batterie ! */
+                                             -> MALA_VOLTAGE_BAT;                 /* Alarme Tension Batteries (V)*/
+ - OSYN_ACQUIT . MALA_VOLTAGE_BAT           ->/MALA_VOLTAGE_BAT, MALAF_VOLTAGE_BAT;
+ - BATTERY_VOLTAGE   > 50.0
+                                             ->/MALAF_VOLTAGE_BAT;          /* Fin d'Alarme Tension Batteries (V)*/
+
+ - LOAD > 80.0                               -> MDEF_NTH_LOAD;       /* Défaut Charge (A)*/
+ - LOAD < 60.0                               ->/MDEF_NTH_LOAD;  /* Fin Défaut Charge (A)*/
+
+ - LOAD > 90.0 ./MALAF_NTH_LOAD              -> MALA_NTH_LOAD;       /* Alarme Charge (A)*/
+ - OSYN_ACQUIT . MALA_NTH_LOAD              ->/MALA_NTH_LOAD,  MALAF_NTH_LOAD;
+ - LOAD < 60.0                               ->/MALAF_NTH_LOAD;  /* Fin Alarme Charge (A)*/
+
+                                  /********************************************/
+/**********************************         COMPTE RENDUS DES VIGNETTES        ***********************************/
+                                  /********************************************/
+/* ACTIVITES -----------------------------------------------------------------*/
+
+/* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
+ - MDEF_NTH_LOAD                             -> MEMSA_DEFAUT;                      /* Synthèse Alarmes Onduleur */
+
+/* ALARMES ~~~~~~~~~~~~~~~~~~~~~~*/
+ - MALA_CHARGE_BAT + MALA_VOLTAGE_BAT + MALA_NTH_LOAD
+                                             -> MEMSA_ALARME;                      /* Synthèse Alarmes Onduleur */
+ - MALAF_CHARGE_BAT + MALAF_VOLTAGE_BAT + MALAF_NTH_LOAD
+                                             -> MEMSA_ALARME_FIXE;            /* Synthèse Alarmes Fixe Onduleur */
+
+/* SECURITES DES BIENS -------------------------------------------------------*/
+ /* VEILLE ~~~~~~~~~~~~~~~~~~~~~~*/
+ -_TRUE                                      ->MEMSSB_VEILLE;                               /* Report de Veille */
+
+ /* ALERTE ~~~~~~~~~~~~~~~~~~~~~~*/
+ -_FALSE                                     ->MEMSSB_ALERTE;                               /* Report d'Alertes */
+ -_FALSE                                     ->MEMSSB_ALERTE_FIXE;                     /* Report d'Alertes Fixe */
+
+/* SECURITES DES PERSONNES ---------------------------------------------------*/
+ /* DERANGEMENT ~~~~~~~~~~~~~~~~~*/
+ - _FALSE                                    ->MEMSSP_DERANGEMENT;                       /* Report Dérangements */
+ - _FALSE                                    ->MEMSSP_DERANGEMENT_FIXE;             /* Report Dérangements Fixe */
+
+ /* DANGER ~~~~~~~~~~~~~~~~~~~~~~*/
+ - _FALSE                                    ->MEMSSP_DANGER;                                 /* Report Dangers */
+ - _FALSE                                    ->MEMSSP_DANGER_FIXE;                       /* Report Dangers Fixe */
+
+
+                                  /********************************************/
+/**********************************              FONCTIONS PILOTEES            ***********************************/
+                                  /********************************************/
+/* COMPTEURS HORAIRES --------------------------------------------------------*/
+/* VIE ONDULEUR ~~~~~~~~~~~~~~~~~*/
+ -_TRUE                                      -> CH_VIE_ONDULEUR;     /* Compteur Horaire Fonctionnement Onduleur */
+
+/* VIE BATTERIES ~~~~~~~~~~~~~~~~*/
+ -_TRUE                                      -> CH_VIE_BATTERIE;    /* Compteur Horaire Fonctionnement Batteries */
+
+/* TICS BATTERIES ~~~~~~~~~~~~~~~*/
+ - UPS_ON_BATT                               -> CI_ON_BATTERIE,        /* Compteur Itérations Batteries Onduleur */
+                                                CH_ON_BATTERIE;                /* Compteur de temps sur batterie */
+
+                                  /********************************************/
+/**********************************            EDITIONS DES MESSAGES           ***********************************/
+                                  /********************************************/
+/* Etats Onduleur ~~~~~~~~*/
+ - COMM.  UPS_ONLINE                -> MSG_UPS_ONLINE,  VISU_ECLAIR(color="green", libelle="Sous tension");
+ - COMM. /UPS_ONLINE                -> MSG_UPS_OFFLINE, VISU_ECLAIR(color="red",   libelle="Hors tension", cligno );
+ - COMM.  UPS_CHARGING              -> MSG_UPS_CHARGING;
+ - COMM.  UPS_ON_BATT               -> MSG_UPS_ON_BAT;
+ - COMM.  UPS_REPLACE_BATT          -> MSG_UPS_REPLACE_BATT;
+ - COMM.  UPS_ALARM                 -> MSG_UPS_ALARM;
+
+/* Etats charge batterie ~~~~~~~~*/
+ switch
+  | - UPS_CHARGING           -> VISU_BATTERIE ( mode="en_charge", libelle="Batteries en charge" );
+  | - BATTERY_CHARGE > 80    -> VISU_BATTERIE ( mode="100", libelle="Batteries pleines" );
+  | - BATTERY_CHARGE > 60    -> VISU_BATTERIE ( mode="80", libelle="Batteries en décharge" );
+  | - BATTERY_CHARGE > 40    -> VISU_BATTERIE ( mode="60", libelle="Batteries en décharge" );
+  | - BATTERY_CHARGE > 20    -> VISU_BATTERIE ( mode="40", libelle="Batteries sur la fin" );
+  | - BATTERY_CHARGE > 10    -> VISU_BATTERIE ( mode="20", libelle="Batteries bientot vides" );
+  | -                        -> VISU_BATTERIE ( mode="0", libelle="Batteries vides", cligno );
+
+ switch
+  | -/IO_COMM                -> _NOP;
+  | - BATTERY_CHARGE <= 10.0 -> MSG_CHARGE_BATTERIE_10;     /* CHARGE BATTERIES à 10% OK(AL)*/
+  | - BATTERY_CHARGE <= 25.0 -> MSG_CHARGE_BATTERIE_25;                               /* CHARGE BATTERIES à 25% OK(T)*/
+  | - BATTERY_CHARGE <= 50.0 -> MSG_CHARGE_BATTERIE_50;                               /* CHARGE BATTERIES à 50% OK(I)*/
+  | - BATTERY_CHARGE <= 75.0 -> MSG_CHARGE_BATTERIE_75;                               /* CHARGE BATTERIES à 75% OK(I)*/
+  | -                        -> _NOP;
+
+ - IO_COMM. MALA_CHARGE_BAT + MALAF_CHARGE_BAT        -> MSG_ALARME_CHARGE_BAT;
+ - IO_COMM. MALA_VOLTAGE_BAT + MALAF_VOLTAGE_BAT      -> MSG_ALARME_VOLTAGE_BAT;
+ - IO_COMM. MDEF_NTH_LOAD                             -> MSG_DEFAUT_NTH_LOAD;
+ - IO_COMM. MALA_NTH_LOAD + MALAF_NTH_LOAD            -> MSG_ALARME_NTH_LOAD;
+
+/* Visuels */
+ - IO_COMM -> VISU_COMM_UPS(mode="checked");
+ -/IO_COMM -> VISU_COMM_UPS(mode="unchecked",cligno);
+
+/*---------------------------------------------------------------------------------------------------------------*/
