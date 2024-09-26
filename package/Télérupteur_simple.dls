@@ -46,6 +46,7 @@
  #define CH_TL                <-> _CH(libelle="Compteur horaire de temps d'allumage");
 
 /* Bits purement internes au module */
+ #define ME_MTCE              <-> _B(libelle="Bit de maintenance");
  #define ME_WANT_TL           <-> _B(libelle="Etat attendu du TL (0=ouvert, 1=fermé)");
  #define MO_ACT_TELE          <-> _B(libelle="Demande de manoeuvre du TL (changement d'état)");
  #define TR_DEF               <-> _T(daa=10,dma=0,dMa=0,dad=0,libelle="Temporisation de détection de défaut après manoeuvre");
@@ -63,8 +64,8 @@
                                         /*******************************************/
 
 /* CALCUL ETAT ATTENDU TELERUPTEUR */
-  - MEMSA_OK. /MO_ACT_TELE . (OTXT_WANT_ON  + ODLS_WANT_ON  + VISU_POS_TL_CLIC + ODLS_WANT_TOGGLE + OVOC_WANT_ON ). /POS_TL -> ME_WANT_TL, MO_ACT_TELE;
-  - MEMSA_OK. /MO_ACT_TELE . (OTXT_WANT_OFF + ODLS_WANT_OFF + VISU_POS_TL_CLIC + ODLS_WANT_TOGGLE + OVOC_WANT_OFF).  POS_TL ->/ME_WANT_TL, MO_ACT_TELE;
+  - /ME_MTCE . MEMSA_OK. /MO_ACT_TELE . (OTXT_WANT_ON  + ODLS_WANT_ON  + VISU_POS_TL_CLIC + ODLS_WANT_TOGGLE + OVOC_WANT_ON ). /POS_TL -> ME_WANT_TL, MO_ACT_TELE;
+  - /ME_MTCE . MEMSA_OK. /MO_ACT_TELE . (OTXT_WANT_OFF + ODLS_WANT_OFF + VISU_POS_TL_CLIC + ODLS_WANT_TOGGLE + OVOC_WANT_OFF).  POS_TL ->/ME_WANT_TL, MO_ACT_TELE;
 
 /* PILOTAGE TELE SUR COMMANDE DE MANOEUVRE */
   - MEMSA_OK. MO_ACT_TELE -> TR_IMP, TR_DEF;
@@ -106,6 +107,7 @@
 /*******************************************              VISUELS                      ****************************************/
                                            /*******************************************/
   switch
+   | - ME_MTCE                           -> VISU_POS_TL(mode="off", libelle="En maintenance", disable);
    | - MDEF_TRAVAIL                      -> VISU_POS_TL(mode="off", libelle="Défaut travail", cligno);
    | - MDEF_REPOS                        -> VISU_POS_TL(mode="on",  libelle="Défaut repos", cligno);
    | - POS_TL                            -> VISU_POS_TL(mode="on",  libelle="$PARAM_VISUEL_ON");
