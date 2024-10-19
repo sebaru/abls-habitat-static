@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- ABLS-HABITAT Bruno Lefèvre BRULEUR GAZ CHAUDIERE 19 10 2024 -->
+
+<svg
+   version="1.1"
+   id="test-anime"
+   x="0px"
+   y="0px"
+   viewBox="0 0 128 128"
+   xml:space="preserve"
+   sodipodi:docname="BRULEUR_Test Animate_1c.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview4"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="12.072298"
+   inkscape:cx="73.515415"
+   inkscape:cy="64.072308"
+   inkscape:window-width="1920"
+   inkscape:window-height="1056"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="test-anime" />
+
+<defs
+   id="defs4">
+
+<!-- Gradient1 -->
+  <radialGradient
+   id="Gradient1"
+   cx="50%"
+   cy="50%"
+   fx="50%"
+   fy="50%"
+   r=".5">
+   <animate
+   attributeType="XML"
+   attributeName="fy"
+   begin="0s;path130.end"
+   dur="1s"
+   values="0%;100%;0%"
+   repeatCount="indefinite"> </animate>
+     <stop
+   offset="0%"
+   stop-color="red"
+   id="stop1"> </stop>
+     <stop
+   offset="100%"
+   stop-color="gold"
+   id="stop2"> </stop>
+  </radialGradient>
+
+<!-- Gradient2 -->
+  <radialGradient
+   id="Gradient2"
+   cx="50%"
+   cy="50%"
+   fx="50%"
+   fy="50%"
+   r=".4">
+     <animate
+   attributeName="fy"
+   attributeType="XML"
+   dur="0.5s"
+   values="0%;100%;0%"
+   repeatCount="indefinite"> </animate>
+     <stop
+   offset="0%"
+   stop-color="blue"
+   id="stop3"> </stop>
+     <stop
+   offset="100%"
+   stop-color="orange"
+   id="stop4"> </stop>
+  </radialGradient>
+
+<!-- FILTRE -->
+    <filter
+   inkscape:collect="always"
+   style="color-interpolation-filters:sRGB"
+   id="filter4"
+   x="-0.073825581"
+   y="-0.1314372"
+   width="1.1476512"
+   height="1.2628744">
+    <feGaussianBlur
+   inkscape:collect="always"
+   stdDeviation="0.30145444"
+   id="feGaussianBlur4" />
+    </filter>
+<filter
+   inkscape:label="Ridged Border"
+   inkscape:menu="Bevels"
+   inkscape:menu-tooltip="Ridged border with inner bevel"
+   style="color-interpolation-filters:sRGB;"
+   id="filter2"
+   x="-0.055296075"
+   y="-0.045034835"
+   width="1.1105922"
+   height="1.0900697"><feMorphology
+     radius="4.3"
+     in="SourceAlpha"
+     result="result91"
+     id="feMorphology1" /><feComposite
+     operator="out"
+     in="SourceGraphic"
+     in2="result91"
+     id="feComposite1" /><feGaussianBlur
+     result="result0"
+     stdDeviation="1.2"
+     id="feGaussianBlur1" /><feDiffuseLighting
+     diffuseConstant="1"
+     id="feDiffuseLighting1"><feDistantLight
+       elevation="66"
+       azimuth="225"
+       id="feDistantLight1" /></feDiffuseLighting><feBlend
+     mode="multiply"
+     in2="SourceGraphic"
+     id="feBlend1" /><feComposite
+     operator="in"
+     in2="SourceAlpha"
+     id="feComposite2" /></filter><filter
+   inkscape:collect="always"
+   style="color-interpolation-filters:sRGB"
+   id="filter27"
+   x="-0.075605849"
+   y="-0.055643195"
+   width="1.1512117"
+   height="1.1112864"><feGaussianBlur
+     inkscape:collect="always"
+     stdDeviation="0.38128371"
+     id="feGaussianBlur27" /></filter><filter
+   inkscape:collect="always"
+   style="color-interpolation-filters:sRGB"
+   id="filter28"
+   x="-0.046925995"
+   y="-0.031793478"
+   width="1.093852"
+   height="1.063587"><feGaussianBlur
+     inkscape:collect="always"
+     stdDeviation="0.22079888"
+     id="feGaussianBlur28" /></filter></defs>
+
+<!-- GRANDE FLAMME -->
+<g
+   fill="url(#Gradient1)"
+   gradientUnits="userSpaceOnUse"
+   id="g4"
+   style="display:inline;fill-opacity:1;filter:url(#filter27)"
+   transform="matrix(0,1,-2.8452092,0,295.60658,13.013602)">
+
+ <path
+   d="M 60.2,84 C 59,83.3 57.9,82.3 57.5,79.9 57,77.9 57.4,75.8 58.4,74.1 l 0.6,-0.8 -0.1,1.1 c 0,0.5 0,0.9 0.1,1.3 0.1,-0.6 0.2,-1.1 0.5,-1.4 0.2,-0.7 0.5,-1.4 0.4,-2.4 v -0.5 l 0.5,0.1 c 0.5,0.2 1.1,1.3 1.5,2.4 0,-0.2 0.1,-0.6 0.1,-0.8 0.2,-1.5 0.4,-3.4 2.5,-4.5 l 0.7,-0.4 -0.4,0.8 c -0.2,0.7 0,1.8 0.4,2.7 0.2,0.7 0.5,1.4 0.6,2.1 0.2,-0.8 0.4,-1.7 0.4,-2.4 v -0.9 l 0.5,0.7 c 1.2,1.7 1.4,3.7 1.3,5 0.1,-0.4 0.2,-0.8 0.2,-1.2 l 0.1,-0.7 0.5,0.6 c 0.8,2 0.8,4.5 -0.1,6.5 -0.7,1.4 -1.215024,2.124855 -2.315024,2.624855 l -1.34741,0.595858 -2.975636,0.0248 C 62.06193,84.645513 61.2,84.4 60.9,84.4 60.7,84.2 60.2,84 60.2,84 Z"
+   id="path129">
+ </path>
+</g>
+
+<!-- MOYENNE FLAMME -->
+<g
+   fill="url(#Gradient2)"
+   gradientUnits="userSpaceOnUse"
+   id="g3"
+   style="display:inline;fill-opacity:50%;filter:url(#filter28);opacity:1"
+   transform="matrix(0,0.73964943,-1.308203,0,165.9389,29.008326)">
+
+ <path
+   d="M 60.197918,81.385703 C 59.665192,79.9115 59.939777,80.674421 59.088091,78.798489 58.588091,76.798489 57.4,75.8 58.4,74.1 l 0.6,-0.8 -0.1,1.1 c 0,0.5 0,0.9 0.1,1.3 0.1,-0.6 0.2,-1.1 0.5,-1.4 0.2,-0.7 0.5,-1.4 0.4,-2.4 v -0.5 l 0.970745,-0.386836 C 61.370745,71.213164 61.5,72.8 61.9,73.9 c 0,-0.2 0.51331,-1.567419 0.51331,-1.767419 0.2,-1.5 -0.600824,-2.453612 1.499176,-3.553612 L 64.214904,67.953228 64.8,69 c -0.2,0.7 0,1.8 0.4,2.7 0.2,0.7 0.5,1.4 0.6,2.1 0.2,-0.8 0.4,-1.7 0.4,-2.4 v -0.9 l 1.167487,0.604524 C 68.567487,72.804524 68.1,74.9 68,76.2 68.1,75.8 68.2,75.4 68.2,75 l 0.1,-0.7 0.785196,-0.953954 c 0.8,2 -0.783409,5.721749 -1.683409,7.721749 -0.7,1.4 -0.201966,1.396006 -1.301966,1.896006 l -1.062255,1.656912 -2.149944,-0.0244 c 0,0 -1.102714,-1.293491 -1.402714,-1.293491 -0.2,-0.2 -1.28699,-1.917122 -1.28699,-1.917122 z"
+   id="path130">
+ </path>
+</g>
+
+<!-- PETITE FLAMME GAZ -->
+   <path
+   d="m 55.304348,74.990783 c 0.3,-0.598776 1.4,-1.112012 2.6,-1.283091 1.4,-0.256618 2.6,-0.08554 3.6,0.513236 l 0.5,0.256618 h -0.7 c -0.3,0 -0.5,0 -0.9,0 0.3,0 0.7,0.08554 0.9,0.256618 0.5,0.08554 0.9,0.256619 1.6,0.08554 h 0.3 l -0.2,0.256618 c -0.2,0.256618 -0.9,0.513236 -1.6,0.769854 0.2,0 0.3,0 0.5,0 1,0.08554 2.2,0.256618 2.9,1.112011 l 0.2,0.342158 -0.5,-0.08554 c -0.5,-0.08554 -1,0 -1.7,0.08554 -0.3,0.08554 -0.9,0.256618 -1.4,0.256618 0.5,0.08554 1,0.08554 1.6,0.08554 h 0.5 l -0.5,0.256618 c -1,0.598776 -2.2,0.598776 -3.3,0.598776 0.2,0.08554 0.5,0.08554 0.7,0.08554 h 0.5 l -0.3,0.256618 c -1.2,0.342157 -2.8,0.342157 -4.1,0 -0.8,-0.342157 -0.8,-0.513236 -1.1,-1.112011 l -0.1,-0.427697 0.1,0.171078 c 0.3,0.08554 0.5,0.08554 0.8,0.08554 -0.2,0 -0.3,-0.08554 -0.3,-0.256618 l -0.2,-0.256618 0.5,0.08554 c 0.2,0.08554 0.7,0.08554 1.2,0 -0.2,0 -0.5,-0.08554 -0.7,-0.08554 l -0.3,-0.256618 h 0.5 c 0.3,0 0.7,0 1,-0.08554 0.2,0 0.3,-0.08554 0.7,-0.08554 -0.3,-0.08554 -0.7,-0.256618 -1,-0.256618 -0.2,0 -0.5,0 -0.7,-0.08554 l -0.2,-0.427697 0.5,-0.08554 c 0.2,0 0.3,-0.08554 0.5,-0.08554 -0.2,0 -0.2,0 -0.3,-0.08554 -0.3,-0.08554 -0.5,-0.08554 -0.9,0 h -0.3 l 0.3,-0.256618 c 0,0 0.2,-0.08554 0.5,-0.08554 -0.5,-0.08554 -1,0 -1.4,0 l -0.4,0.171078 z"
+   id="path137"
+   style="mix-blend-mode:normal;fill:#5a3cff;fill-opacity:1;stroke-width:0.924875;filter:url(#filter4)"
+   inkscape:highlight-color="#5ab4ff"
+   transform="matrix(1,0,0,0.69311059,-0.66233792,23.187915)" />
+
+<!-- BOITIER BRULEUR -->
+   <rect
+   style="fill:#2c64a1;stroke:#add8e6;stroke-width:0.8;stroke-linejoin:round;stroke-miterlimit:3;stroke-dasharray:none;paint-order:markers fill stroke;stroke-opacity:1;filter:url(#filter2)"
+   id="rect1"
+   width="7.2337866"
+   height="8.8820133"
+   x="48.122742"
+   y="72.058533"
+   rx="0.22750767"
+   ry="2.3084326" />
+
+</svg>
