@@ -83,6 +83,7 @@
 {"categorie": "io",          "forme": "sms",                 "extension": "jpg",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "lieu",        "forme": "2d_soisy",            "extension": "gif",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "lieu",        "forme": "2d_soisy_niv00",      "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
+{"categorie": "lieu",        "forme": "2d_soisy_niv-1",      "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "meteo",       "forme": "meteo",               "extension": "svg",  "default_mode": "soleil",     "default_color": "gray",    "controle": "by_mode", "modes": ["nuageux","nuit","orage","pluie","soleil","","vent"]},
 {"categorie": "outils",      "forme": "marteau_1",           "extension": "svg",  "default_mode": "default",    "default_color": "orange",  "controle": "by_color" },
 {"categorie": "outils",      "forme": "clef_a_molette_1",    "extension": "svg",  "default_mode": "default",    "default_color": "orange",  "controle": "by_color" },
