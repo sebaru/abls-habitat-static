@@ -4,45 +4,69 @@
 <svg
    version="1.1"
    id="test-anime"
-   x="0px"
-   y="0px"
-   viewBox="0 0 128 128"
+   wigth="156"
+   height="39"
+   viewBox="0 0 156 39"
    xml:space="preserve"
-   sodipodi:docname="INSKAPE_BRULEUR_Test Inerte_1a.svg"
-   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   sodipodi:docname="Bruleur_inerte_source_A.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   width="156"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
    id="namedview4"
-   pagecolor="#ffffff"
+   pagecolor="#717171"
    bordercolor="#666666"
    borderopacity="1.0"
    inkscape:showpageshadow="2"
    inkscape:pageopacity="0.0"
-   inkscape:pagecheckerboard="0"
-   inkscape:deskcolor="#d1d1d1"
-   inkscape:zoom="12.072298"
-   inkscape:cx="73.515415"
-   inkscape:cy="64.072308"
+   inkscape:pagecheckerboard="true"
+   inkscape:deskcolor="#383838"
+   inkscape:zoom="3.0180745"
+   inkscape:cx="79.023894"
+   inkscape:cy="37.109753"
    inkscape:window-width="1920"
-   inkscape:window-height="1056"
+   inkscape:window-height="975"
    inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
-   inkscape:current-layer="test-anime" />
+   inkscape:current-layer="g1" />
 
 <defs
-   id="defs4">
+   id="defs4"><radialGradient
+   id="radialGradient6"
+   cx="0.5"
+   cy="0.5"
+   fx="0.5"
+   fy="0.5"
+   r="0.5">
+   <animate
+   attributeType="XML"
+   attributeName="fy"
+   begin="0s;path130.end"
+   dur="1s"
+   values="0%;100%;0%"
+   repeatCount="indefinite"> </animate>
+     <stop
+   offset="0%"
+   stop-color="red"
+   id="stop5"> </stop>
+     <stop
+   offset="100%"
+   stop-color="gold"
+   id="stop6"> </stop>
+  </radialGradient>
 
 <!-- Gradient1 -->
   <radialGradient
    id="Gradient1"
-   cx="50%"
-   cy="50%"
-   fx="50%"
-   fy="50%"
-   r=".5">
+   cx="0.5"
+   cy="0.5"
+   fx="0.5"
+   fy="0.5"
+   r="0.5">
    <animate
    attributeType="XML"
    attributeName="fy"
@@ -63,11 +87,11 @@
 <!-- Gradient2 -->
   <radialGradient
    id="Gradient2"
-   cx="50%"
-   cy="50%"
-   fx="50%"
-   fy="50%"
-   r=".4">
+   cx="0.5"
+   cy="0.5"
+   fx="0.5"
+   fy="0.5"
+   r="0.40000001">
      <animate
    attributeName="fy"
    attributeType="XML"
@@ -84,12 +108,13 @@
    id="stop4"> </stop>
   </radialGradient>
 
-<!-- FILTRE BOITIER -->
+<!-- FILTRE -->
+
 <filter
    inkscape:label="Ridged Border"
    inkscape:menu="Bevels"
    inkscape:menu-tooltip="Ridged border with inner bevel"
-   style="color-interpolation-filters:sRGB;"
+   style="color-interpolation-filters:sRGB"
    id="filter2"
    x="-0.055296075"
    y="-0.045034835"
@@ -116,24 +141,60 @@
      id="feBlend1" /><feComposite
      operator="in"
      in2="SourceAlpha"
-     id="feComposite2" /></filter>
+     id="feComposite2" /></filter><filter
+   inkscape:collect="always"
+   style="color-interpolation-filters:sRGB"
+   id="filter28"
+   x="-0.046925995"
+   y="-0.031793478"
+   width="1.093852"
+   height="1.063587"><feGaussianBlur
+     inkscape:collect="always"
+     stdDeviation="0.22079888"
+     id="feGaussianBlur28" /></filter><radialGradient
+   inkscape:collect="always"
+   xlink:href="#Gradient2"
+   id="radialGradient4"
+   cx="76.259972"
+   cy="63.680347"
+   fx="76.259972"
+   fy="63.680347"
+   r="5.9191337"
+   gradientTransform="scale(0.83474738,1.1979672)"
+   gradientUnits="userSpaceOnUse" />
+
+
 </defs>
 
 <!-- GRANDE FLAMME -->
 
+
 <!-- MOYENNE FLAMME -->
+
 
 <!-- PETITE FLAMME GAZ -->
 
+
 <!-- BOITIER BRULEUR -->
-   <rect
-   style="display:inline;fill:#2c64a1;stroke:#ffffff;stroke-width:0.8;stroke-linejoin:round;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke;filter:url(#filter2)"
-   id="rect1"
-   width="7.2337866"
-   height="8.8820133"
-   x="48.122742"
-   y="72.058533"
-   rx="0.22750767"
-   ry="2.3084326" />
+   <g
+   id="g1"
+   transform="matrix(0.3046875,0,0,0.3046875,69.401085,17.377324)"><g
+     fill="url(#Gradient2)"
+     gradientUnits="userSpaceOnUse"
+     id="g3"
+     style="display:inline;opacity:1;fill:url(#radialGradient4);fill-opacity:1;filter:url(#filter28)"
+     transform="matrix(0,6.7092937,-11.866592,0,844.55028,-422.46535)">
+
+
+</g><rect
+     style="fill:#2c64a1;stroke:#ffffff;stroke-width:0.8;stroke-linejoin:round;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke;filter:url(#filter2)"
+     id="rect1"
+     width="7.2337866"
+     height="8.8820133"
+     x="0.40000001"
+     y="2.6752679"
+     rx="0.082317188"
+     ry="0.83524078"
+     transform="matrix(9.0709104,0,0,9.0709104,-227.77792,-56.227894)" /></g>
 
 </svg>
