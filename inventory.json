@@ -77,6 +77,7 @@
 {"categorie": "hydraulique", "forme": "bruleur",             "extension": "svg",  "default_mode": "inerte",     "default_color": "black",   "controle": "by_mode_color", "modes": ["animé", "inerte"] },
 {"categorie": "hydraulique", "forme": "chaudière_corps",     "extension": "svg",  "default_mode": "inerte",     "default_color": "black",   "controle": "by_mode_color", "modes": ["inerte"] },
 {"categorie": "hydraulique", "forme": "Echangeur",           "extension": "svg",  "default_mode": "inerte",     "default_color": "black",   "controle": "by_mode_color", "modes": ["inerte"] },
+{"categorie": "hydraulique", "forme": "arrosage",            "extension": "svg",  "default_mode": "off",        "default_color": "black",   "controle": "by_mode_color", "modes": ["off","on"] },
 {"categorie": "piscine",     "forme": "piscine",             "extension": "gif",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "piscine",     "forme": "piscine_bassin",      "extension": "gif",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "piscine",     "forme": "phmetre_piscine",     "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "by_js" },
