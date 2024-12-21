@@ -22,8 +22,9 @@
                                   /********************************************/
 /* FENÊTRE */
  #define P_CLOSE                       <->_DI;                                 /* Position Fin De Course Fenêtre*/
-
- #define ME_MTCE                        <->_B(libelle="Bit de maintenance");
+ #define O_START_VEILLE                <->_DI;
+ #define O_STOP_VEILLE                 <->_DI;
+ #define ME_MTCE                       <->_B(libelle="Bit de maintenance");
 
                                   /********************************************/
 /***********************************              TEMPORISATIONS               ***********************************/
@@ -50,6 +51,8 @@
 /**---------------------------------------------------------------------------*/
  #define MALA_OPEN_TROP_LONG     <->_B(libelle="Mémo Alarme Ouverture $PARAM_OUVRANT trop long");
  #define MALA_OPEN_TROP_LONGF    <->_B(libelle="Mémo Alarme Ouverture $PARAM_OUVRANT trop long Fixe");
+ #define MALA_OPEN               <->_B(libelle="Mémo Alarme Ouverture $PARAM_OUVRANT");
+ #define MALA_OPENF              <->_B(libelle="Mémo Alarme Ouverture $PARAM_OUVRANT Fixe");
 
 /**---------------------------------------------------------------------------*/
 /*                                   VEILLE                                   */
@@ -71,6 +74,7 @@
 /**                              MESSAGES ALARMES                             */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
  #define EMSG_ALA_OPEN_TROP_LONG      <->_MSG(type=alarme,libelle="Alarme $PARAM_OUVRANT Ouverte Trop Longtemps");
+ #define EMSG_ALA_OPEN                <->_MSG(type=alarme,libelle="Alarme $PARAM_OUVRANT en effraction");
 
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -87,6 +91,13 @@
 /* Fenêtre Ouverte/ Fermée */
  - P_CLOSE                  -> EMSG_CLOSE;     /* MSG FdL FENÊTRE FERMEE */
  -/P_CLOSE                  -> EMSG_OPEN;      /* MSG FdL FENÊTRE OUVERTE */
+
+/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                              GESTION DE LA VEILLE                          */
+/** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ - O_START_VEILLE           -> ME_VEILLE;
+ - O_STOP_VEILLE            ->/ME_VEILLE;
+ - ME_VEILLE                -> MEMSSB_VEILLE;                /* Report Veille */
 
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                       ALARME OPEN BAIE TROP LONG                           */
@@ -109,6 +120,23 @@
  - MALA_OPEN_TROP_LONG + MALA_OPEN_TROP_LONGF
                               -> EMSG_ALA_OPEN_TROP_LONG;   /* MSG FdL ALARME FENÊTRE OUVERTE TROP LONG */
 
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                       ALARME OPEN BAIE                                     */
+/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Detection effraction */
+ -/ME_MTCE . /P_CLOSE ./MALA_OPEN ->  MALA_OPEN;                      /* Fenêtre Ouverte trop longtemps */
+
+/* ACQUITEMENT ALARME OPEN ~~~~~~~*/
+ - (OSYN_ACQUIT + VISUEL_FENETRE_CLIC) . MALA_OPEN
+                              ->/MALA_OPEN, MALA_OPENF;               /* Fixer ALARME OPEN */
+
+/* RAZ de l'ALARME ~~~~~~~~~~~~~~~*/
+ - P_CLOSE . MALA_OPENF       ->/MALA_OPENF;                                /* Effacer ALARME OPEN Fixe */
+
+/* Notification de l'ALARME ~~~~~~*/
+ - MALA_OPEN + MALA_OPENF     -> TOP_ALERTE_1, EMSG_ALA_OPEN;   /* MSG Effraction */
+
+
                                   /********************************************/
 /**********************************          SYNTHESES DEFAUTS/ALARMES         ***********************************/
                                   /**       ALERTES/DERANGEMENTS/DANGERS     **/
@@ -118,14 +146,9 @@
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 /* ALARMES ~~~~~~~~~~~~~~~~~~~~~~*/
- - MALA_OPEN_TROP_LONG              -> MEMSA_ALARME;                                       /* Report Alarmes */
- - MALA_OPEN_TROP_LONGF             -> MEMSA_ALARME_FIXE;                             /* Report Alarmes Fixe */
+ - MALA_OPEN_TROP_LONG + MALA_OPEN   -> MEMSA_ALARME;                                          /* Report Alarmes */
+ - MALA_OPEN_TROP_LONGF + MALA_OPENF -> MEMSA_ALARME_FIXE;                                /* Report Alarmes Fixe */
 
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                               SECURITES DES BIENS                          */
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/* VEILLE ~~~~~~~~~~~~~~~~~~~~~~~*/
- - ME_VEILLE                -> MEMSSB_VEILLE;                                       /* Report Veille */
 
 
                                   /********************************************/
