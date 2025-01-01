@@ -1,25 +1,25 @@
 /******************************************************************************************************************************/
-/* Module DLS de gestion d'un module WAGO                                                                                     */
+/* Module DLS de gestion du Thread 'SMSG'                                                                                     */
 /* Auteurs : Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr                                                            */
-/* Date : 24/05/2019                                                                                                          */
-/* 16/12/2023: Passage sous forme de package                                                                                  */
+/* Date : 01/01/2025                                                                                                          */
+/* 01/01/2025: Passage sous forme de package                                                                                  */
 /******************************************************************************************************************************/
 
 /*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
 /* IO_COMM:      Bit de communication positionné par le thread lui-meme                                                       */
- #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec l'unité WAGO $THIS");
- #define MSG_COMM_NOK <-> _MSG( type=danger, libelle="Unité WAGO $THIS hors service" );
+ #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec le GSM $THIS");
+ #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Unité GSM $THIS hors service" );
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
 /*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
- #define VISU_WAGO     <-> _I(forme="check", libelle="Module Wago");  /* VIsuel de l'etat du Wago RASPI3 */
+ #define VISU_GSM     <-> _I(forme="check", libelle="Module GSM");  /* VIsuel de l'etat du GSM */
 
 /*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
 
- - IO_COMM -> VISU_WAGO(mode="checked", libelle="$THIS connecté");          /* Si le thread dit que le wago est UP, on l'affiche */
+ - IO_COMM -> VISU_GSM(mode="checked", libelle="$THIS connecté");         /* Si le thread dit que le GSM est UP, on l'affiche */
  -/IO_COMM -> MEMSA_DEFAUT, MEMSSP_DANGER,
-              VISU_WAGO(mode="unchecked", cligno, libelle="$THIS déconnecté"),
+              VISU_GSM(mode="unchecked", cligno, libelle="$THIS déconnecté"),
               MSG_COMM_NOK;
 
 /* Pilotage des bits de remontées */
