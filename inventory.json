@@ -27,7 +27,7 @@
 {"categorie": "chauffage",   "forme": "soufflant",           "extension": "svg",  "default_mode": "off",        "default_color": "black",   "controle": "by_mode", "modes": ["off","on"]},
 {"categorie": "chauffage",   "forme": "thermometre",         "extension": "svg",  "default_mode": "ok",         "default_color": "white",   "controle": "by_mode_color", "modes": ["nb","nh","ntb","nth","ok"]},
 {"categorie": "divers",      "forme": "logo",                "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
-{"categorie": "divers",      "forme": "cadena",              "extension": "svg",  "default_mode": "ouvert",     "default_color": "default", "controle": "by_mode", "modes": ["ferme","ouvert"]},
+{"categorie": "divers",      "forme": "cadenas",             "extension": "svg",  "default_mode": "ouvert",     "default_color": "default", "controle": "by_mode", "modes": ["ferme","ouvert"]},
 {"categorie": "divers",      "forme": "fleche",              "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "divers",      "forme": "check",               "extension": "svg",  "default_mode": "unchecked",  "default_color": "default", "controle": "by_mode", "modes": ["checked","unchecked_but_ok","unchecked"]},
 {"categorie": "divers",      "forme": "question",            "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "static" },

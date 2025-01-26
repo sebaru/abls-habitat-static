@@ -46,7 +46,7 @@
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* (Fenêtre) */
   #define VISUEL_FENETRE           <->_I(forme="2d_volets", libelle="Fenêtre");
-  #define VISUEL_VERROU            <->_I(forme="cadena", libelle="Verrou de la fenêtre");
+  #define VISUEL_VERROU            <->_I(forme="cadenas", libelle="Verrou de la fenêtre");
 
 /* (Marteau) */
   #define VISUEL_MARTEAU           <->_I(forme="marteau_1", libelle="Choc sur fenêtre");
