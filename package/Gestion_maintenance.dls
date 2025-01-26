@@ -1,26 +1,31 @@
 /*****************************************************************************************************************/
-/*  ABLS(C)Habitat                             --------------                                                    */
+/*  ABLS(C)Habitat                                                                                               */
+/*  $DLS_ID.dls - $DLS_TECH_ID                                                                                   */
 /*                                                                                                               */
 /* DLS de gestion de la maintenance                                                                              */
+/*                                                                                                               */
 /* Ce module présente un encadré avec deux boutons "Service" et "Maintenance", une clef a molette, et pilote     */
 /* Le bit de maintenance en $PARAM_TARGET:ME_MTCE                                                                */
 /* Paramètres:                                                                                                   */
 /* PARAM_TARGET: le tech_id cible associé a la maintenance                                                       */
 /* PARAM_DESCRIPTION: libelle à afficher dans l'encadré                                                          */
 /*                                                                                                               */
-/* 13/02/2022  Création ce Jour                                                                  Bruno  W2.V0.0  */
-/* 15/02/2023  Débugs en // ACCPOR_CTRL                                                          Bruno  W2.V0.1  */
-/* 16/02/2023  Mise en Prod des Visuels SYN 10015                                                Bruno  W2.V0.2  */
+/* 13/02/2022  Création ce Jour                                                                     Bruno  V0.0  */
+/* 15/02/2023  Débugs en // ACCPOR_CTRL                                                             Bruno  V0.1  */
+/* 16/02/2023  Mise en Prod des Visuels SYN 10015                                                   Bruno  V0.2  */
 /*             --> Gestion de MAINT_LONGUE, revu Conditions MSG FdL                                              */
 /*             --> [MAINT] dispo si Mode en [MANU]                                                               */
-/* 21/04/2023  Debut revue SeB                                                                   SeB    W2.1.0   */
+/* 21/04/2023  Debut revue SeB                                                                      SeB    V1.0  */
 /* 28/12/2023  Passage en package                                                                                */
-/*                                                                                                               */
+/* 26/01/2025  Revue Seb/Bruno position des messages et Metadonnées                                 SeB    V1.1  */
 /*****************************************************************************************************************/
 
                                   /********************************************/
 /**********************************            CREATIONS DES VISUELS           ***********************************/
                                   /********************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                                 VISUELS ITEMS                              */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /* ENCADRE ~~~~~~~~~~~~~~~~~~~~~~*/
  #define VISUEL_ENCADRE                 <->_I(forme="encadre",mode="1x3",libelle="$PARAM_DESCRIPTION");
 
@@ -30,6 +35,13 @@
 
 /* IMAGES ~~~~~~~~~~~~~~~~~~~~~~~*/
  #define VISUEL_CLEF                    <->_I(forme="clef_a_molette_1",libelle="Etat Maintenance");
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                              VISUELS METADONNEES                           */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Numéro du DLS ~~~~~~~~~~~~~~~~~*/
+ #define VSYNL_ID_DLS                   <->_I(forme="comment",libelle="#$DLS_ID",mode="annotation",color="black");
+
 
                                   /********************************************/
 /**********************************                   BITS MODULE              ***********************************/
@@ -41,9 +53,9 @@
 /**********************************             MESSAGES IMPRIMANTE           ************************************/
                                   /********************************************/
 
- #define MSG_DERANGEMENT_MTCE_TROP_LONGUE <-> _MSG ( type=derangement, libelle="Maintenance trop longue" );
- #define MSG_EN_MTCE                      <-> _MSG ( type=etat, libelle="En maintenance" );
- #define MSG_EN_SERV                      <-> _MSG ( type=etat, libelle="En service" );
+ #define MSG_DERANGEMENT_MTCE_TROP_LONGUE <-> _MSG ( type=derangement, libelle="$DLS_TECH_ID: Maintenance trop longue" );
+ #define MSG_EN_MTCE                      <-> _MSG ( type=etat, libelle="$DLS_TECH_ID: En maintenance" );
+ #define MSG_EN_SERV                      <-> _MSG ( type=etat, libelle="$DLS_TECH_ID: En service" );
 
                                   /********************************************/
 /**********************************               INITIALISATION              ************************************/
@@ -56,11 +68,15 @@
                                   /********************************************/
 /* En Maintenance ou Service */
  - VSYNB_MTCE_CLIC                      -> $PARAM_TARGET:ME_MTCE;                               /* [MAINTENANCE] */
+ - $PARAM_TARGET:ME_MTCE                -> MSG_EN_MTCE;                                         /* [MAINTENANCE] */
+
  - VSYNB_SERV_CLIC                      ->/$PARAM_TARGET:ME_MTCE;                                   /* [SERVICE] */
+ -/$PARAM_TARGET:ME_MTCE                -> MSG_EN_SERV;                                             /* [SERVICE] */
 
 /*----------------------------------------------------------------------------*/
 /* Maintenance Trop Longue >24h */
- - $PARAM_TARGET:ME_MTCE -- daa=864000   -> M_MTCE_TROP_LONGUE;                     /* Maintenance Trop Longue ! */
+ - $PARAM_TARGET:ME_MTCE -- daa=864000  -> M_MTCE_TROP_LONGUE;                      /* Maintenance Trop Longue ! */
+ - M_MTCE_TROP_LONGUE                   -> MSG_DERANGEMENT_MTCE_TROP_LONGUE;          /* Maintenance Trop Longue */
 
                                   /********************************************/
 /**********************************          SYNTHESES DEFAUTS/ALARMES         ***********************************/
@@ -113,13 +129,5 @@
   |- M_MTCE_TROP_LONGUE    -> VISUEL_CLEF(color="yellow",cligno); /* MAINTENANCE Trop Longue */
   |- $PARAM_TARGET:ME_MTCE -> VISUEL_CLEF(color="yellow");        /* MAINTENANCE en Cours */
   |-                       -> VISUEL_CLEF(color="white");          /* MAINTENANCE disponible (en SERVICE) */
-
-                                   /*******************************************/
-/**********************************       EDITIONS DES MESSAGES IMPRIMANTE      **********************************/
-                                   /*******************************************/
-/* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
- - $PARAM_TARGET:ME_MTCE           -> MSG_EN_MTCE;                                              /* [MAINTENANCE] */
- -/$PARAM_TARGET:ME_MTCE           -> MSG_EN_SERV;                                                  /* [SERVICE] */
- - M_MTCE_TROP_LONGUE              -> MSG_DERANGEMENT_MTCE_TROP_LONGUE;               /* Maintenance Trop Longue */
 
 /*****************************************************************************************************************/
