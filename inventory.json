@@ -4,7 +4,6 @@
 {"categorie": "application", "forme": "youtube_bebe_louis",  "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "application", "forme": "youtube_crocodile",   "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "application", "forme": "youtube_peppa_pig",   "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
-{"categorie": "bouton",      "forme": "bouton_stop_klaxon",  "extension": "png",  "default_mode": "default",    "default_color": "default", "controle": "static" },
 {"categorie": "bouton",      "forme": "auto_manu",           "extension": "svg",  "default_mode": "auto",       "default_color": "black",   "controle": "by_mode", "modes": ["auto","maintenance","manu","sauto"]},
 {"categorie": "bouton",      "forme": "bouton_raz",          "extension": "png",  "default_mode": "default",    "default_color": "blue",    "controle": "by_color" },
 {"categorie": "bouton",      "forme": "arret_urgence",       "extension": "png",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
