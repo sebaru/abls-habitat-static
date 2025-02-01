@@ -8,7 +8,7 @@
 {"categorie": "bouton",      "forme": "auto_manu",           "extension": "svg",  "default_mode": "auto",       "default_color": "black",   "controle": "by_mode", "modes": ["auto","maintenance","manu","sauto"]},
 {"categorie": "bouton",      "forme": "bouton_raz",          "extension": "png",  "default_mode": "default",    "default_color": "blue",    "controle": "by_color" },
 {"categorie": "bouton",      "forme": "arret_urgence",       "extension": "png",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
-{"categorie": "bouton",      "forme": "bouton_panique",      "extension": "png",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
+{"categorie": "sonorisation","forme": "sonnette",            "extension": "svg",  "default_mode": "default",    "default_color": "red",     "controle": "by_color" },
 {"categorie": "bouton",      "forme": "bouton_io",           "extension": "svg",  "default_mode": "default",    "default_color": "green",   "controle": "by_color" },
 {"categorie": "bouton",      "forme": "bouton",              "extension": "none", "default_mode": "enable",     "default_color": "blue",    "controle": "complexe" },
 {"categorie": "cadrans",     "forme": "cadran",              "extension": "none", "default_mode": "texte",      "default_color": "blue",    "controle": "complexe", "modes": ["texte","horaire"] },
