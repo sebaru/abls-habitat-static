@@ -8,10 +8,10 @@
    y="0px"
    viewBox="0 0 128 128"
    xml:space="preserve"
-   sodipodi:docname="bouton_panique_source.svg"
+   sodipodi:docname="sonnette_source.svg"
    width="128"
    height="128"
-   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -30,14 +30,16 @@
    fit-margin-right="0"
    fit-margin-bottom="0"
    inkscape:zoom="6.0625"
-   inkscape:cx="52.865979"
+   inkscape:cx="52.783505"
    inkscape:cy="62.020619"
    inkscape:window-width="1920"
-   inkscape:window-height="979"
+   inkscape:window-height="1043"
    inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
-   inkscape:current-layer="Layer_1" />
+   inkscape:current-layer="g6"
+   inkscape:showpageshadow="2"
+   inkscape:deskcolor="#d1d1d1" />
 <g
    id="g6"
    transform="scale(0.25)"
@@ -73,7 +75,7 @@
    id="circle12"
    transform="scale(0.25)" />
 <circle
-   style="fill:#5b5d6e;stroke-width:4"
+   style="fill:#ff0000;stroke-width:4;fill-opacity:1"
    cx="475.91901"
    cy="329.306"
    r="27.49"
