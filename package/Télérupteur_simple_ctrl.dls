@@ -3,6 +3,9 @@
 /* 26/09/2024: Création du Package                                                                        SeB V1.0            */
 /******************************************************************************************************************************/
 
+ #param PARAM_TARGET (libelle="Tech_ID maitre du télérupteur", defaut="SYS");
+ #param PARAM_TITRE  (libelle="Titre de l'encadré", defaut="Controle TL");
+
  #define VISUEL_TITRE       <-> _I(forme="encadre", mode="3x4", color="black", libelle="$PARAM_TITRE");
  #define VISUEL_PROCEDE     <-> _I(forme="comment", mode="annotation", color="black", libelle="Procédé");
  #define VISUEL_CH_PROCEDE  <-> _I(forme="cadran",  mode="texte", input=$PARAM_TARGET:CH_TL);

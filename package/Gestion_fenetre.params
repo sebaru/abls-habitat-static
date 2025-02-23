@@ -1,5 +1,0 @@
-{ "params":
-   [ { "acronyme": "PARAM_VISUEL",  "libelle": "Forme du Visuel associé", "defaut": "Fenêtre" },
-     { "acronyme": "PARAM_OUVRANT", "libelle": "Type d'ouvrant",          "defaut": "Fenêtre" }
-   ]
-}

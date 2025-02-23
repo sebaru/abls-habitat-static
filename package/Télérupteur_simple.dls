@@ -20,6 +20,13 @@
 /* Passage en package le 12/12/2023                                                                                           */
 /******************************************************************************************************************************/
 
+/* Paramètre du package */
+ #param PARAM_FORME        (libelle="Forme du visuel", defaut="ampoule");
+ #param PARAM_MSG_TELE_ON  (libelle="Etat du télérupteur quand ON", defaut="Lumière allumée");
+ #param PARAM_MSG_TELE_OFF (libelle="Etat du télérupteur quand OFF", defaut="Lumière éteinte");
+ #param PARAM_VISUEL_ON    (libelle="Libellé du visuel quand ON", defaut="Lumière allumée");
+ #param PARAM_VISUEL_OFF   (libelle="Libellé du visuel quand OFF", defaut="Lumière éteinte");
+
 /* Bits de consommation du module */
  #define POS_TL               <-> _DI; /* Position Télérupteur */
  #define OTXT_WANT_ON         <-> _DI; /* Demande SMS d'allumage TL */

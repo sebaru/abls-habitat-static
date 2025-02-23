@@ -18,7 +18,11 @@
 /* 21/04/2023  Debut revue SeB                                                                      SeB    V1.0  */
 /* 28/12/2023  Passage en package                                                                                */
 /* 26/01/2025  Revue Seb/Bruno position des messages et Metadonnées                                 SeB    V1.1  */
+/* 23/02/2025  Ajout des parametres #param                                                          SeB    V1.3  */
 /*****************************************************************************************************************/
+
+ #param PARAM_TARGET (libelle="le tech_id cible associé à la maintenance");
+ #param PARAM_DESCRIPTION (libelle="libelle à afficher dans l'encadré");
 
                                   /********************************************/
 /**********************************            CREATIONS DES VISUELS           ***********************************/

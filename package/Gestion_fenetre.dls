@@ -17,7 +17,11 @@
 /*                                  DECLARATIONS DES BITS ET MNEMONICS DU MODULE                                 */
 /*                                        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°                                       */
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
-                                  /********************************************/
+
+ #param PARAM_VISUEL  (libelle="Forme du Visuel associé", defaut="Fenêtre");
+ #param PARAM_OUVRANT (libelle="Type d'ouvrant",          defaut="Fenêtre");
+
+                                     /********************************************/
 /**********************************                   ENTREES                  ***********************************/
                                   /********************************************/
 /* FENÊTRE */

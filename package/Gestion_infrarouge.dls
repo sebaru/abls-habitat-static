@@ -24,7 +24,12 @@
 /*                                  DECLARATIONS DES BITS ET MNEMONICS DU MODULE                                 */
 /*                                        °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°                                       */
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
-                                  /********************************************/
+
+ #param PARAM_MSG_PRESENCE  (libelle="Message affiché lors d'une détection", defaut="Détection présence infrarouge");
+ #param PARAM_MSG_INTRUSION (libelle="Message affiché lors d'une intrusion", defaut="Détection intrusion infrarouge");
+ #param PARAM_TITRE         (libelle="Titre de l'encadré", defaut="Titre encadré");
+
+                                     /********************************************/
 /**********************************                    ENTREES                 ***********************************/
                                   /********************************************/
 /* MNEMONICS ET BITS ASSOCIES ENTREES TORS -----------------------------------*/
