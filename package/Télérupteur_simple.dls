@@ -18,6 +18,7 @@
 /*                                               Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr    24.10.2019 09:27:58 */
 /* Revue le 22/06/2023                                                                                                        */
 /* Passage en package le 12/12/2023                                                                                           */
+/* 26/02/2025 V1.1 Ajout de l'option PARAM_AUTO_OFF                                                                           */
 /******************************************************************************************************************************/
 
 /* Paramètre du package */
@@ -26,6 +27,7 @@
  #param PARAM_MSG_TELE_OFF (libelle="Etat du télérupteur quand OFF", defaut="Lumière éteinte");
  #param PARAM_VISUEL_ON    (libelle="Libellé du visuel quand ON", defaut="Lumière allumée");
  #param PARAM_VISUEL_OFF   (libelle="Libellé du visuel quand OFF", defaut="Lumière éteinte");
+ #param PARAM_AUTO_OFF     (libelle="Temps maximum avant arrêt automatique (en 1/10 seconde)", defaut="0");
 
 /* Bits de consommation du module */
  #define POS_TL               <-> _DI; /* Position Télérupteur */
@@ -81,6 +83,9 @@
 
 /* FIN DE MANOEUVRE */
   - TR_DEF -> /MO_ACT_TELE;
+
+/* Auto OFF */
+  - $PARAM_AUTO_OFF > 0 . POS_TL -- daa=$PARAM_AUTO_OFF -> ODLS_WANT_OFF;
 
                                          /*******************************************/
 /*****************************************            DEFAUTS ET ALARMES            ******************************************/
