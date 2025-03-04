@@ -10,6 +10,7 @@
             nice -10 sed s/c8c8c8/ffff00/g $SRC > ${FILENAME}_yellow.svg
             nice -10 sed s/c8c8c8/ffbe00/g $SRC > ${FILENAME}_orange.svg
             nice -10 sed s/c8c8c8/006400/g $SRC > ${FILENAME}_darkgreen.svg
+	    nice -10 sed s/c8c8c8/90EE90/g $SRC > ${FILENAME}_lightgreen.svg
             nice -10 sed s/c8c8c8/000000/g $SRC > ${FILENAME}_black.svg
             nice -10 sed s/c8c8c8/ffffff/g $SRC > ${FILENAME}_white.svg
             nice -10 sed s/c8c8c8/7b7b7b/g $SRC > ${FILENAME}_gray.svg
