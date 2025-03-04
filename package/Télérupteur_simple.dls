@@ -41,16 +41,17 @@
  #define VISU_POS_TL_CLIC     <-> _DI; /* Appui sur VISU_POS_TL */
 
 /* Bits de production du module */
- #define ACT_TL               <-> _DO; /* Sortie physique de pilotage du télérupteur */
+ #define ACT_TL               <-> _DO;                                          /* Sortie physique de pilotage du télérupteur */
  #define MDEF_REPOS           <-> _B(libelle="Mémorisation du défaut repos non acquitté du TL");
  #define MDEF_REPOS_F         <-> _B(libelle="Mémorisation du défaut repos acquitté (Fixe) du TL");
  #define MDEF_TRAVAIL         <-> _B(libelle="Mémorisation du défaut travail non acquitté du TL");
  #define MDEF_TRAVAIL_F       <-> _B(libelle="Mémorisation du défaut travail acquitté (Fixe) du TL");
- #define MSG_TELE_ON          <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_ON"); /* TL activé */
- #define MSG_TELE_OFF         <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_OFF"); /* TL activé */
- #define MSG_DEF_REPOS        <-> _MSG(type=defaut,libelle="Défaut repos"); /* Defaut repos */
- #define MSG_DEF_TRAVAIL      <-> _MSG(type=defaut,libelle="Défaut travail"); /* Defaut travail */
- #define VISU_POS_TL          <-> _I(forme="$PARAM_FORME",libelle="$PARAM_VISUEL_OFF"); /* Position du Télérupteur */
+ #define MSG_TELE_ON          <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_ON");                                  /* TL activé */
+ #define MSG_TELE_OFF         <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_OFF");                                 /* TL activé */
+ #define MSG_DEF_REPOS        <-> _MSG(type=defaut,libelle="Défaut repos",sms);                               /* Defaut repos */
+ #define MSG_DEF_TRAVAIL      <-> _MSG(type=defaut,libelle="Défaut travail",sms);                           /* Defaut travail */
+ #define MSG_OFF_BY_AUTO_OFF  <-> _MSG(type=etat,libelle="Arret sur auto OFF",sms);                     /* Arret sur Auto-off */
+ #define VISU_POS_TL          <-> _I(forme="$PARAM_FORME",libelle="$PARAM_VISUEL_OFF");            /* Position du Télérupteur */
  #define CI_TL                <-> _CI(libelle="Compteur d'impulsion Télérupteur");
  #define CH_TL                <-> _CH(libelle="Compteur horaire de temps d'allumage");
 
@@ -85,7 +86,7 @@
   - TR_DEF -> /MO_ACT_TELE;
 
 /* Auto OFF */
-  - $PARAM_AUTO_OFF > 0 . POS_TL -- daa=$PARAM_AUTO_OFF -> ODLS_WANT_OFF;
+  - $PARAM_AUTO_OFF > 0 . POS_TL -- daa=$PARAM_AUTO_OFF -> MSG_OFF_BY_AUTO_OFF, ODLS_WANT_OFF;
 
                                          /*******************************************/
 /*****************************************            DEFAUTS ET ALARMES            ******************************************/
