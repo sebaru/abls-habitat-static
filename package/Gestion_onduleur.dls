@@ -49,22 +49,22 @@
 /***********************************            MESSAGES IMPRIMANTES           ***********************************/
                                    /*******************************************/
 /* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
-   #define MSG_CHARGE_BATTERIE_75  <->_MSG(type=etat,libelle="Charge Batterie <= 75%");
-   #define MSG_CHARGE_BATTERIE_50  <->_MSG(type=defaut,libelle="Charge Batterie <= 50%");
-   #define MSG_CHARGE_BATTERIE_25  <->_MSG(type=alarme,libelle="Charge Batterie <= 25%");
-   #define MSG_CHARGE_BATTERIE_10  <->_MSG(type=alarme,libelle="Charge Batterie <= 10%");
+   #define MSG_CHARGE_BATTERIE_75  <->_MSG(type=etat,libelle="Charge Batterie <= 75%",sms);
+   #define MSG_CHARGE_BATTERIE_50  <->_MSG(type=defaut,libelle="Charge Batterie <= 50%",sms);
+   #define MSG_CHARGE_BATTERIE_25  <->_MSG(type=alarme,libelle="Charge Batterie <= 25%",sms);
+   #define MSG_CHARGE_BATTERIE_10  <->_MSG(type=alarme,libelle="Charge Batterie <= 10%",sms);
 
-   #define MSG_ALARME_CHARGE_BAT   <->_MSG(type=alarme,libelle="Alarme: Les batteries onduleur sont à plat");
-   #define MSG_ALARME_VOLTAGE_BAT  <->_MSG(type=alarme,libelle="Alarme: Tension trop faible sur batterie onduleur");
-   #define MSG_DEFAUT_NTH_LOAD     <->_MSG(type=defaut,libelle="Défaut: La charge de sortie dépasse les 80%");
-   #define MSG_ALARME_NTH_LOAD     <->_MSG(type=alarme,libelle="Alarme: La charge de sortie dépasse les 90%");
+   #define MSG_ALARME_CHARGE_BAT   <->_MSG(type=alarme,libelle="Alarme: Les batteries onduleur sont à plat",sms);
+   #define MSG_ALARME_VOLTAGE_BAT  <->_MSG(type=alarme,libelle="Alarme: Tension trop faible sur batterie onduleur",sms);
+   #define MSG_DEFAUT_NTH_LOAD     <->_MSG(type=defaut,libelle="Défaut: La charge de sortie dépasse les 80%",sms);
+   #define MSG_ALARME_NTH_LOAD     <->_MSG(type=alarme,libelle="Alarme: La charge de sortie dépasse les 90%",sms);
 
-   #define MSG_UPS_ONLINE          <->_MSG(type=etat,libelle="Onduleur Online");
-   #define MSG_UPS_OFFLINE         <->_MSG(type=alarme,libelle="Onduleur Hors tension !");
-   #define MSG_UPS_CHARGING        <->_MSG(type=etat,libelle="Batterie en charge");
-   #define MSG_UPS_ON_BAT          <->_MSG(type=alarme,libelle="Onduleur sur Batterie");
-   #define MSG_UPS_REPLACE_BATT    <->_MSG(type=defaut,libelle="Remplacez les batteries !");
-   #define MSG_UPS_ALARM           <->_MSG(type=alarme,libelle="Onduleur en Alarme !");
+   #define MSG_UPS_ONLINE          <->_MSG(type=etat,libelle="Onduleur Online",sms);
+   #define MSG_UPS_OFFLINE         <->_MSG(type=alarme,libelle="Onduleur Hors tension !",sms);
+   #define MSG_UPS_CHARGING        <->_MSG(type=etat,libelle="Batterie en charge",sms);
+   #define MSG_UPS_ON_BAT          <->_MSG(type=alarme,libelle="Onduleur sur Batterie",sms);
+   #define MSG_UPS_REPLACE_BATT    <->_MSG(type=defaut,libelle="Remplacez les batteries !",sms);
+   #define MSG_UPS_ALARM           <->_MSG(type=alarme,libelle="Onduleur en Alarme !",sms);
 
                                    /*******************************************/
 /***********************************                   VISUELS                 ***********************************/
