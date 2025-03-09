@@ -48,9 +48,9 @@
  #define MDEF_TRAVAIL_F       <-> _B(libelle="Mémorisation du défaut travail acquitté (Fixe) du TL");
  #define MSG_TELE_ON          <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_ON");                                  /* TL activé */
  #define MSG_TELE_OFF         <-> _MSG(type=etat,libelle="$PARAM_MSG_TELE_OFF");                                 /* TL activé */
- #define MSG_DEF_REPOS        <-> _MSG(type=defaut,libelle="Défaut repos",sms);                               /* Defaut repos */
- #define MSG_DEF_TRAVAIL      <-> _MSG(type=defaut,libelle="Défaut travail",sms);                           /* Defaut travail */
- #define MSG_OFF_BY_AUTO_OFF  <-> _MSG(type=etat,libelle="Arret sur auto OFF",sms);                     /* Arret sur Auto-off */
+ #define MSG_DEF_REPOS        <-> _MSG(type=defaut,libelle="Défaut repos",notif_sms);                               /* Defaut repos */
+ #define MSG_DEF_TRAVAIL      <-> _MSG(type=defaut,libelle="Défaut travail",notif_sms);                           /* Defaut travail */
+ #define MSG_OFF_BY_AUTO_OFF  <-> _MSG(type=etat,libelle="Arret sur auto OFF",notif_sms);                     /* Arret sur Auto-off */
  #define VISU_POS_TL          <-> _I(forme="$PARAM_FORME",libelle="$PARAM_VISUEL_OFF");            /* Position du Télérupteur */
  #define CI_TL                <-> _CI(libelle="Compteur d'impulsion Télérupteur");
  #define CH_TL                <-> _CH(libelle="Compteur horaire de temps d'allumage");
