@@ -260,12 +260,12 @@
 /*----------------------------------------------------------------------------*/
  switch
 /* Boitier InfraRouge */
- |- ME_MTCE                             -> VISUEL_BOITIER(mode=0,color=gris,cligno=1);   /* Maint. Animée */
+ |- ME_MTCE                             -> VISUEL_BOITIER(color=gris,cligno=1);   /* Maint. Animée */
 
- |- MEMSSB_ALERTE                       -> VISUEL_BOITIER(mode=0,color=rouge,cligno=1); /* Alerte Animée */
- |- MEMSSB_ALERTE_FIXE                  -> VISUEL_BOITIER(mode=0,color=rouge);                 /* Alerte */
+ |- MEMSSB_ALERTE                       -> VISUEL_BOITIER(color=rouge,cligno=1); /* Alerte Animée */
+ |- MEMSSB_ALERTE_FIXE                  -> VISUEL_BOITIER(color=rouge);                 /* Alerte */
 
- |-                                     -> VISUEL_BOITIER(mode=0,color=blanc);                 /* Attente */
+ |-                                     -> VISUEL_BOITIER(color=blanc);                 /* Attente */
 
                                   /********************************************/
 /**********************************       EDITIONS DES MESSAGES IMPRIMANTE     ***********************************/
