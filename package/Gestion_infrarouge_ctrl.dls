@@ -3,7 +3,7 @@
 /* 30/12/2023: Création du Package                                                                        SeB V1.0            */
 /******************************************************************************************************************************/
 
- #param PARAM_TARGET (libelle="Tech_ID maitre de l'infrarouge controlé", defaut: "SYS");
+ #param PARAM_TARGET (libelle="Tech_ID maitre de l'infrarouge controlé", defaut= "SYS");
  #param PARAM_TITRE  (libelle="Titre de l'encadré", defaut="Controle IR");
 
  #define VISUEL_TITRE       <-> _I(forme="encadre", mode="3x4", color="black", libelle="$PARAM_TITRE");
