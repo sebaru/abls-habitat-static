@@ -155,10 +155,6 @@
  -/P_BOITIER                             -> CI_OPEN_BOITIER;                      /* +1 Ouverture Boitier */
 
 /*----------------------------------------------------------------------------*/
-/* Capteur InfraRouge à l'Ecoute après Tempo Matérielle du Capteur */
- -/ME_MTCE ./P_CAPTEUR                   -> M_ECOUTE;               /* Infra Rouge à l'Ecoute (Bit 'M') */
-
-/*----------------------------------------------------------------------------*/
 /* Gestion de la Détection (Inhibition de 5 Mn), tenir compte du Maintien Matériel de la Détection (3mn) */
  -/ME_MTCE . MEMSA_OK .  P_CAPTEUR . /ME_DETECTION .  $PARAM_VEILLE_ZONE -> ME_DETECTION, ME_ETAT_INTRUSION;
  -/ME_MTCE . MEMSA_OK .  P_CAPTEUR . /ME_DETECTION . /$PARAM_VEILLE_ZONE -> ME_DETECTION, ME_ETAT_PRESENCE;
