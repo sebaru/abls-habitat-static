@@ -28,6 +28,7 @@
  #param PARAM_MSG_PRESENCE  (libelle="Message affiché lors d'une détection", defaut="Détection présence infrarouge");
  #param PARAM_MSG_INTRUSION (libelle="Message affiché lors d'une intrusion", defaut="Détection intrusion infrarouge");
  #param PARAM_TITRE         (libelle="Titre de l'encadré", defaut="Titre encadré");
+ #param PARAM_VEILLE_ZONE   (libelle="Bit de veille de la zone sous surveillance", defaut="SYS:MEMSSB_VEILLE");
 
                                      /********************************************/
 /**********************************                    ENTREES                 ***********************************/
@@ -84,8 +85,6 @@
 /* MNEMONICS ET BITS ASSOCIES BOUTONS DU MODULE ------------------------------*/
 
 /* ETATS ~~~~~~~~~~~~~~~~~~~~~~~~*/
-  #define M_ECOUTE           <->_M(libelle="Mémo Etat Ecoute du Capteur InfraRouge");
-
   #define ME_MTCE            <->_B(libelle="Etat maintenance");
 
   #define ME_BOITIER_OPEN    <->_B(groupe=1,libelle="Mémo Etat Open du Boitier InfraRouge");
@@ -113,18 +112,18 @@
                                   /********************************************/
 /* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
 /*----------------------------------------------------------------------------*/
-  #define EM_ECOUTE             <->_MSG(type=notification,libelle="InfraRouge à l'Ecoute");
   #define EM_VEILLE             <->_MSG(type=veille,libelle="Veille du Boitier InfraRouge");
 /*----------------------------------------------------------------------------*/
-  #define MSG_BOITIER_CLOS    <->_MSG(type=etat,libelle="Boitier du Capteur InfraRouge Fermés");
-  #define MSG_BOITIER_OPEN    <->_MSG(type=defaut,libelle="Boitier du Capteur InfraRouge Ouvert");
+  #define MSG_BOITIER_CLOS      <->_MSG(type=etat,libelle="Boitier du Capteur InfraRouge Fermés");
+  #define MSG_BOITIER_OPEN      <->_MSG(type=defaut,libelle="Boitier du Capteur InfraRouge Ouvert");
 /*----------------------------------------------------------------------------*/
+  #define EM_ECOUTE             <->_MSG(type=etat,libelle="InfraRouge à l'Ecoute");
   #define EM_PRESENCE           <->_MSG(type=etat,libelle="$PARAM_MSG_PRESENCE");
+  #define EM_INTRUSION          <->_MSG(type=alerte,libelle="$PARAM_MSG_INTRUSION");
 /*----------------------------------------------------------------------------*/
   #define EMDEFCAPTEUR          <->_MSG(type=defaut,libelle="Défaut InfraRouge sur inactivité depuis 24h");
 /*----------------------------------------------------------------------------*/
   #define EMALERBRIS            <->_MSG(type=alerte,libelle="Alerte Bris du Boitier InfraRouge");
-  #define EM_INTRUSION          <->_MSG(type=alerte,libelle="$PARAM_MSG_INTRUSION");
 
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -161,8 +160,9 @@
 
 /*----------------------------------------------------------------------------*/
 /* Gestion de la Détection (Inhibition de 5 Mn), tenir compte du Maintien Matériel de la Détection (3mn) */
- - P_CAPTEUR . /ME_DETECTION .  OUVENT:MEMSSB_VEILLE -> ME_DETECTION, ME_ETAT_INTRUSION;
- - P_CAPTEUR . /ME_DETECTION . /OUVENT:MEMSSB_VEILLE -> ME_DETECTION, ME_ETAT_PRESENCE;
+ -/ME_MTCE . MEMSA_OK .  P_CAPTEUR . /ME_DETECTION .  $PARAM_VEILLE_ZONE -> ME_DETECTION, ME_ETAT_INTRUSION;
+ -/ME_MTCE . MEMSA_OK .  P_CAPTEUR . /ME_DETECTION . /$PARAM_VEILLE_ZONE -> ME_DETECTION, ME_ETAT_PRESENCE;
+ -/ME_MTCE . MEMSA_OK . /ME_DETECTION                                    -> EM_ECOUTE;
 
  - ME_DETECTION                          -> TC_DETECTION;                  /* Tempo Inhibition Détection IR */
  - TC_DETECTION                          ->/ME_DETECTION, /ME_ETAT_INTRUSION, /ME_ETAT_PRESENCE;     /* RAZ */
@@ -272,7 +272,6 @@
                                   /********************************************/
 /* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES DU MODULE ---------------*/
 /*----------------------------------------------------------------------------*/
- - M_ECOUTE                               -> EM_ECOUTE;                         /* INFRA ROUGE A L'ECOUTE(I)*/
  - MEMSSB_VEILLE                          -> EM_VEILLE;                       /* BOITIER INFRA ROUGE EN VEILLE(V)*/
 /*----------------------------------------------------------------------------*/
  - ME_ETAT_PRESENCE                       -> EM_PRESENCE;           /* DETECTION PRESENCE(I)*/
