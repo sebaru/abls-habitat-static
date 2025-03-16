@@ -21,8 +21,8 @@
 /* 23/02/2025  Ajout des parametres #param                                                          SeB    V1.3  */
 /*****************************************************************************************************************/
 
- #param PARAM_TARGET (libelle="le tech_id cible associé à la maintenance");
- #param PARAM_DESCRIPTION (libelle="libelle à afficher dans l'encadré");
+ #param PARAM_TARGET (libelle="le tech_id cible associé à la maintenance", defaut="SYS");
+ #param PARAM_DESCRIPTION (libelle="libelle à afficher dans l'encadré", "SYS MTCE");
 
                                   /********************************************/
 /**********************************            CREATIONS DES VISUELS           ***********************************/
