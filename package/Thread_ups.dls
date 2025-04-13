@@ -1,11 +1,15 @@
 /*****************************************************************************************************************/
-/* ABLS Habitat(c)                                                                           26.09.2024 18:55:27 */
+/* ABLS Habitat(c)                                                                           13/05/2025 18:55:27 */
 /*                                                                                                               */
 /*            UPS ==> Uninteruptible Power Supply                                                                */
 /*                                                                                                               */
-/* 26/09/2024  Reprise ancien code et passage en pakcage                                                         */
-/*                                                                                                               */
+/* 26/09/2024  Reprise ancien code et passage en package                                                         */
+/* 13/05/2025  Revue des visuels et messages                                                                     */
 /*****************************************************************************************************************/
+
+   #define VISU_COMM_UPS           <->_I(forme="check",libelle="Comm Onduleur");
+   #define VISU_ECLAIR             <->_I(forme="eclair", libelle="Sous tension" );
+   #define VISU_BATTERIE           <->_I(forme="pile", libelle="Batteries" );
 
    #define LOAD                 <-> _AI();
    #define VISUEL_LOAD          <-> _I(forme="cadran",mode="progress-vor", min=0.0, max=100, seuil_nh=50,  seuil_nth=80,  decimal=1, input=LOAD);
@@ -69,9 +73,6 @@
                                    /*******************************************/
 /***********************************                   VISUELS                 ***********************************/
                                     /******************************************/
-   #define VISU_ECLAIR             <->_I(forme="eclair", libelle="Sous tension" );
-   #define VISU_BATTERIE           <->_I(forme="pile", libelle="Batteries" );
-   #define VISU_COMM_UPS           <->_I(forme="check",libelle="Comm Onduleur");
 
 /*ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 /*                                                                                                               */
@@ -97,12 +98,14 @@
 /* ALARMES -------------------------------------------------------------------*/
  - BATTERY_CHARGE < 5.0  ./MALAF_CHARGE_BAT  -> TRDEFCHARGEBAT;
  - TRDEFCHARGEBAT                            -> MALA_CHARGE_BAT;                   /* Alarme Charge Batteries (%)*/
- - OSYN_ACQUIT . MALA_CHARGE_BAT            ->/MALA_CHARGE_BAT, MALAF_CHARGE_BAT;
+ - (OSYN_ACQUIT + VISU_BATTERIE_CLIC) . MALA_CHARGE_BAT
+                                             ->/MALA_CHARGE_BAT, MALAF_CHARGE_BAT;
  - BATTERY_CHARGE > 60.0                     ->/MALAF_CHARGE_BAT;            /* Fin d'Alarme Charge Batteries (%)*/
 
  - _FALSE . BATTERY_VOLTAGE   < 45.0 ./MALAF_VOLTAGE_BAT/*  Ellipse PRO 1600 ne dispose pas du capteur de tension batterie ! */
                                              -> MALA_VOLTAGE_BAT;                 /* Alarme Tension Batteries (V)*/
- - OSYN_ACQUIT . MALA_VOLTAGE_BAT           ->/MALA_VOLTAGE_BAT, MALAF_VOLTAGE_BAT;
+ - (OSYN_ACQUIT + VISU_BATTERIE_CLIC) . MALA_VOLTAGE_BAT
+                                             ->/MALA_VOLTAGE_BAT, MALAF_VOLTAGE_BAT;
  - BATTERY_VOLTAGE   > 50.0
                                              ->/MALAF_VOLTAGE_BAT;          /* Fin d'Alarme Tension Batteries (V)*/
 
@@ -110,7 +113,8 @@
  - LOAD < 60.0                               ->/MDEF_NTH_LOAD;  /* Fin Défaut Charge (A)*/
 
  - LOAD > 90.0 ./MALAF_NTH_LOAD              -> MALA_NTH_LOAD;       /* Alarme Charge (A)*/
- - OSYN_ACQUIT . MALA_NTH_LOAD              ->/MALA_NTH_LOAD,  MALAF_NTH_LOAD;
+ - (OSYN_ACQUIT + VISU_BATTERIE_CLIC) . MALA_NTH_LOAD
+                                             ->/MALA_NTH_LOAD,  MALAF_NTH_LOAD;
  - LOAD < 60.0                               ->/MALAF_NTH_LOAD;  /* Fin Alarme Charge (A)*/
 
                                   /********************************************/
@@ -162,16 +166,16 @@
                                   /********************************************/
 /**********************************            EDITIONS DES MESSAGES           ***********************************/
                                   /********************************************/
-/* Etats Onduleur ~~~~~~~~*/
- - COMM.  UPS_ONLINE                -> MSG_UPS_ONLINE,  VISU_ECLAIR(color="green", libelle="Sous tension");
- - COMM. /UPS_ONLINE                -> MSG_UPS_OFFLINE, VISU_ECLAIR(color="red",   libelle="Hors tension", cligno );
- - COMM.  UPS_CHARGING              -> MSG_UPS_CHARGING;
- - COMM.  UPS_ON_BATT               -> MSG_UPS_ON_BAT;
- - COMM.  UPS_REPLACE_BATT          -> MSG_UPS_REPLACE_BATT;
- - COMM.  UPS_ALARM                 -> MSG_UPS_ALARM;
+
+/* Visuels Etats Onduleur ~~~~~~~~*/
+ switch
+  | -/IO_COMM                          -> VISU_ECLAIR(disable, libelle="Etat inconnu");
+  | - UPS_ONLINE                       -> VISU_ECLAIR(color="green", libelle="Sous tension");
+  | -                                  -> VISU_ECLAIR(color="red",   libelle="Hors tension", cligno );
 
 /* Etats charge batterie ~~~~~~~~*/
  switch
+  | -/IO_COMM                -> VISU_BATTERIE ( mode="en_charge", libelle="Etat inconnu", disable );
   | - UPS_CHARGING           -> VISU_BATTERIE ( mode="en_charge", libelle="Batteries en charge" );
   | - BATTERY_CHARGE > 80    -> VISU_BATTERIE ( mode="100", libelle="Batteries pleines" );
   | - BATTERY_CHARGE > 60    -> VISU_BATTERIE ( mode="80", libelle="Batteries en décharge" );
@@ -180,21 +184,27 @@
   | - BATTERY_CHARGE > 10    -> VISU_BATTERIE ( mode="20", libelle="Batteries bientot vides" );
   | -                        -> VISU_BATTERIE ( mode="0", libelle="Batteries vides", cligno );
 
- switch
-  | -/IO_COMM                -> _NOP;
-  | - BATTERY_CHARGE <= 10.0 -> MSG_CHARGE_BATTERIE_10;     /* CHARGE BATTERIES à 10% OK(AL)*/
-  | - BATTERY_CHARGE <= 25.0 -> MSG_CHARGE_BATTERIE_25;                               /* CHARGE BATTERIES à 25% OK(T)*/
-  | - BATTERY_CHARGE <= 50.0 -> MSG_CHARGE_BATTERIE_50;                               /* CHARGE BATTERIES à 50% OK(I)*/
-  | - BATTERY_CHARGE <= 75.0 -> MSG_CHARGE_BATTERIE_75;                               /* CHARGE BATTERIES à 75% OK(I)*/
-  | -                        -> _NOP;
-
- - IO_COMM. MALA_CHARGE_BAT + MALAF_CHARGE_BAT        -> MSG_ALARME_CHARGE_BAT;
- - IO_COMM. MALA_VOLTAGE_BAT + MALAF_VOLTAGE_BAT      -> MSG_ALARME_VOLTAGE_BAT;
- - IO_COMM. MDEF_NTH_LOAD                             -> MSG_DEFAUT_NTH_LOAD;
- - IO_COMM. MALA_NTH_LOAD + MALAF_NTH_LOAD            -> MSG_ALARME_NTH_LOAD;
-
 /* Visuels */
  - IO_COMM -> VISU_COMM_UPS(mode="checked");
  -/IO_COMM -> VISU_COMM_UPS(mode="unchecked",cligno);
+
+/* Message Etats Onduleur ~~~~~~~~*/
+ - IO_COMM.  UPS_ONLINE                 -> MSG_UPS_ONLINE;
+ - IO_COMM. /UPS_ONLINE                 -> MSG_UPS_OFFLINE;
+ - IO_COMM.  UPS_CHARGING               -> MSG_UPS_CHARGING;
+ - IO_COMM.  UPS_ON_BATT                -> MSG_UPS_ON_BAT;
+ - IO_COMM.  UPS_REPLACE_BATT           -> MSG_UPS_REPLACE_BATT;
+ - IO_COMM.  UPS_ALARM                  -> MSG_UPS_ALARM;
+
+ - IO_COMM . BATTERY_CHARGE <= 10.0     -> MSG_CHARGE_BATTERIE_10;     /* CHARGE BATTERIES à 10% OK(AL)*/
+ - IO_COMM . BATTERY_CHARGE <= 25.0     -> MSG_CHARGE_BATTERIE_25;     /* CHARGE BATTERIES à 25% OK(T)*/
+ - IO_COMM . BATTERY_CHARGE <= 50.0     -> MSG_CHARGE_BATTERIE_50;     /* CHARGE BATTERIES à 50% OK(I)*/
+ - IO_COMM . BATTERY_CHARGE <= 75.0     -> MSG_CHARGE_BATTERIE_75;     /* CHARGE BATTERIES à 75% OK(I)*/
+
+ - MALA_CHARGE_BAT + MALAF_CHARGE_BAT   -> MSG_ALARME_CHARGE_BAT;
+ - MALA_VOLTAGE_BAT + MALAF_VOLTAGE_BAT -> MSG_ALARME_VOLTAGE_BAT;
+ - MDEF_NTH_LOAD                        -> MSG_DEFAUT_NTH_LOAD;
+ - MALA_NTH_LOAD + MALAF_NTH_LOAD       -> MSG_ALARME_NTH_LOAD;
+
 
 /*---------------------------------------------------------------------------------------------------------------*/
