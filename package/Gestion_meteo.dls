@@ -1,0 +1,33 @@
+/******************************************************************************************************************************/
+/*  ABLS(C)Habitat                                                                                                            */
+/*  $DLS_ID.dls - $DLS_TECH_ID                                                                                                */
+/*                                                                                                                            */
+/* DLS de gestion de la météo                                                                                                 */
+/*                                                                                                                            */
+/* Ce module s'appuie sur le thread METEO_API pour notifier à l'utilisateur la météo du jour                                  */
+/* Paramètres:                                                                                                                */
+/*                                                                                                                            */
+/* 26/04/2025  Création ce Jour                                                                                    Seb  V1.0  */
+/******************************************************************************************************************************/
+
+ #param PARAM_METEO_TIME        (libelle="Heure de notification de la météo du jour", defaut="07:30");
+ #param PARAM_METEO_API_TECH_ID (libelle="Tech_id du DLS gérant l'accès à l'API météo", defaut="METEO_API");
+
+ #define VISU_DAY0_TEMP_MIN    <-> _I(forme="cadran", mode="texte", input=$PARAM_METEO_API_TECH_ID:DAY0_TEMP_MIN);
+ #define VISU_DAY0_TEMP_MAX    <-> _I(forme="cadran", mode="texte", input=$PARAM_METEO_API_TECH_ID:DAY0_TEMP_MAX);
+ #define VISU_DAY0_PROBA_PLUIE <-> _I(forme="cadran", mode="progress-vor", min=0.0, max=100.0, seuil_nh=30.0, seuil_nth=70,decimal=0, input=$PARAM_METEO_API_TECH_ID:DAY0_PROBA_PLUIE);
+ #define VISU_DAY0_PROBA_GEL   <-> _I(forme="cadran", mode="progress-vor", min=0.0, max=100.0, seuil_nh=30.0, seuil_nth=70,decimal=0, input=$PARAM_METEO_API_TECH_ID:DAY0_PROBA_GEL);
+
+ #define MSG_SUNRISE           <-> _MSG(libelle="Le soleil se lève", notif_sms);
+ #define MSG_SUNSET            <-> _MSG(libelle="Le soleil se couche", notif_sms);
+ #define MSG_METEO_DU_JOUR     <-> _MSG(type=etat,libelle="La météo du jour: entre $METEO_API:DAY0_TEMP_MIN et $PARAM_METEO_API_TECH_ID::DAY0_TEMP_MAX.", notif_sms);
+ #define MSG_PROBA_DU_JOUR     <-> _MSG(type=etat,libelle="Les probas du jour: gel=$METEO_API:DAY0_PROBA_GEL, pluie=$PARAM_METEO_API_TECH_ID::DAY0_PROBA_PLUIE.", notif_sms);
+ #define MSG_VENT_DU_JOUR      <-> _MSG(type=etat,libelle="Les vents: en moyenne $METEO_API:DAY0_VENT_A_10M, rafale à $PARAM_METEO_API_TECH_ID::DAY0_RAFALE_VENT.", notif_sms);
+
+ - $PARAM_METEO_API_TECH_ID:SUNRISE -> MSG_SUNRISE;
+ - $PARAM_METEO_API_TECH_ID:SUNSET  -> MSG_SUNSET;
+ - _HEURE = $PARAM_METEO_TIME -> MSG_METEO_DU_JOUR;
+ - _HEURE = $PARAM_METEO_TIME -> MSG_PROBA_DU_JOUR;
+ - _HEURE = $PARAM_METEO_TIME -> MSG_VENT_DU_JOUR;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
