@@ -66,7 +66,7 @@
 {"categorie": "hydraulique", "forme": "2d_tuyau_droit",      "extension": "svg",  "default_mode": "repos",      "default_color": "white",   "controle": "by_mode_color", "modes": ["repos", "anime"] },
 {"categorie": "hydraulique", "forme": "2d_tuyau_coude",      "extension": "svg",  "default_mode": "repos",      "default_color": "white",   "controle": "by_mode_color", "modes": ["repos", "anime", "reverse" ] },
 {"categorie": "hydraulique", "forme": "2d_tuyau_croix",      "extension": "svg",  "default_mode": "repos",      "default_color": "white",   "controle": "by_mode_color", "modes": ["repos", "anime_01","anime_02"] },
-{"categorie": "hydraulique", "forme": "2d_tuyau_te",         "extension": "svg",  "default_mode": "repos",      "default_color": "white",   "controle": "by_mode_color", "modes": ["repos", "anime_01"] },
+{"categorie": "hydraulique", "forme": "2d_tuyau_te",         "extension": "svg",  "default_mode": "repos",      "default_color": "white",   "controle": "by_mode_color", "modes": ["repos", "anime_01", "reverse"] },
 {"categorie": "hydraulique", "forme": "pressostat_tor",      "extension": "svg",  "default_mode": "off",        "default_color": "black",   "controle": "by_mode_color", "modes": ["on", "off"] },
 {"categorie": "hydraulique", "forme": "pressostat_0_6_bars", "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "by_js" },
 {"categorie": "hydraulique", "forme": "pressostat_0_3_bars", "extension": "svg",  "default_mode": "default",    "default_color": "default", "controle": "by_js" },
