@@ -20,9 +20,9 @@
 
  #define MSG_SUNRISE           <-> _MSG(libelle="Le soleil se lève", notif_sms);
  #define MSG_SUNSET            <-> _MSG(libelle="Le soleil se couche", notif_sms);
- #define MSG_METEO_DU_JOUR     <-> _MSG(type=etat,libelle="La météo du jour: entre $METEO_API:DAY0_TEMP_MIN et $PARAM_METEO_API_TECH_ID::DAY0_TEMP_MAX.", notif_sms);
- #define MSG_PROBA_DU_JOUR     <-> _MSG(type=etat,libelle="Les probas du jour: gel=$METEO_API:DAY0_PROBA_GEL, pluie=$PARAM_METEO_API_TECH_ID::DAY0_PROBA_PLUIE.", notif_sms);
- #define MSG_VENT_DU_JOUR      <-> _MSG(type=etat,libelle="Les vents: en moyenne $METEO_API:DAY0_VENT_A_10M, rafale à $PARAM_METEO_API_TECH_ID::DAY0_RAFALE_VENT.", notif_sms);
+ #define MSG_METEO_DU_JOUR     <-> _MSG(type=etat,libelle="La météo du jour: entre $METEO_API:DAY0_TEMP_MIN et $$PARAM_METEO_API_TECH_ID:DAY0_TEMP_MAX.", notif_sms);
+ #define MSG_PROBA_DU_JOUR     <-> _MSG(type=etat,libelle="Les probas du jour: gel=$METEO_API:DAY0_PROBA_GEL, pluie=$$PARAM_METEO_API_TECH_ID:DAY0_PROBA_PLUIE.", notif_sms);
+ #define MSG_VENT_DU_JOUR      <-> _MSG(type=etat,libelle="Les vents: en moyenne $METEO_API:DAY0_VENT_A_10M, rafale à $$PARAM_METEO_API_TECH_ID:DAY0_RAFALE_VENT.", notif_sms);
 
  - $PARAM_METEO_API_TECH_ID:SUNRISE -> MSG_SUNRISE;
  - $PARAM_METEO_API_TECH_ID:SUNSET  -> MSG_SUNSET;
