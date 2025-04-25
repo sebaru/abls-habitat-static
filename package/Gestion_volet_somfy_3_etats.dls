@@ -23,13 +23,14 @@
  #define BP_OUVRE    <-> _DI; /* Bouton Poussoir Ouverture Volet Roulant */
  #define BP_FERME    <-> _DI; /* Bouton Poussoir Fermeture Volet Roulant */
 
- #define OTXT_OUVRE  <-> _DI; /* Ordre TXT Ouverture Volet Roulant */
- #define OTXT_FERME  <-> _DI; /* Ordre TXT Fermeture Volet Roulant */
- #define OTXT_AUTO   <-> _DI; /* Ordre TXT d'engagement du mode automatique */
- #define OTXT_MANU   <-> _DI; /* Ordre TXT de désengagement du mode automatique */
+ #define OTXT_OUVRE  <-> _DI(map_sms="$DLS_TECH_ID open"); /* Ordre TXT Ouverture Volet Roulant */
+ #define OTXT_FERME  <-> _DI(map_sms="$DLS_TECH_ID close"); /* Ordre TXT Fermeture Volet Roulant */
+ #define OTXT_AUTO   <-> _DI(map_sms="$DLS_TECH_ID auto"); /* Ordre TXT d'engagement du mode automatique */
+ #define OTXT_MANU   <-> _DI(map_sms="$DLS_TECH_ID manu"); /* Ordre TXT de désengagement du mode automatique */
 
  #define ODLS_OUVRE  <-> _DI; /* Demande DLS d'ouverture */
  #define ODLS_FERME  <-> _DI; /* Demande DLS de fermeture */
+ #define ODLS_STOP   <-> _DI; /* Demande DLS de fermeture */
 
  #define OVOC_OUVRE  <-> _DI; /* Demande VOCALE d'ouverture */
  #define OVOC_FERME  <-> _DI; /* Demande VOCALE de fermeture */
@@ -101,6 +102,7 @@
 /**************************************** Détection demande d'ouverture ou fermeture (a positionner apres stop) ***************/
  - CMD_STOP . (ODLS_OUVRE + OVOC_OUVRE + OTXT_OUVRE) -> CMD_OUVRE;
  - CMD_STOP . (ODLS_FERME + OVOC_FERME + OTXT_FERME) -> CMD_FERME;
+ - ODLS_STOP -> CMD_STOP;
 
 /*************************************************** En mode automatique ******************************************************/
 /* - MODE_AUTO . CMD_STOP . xx -> /CMD_STOP, CMD_FERME; */
