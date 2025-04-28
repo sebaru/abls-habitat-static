@@ -18,6 +18,7 @@
 /* N'oubliez pas de faire le mapping avec les entrées/sorties Physiques après compilation du module !                         */
 /* 16/12/2023 Passage en mode package                                                                                         */
 /* 25/12/2023 Separation des modes auto/manu pour simplifier                                                                  */
+/* 25/04/2025 Ajout de ODLS_STOP                                                                                              */
 /******************************************************************************************************************************/
 
  #define BP_OUVRE    <-> _DI; /* Bouton Poussoir Ouverture Volet Roulant */
