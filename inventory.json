@@ -92,7 +92,7 @@
 {"categorie": "outils",      "forme": "clef_a_molette_1",    "extension": "svg",  "default_mode": "default",    "default_color": "orange",  "controle": "by_color" },
 {"categorie": "outils",      "forme": "clef_a_molette_2",    "extension": "svg",  "default_mode": "default",    "default_color": "orange",  "controle": "by_color" },
 {"categorie": "outils",      "forme": "clef_a_molette_3",    "extension": "svg",  "default_mode": "default",    "default_color": "orange",  "controle": "by_color" },
-{"categorie": "ouvrant",     "forme": "fenetre",             "extension": "svg",  "default_mode": "ouverte",    "default_color": "default", "controle": "by_mode", "modes": ["fermee","ouverte"]},
+{"categorie": "ouvrant",     "forme": "fenetre",             "extension": "svg",  "default_mode": "open",       "default_color": "default", "controle": "by_mode", "modes": ["close","open"]},
 {"categorie": "ouvrant",     "forme": "porte_entree",        "extension": "svg",  "default_mode": "close",      "default_color": "black",   "controle": "by_mode", "modes": ["close","open"]},
 {"categorie": "ouvrant",     "forme": "porte_entree_2",      "extension": "png",  "default_mode": "close",      "default_color": "black",   "controle": "by_mode", "modes": ["close","open"]},
 {"categorie": "ouvrant",     "forme": "porte_entree_3",      "extension": "png",  "default_mode": "close",      "default_color": "black",   "controle": "by_mode", "modes": ["close","open"]},
