@@ -18,7 +18,7 @@
 /*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
 
  - IO_COMM -> VISU_GSM(mode="checked", libelle="$THIS connecté");         /* Si le thread dit que le GSM est UP, on l'affiche */
- -/IO_COMM -> MEMSA_DEFAUT, MEMSSP_DANGER,
+ -/IO_COMM -> MEMSA_DEFAUT, /*MEMSSP_DANGER,*/
               VISU_GSM(mode="unchecked_but_ok", cligno, libelle="$THIS déconnecté"),
               MSG_COMM_NOK;
 
