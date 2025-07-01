@@ -1,0 +1,11 @@
+{
+  "intents":
+  [ {"name": "LightOn", "exemples": [ "Allume la lumière", "Eclaire la pièce" ] },
+    {"name": "LightOff", "exemples": [ "Eteint la lumière" ] },
+    {"name": "AllLightsOn", "exemples":  [ "Allume toutes les lumières" ] },
+    {"name": "AllLightsOff", "exemples": [ "Eteint toutes les lumières" ] },
+    {"name": "GetWeatherForecast", "exemples": [ "Quelle est la météo", "est-ce qu'il fait beau ?" ] },
+    {"name": "GetExternalTemp", "exemples": [ "Quelle est la température extérieure", "est-ce qu'il fait chaud dehors ?" ] },
+    {"name": "GetMasterDev", "exemples": [ "Qui sont tes developpeurs ?", "D'ou viens-tu ?", "Qui t'a créé ?" ] }
+  ]
+}
