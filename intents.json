@@ -2,6 +2,8 @@
   "intents":
   [ {"name": "LightOn", "exemples": [ "Allume la lumière", "Eclaire la pièce" ] },
     {"name": "LightOff", "exemples": [ "Eteint la lumière" ] },
+    {"name": "GetTime", "exemples":  [ "Quelle heure est-il", "Quelle heure il est" ] },
+    {"name": "GetDate", "exemples":  [ "Quel jour sommes-nous", "On est quel jour" ] },
     {"name": "AllLightsOn", "exemples":  [ "Allume toutes les lumières" ] },
     {"name": "AllLightsOff", "exemples": [ "Eteint toutes les lumières" ] },
     {"name": "GetWeatherForecast", "exemples": [ "Quelle est la météo", "est-ce qu'il fait beau ?" ] },
