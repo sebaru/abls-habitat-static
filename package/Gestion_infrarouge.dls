@@ -161,7 +161,7 @@
  -/ME_MTCE . MEMSA_OK . /ME_DETECTION                                    -> EM_ECOUTE;
 
  - ME_DETECTION                          -> TC_DETECTION;                  /* Tempo Inhibition Détection IR */
- - TC_DETECTION                          ->/ME_DETECTION, /ME_ETAT_INTRUSION, /ME_ETAT_PRESENCE;     /* RAZ */
+ - TC_DETECTION ./P_CAPTEUR              ->/ME_DETECTION, /ME_ETAT_INTRUSION, /ME_ETAT_PRESENCE;     /* RAZ */
 
 /* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
 /* Passe en Défaut si pas d'Activité pendant 24h , Hors Maintenance */
