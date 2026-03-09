@@ -7,9 +7,9 @@
 /* 13/05/2025  Revue des visuels et messages                                                                     */
 /*****************************************************************************************************************/
 
-   #define VISU_COMM_UPS           <->_I(forme="check",libelle="Comm Onduleur");
+   #define VISU_COMM_UPS           <->_I(forme="check",  libelle="Comm Onduleur");
    #define VISU_ECLAIR             <->_I(forme="eclair", libelle="Sous tension" );
-   #define VISU_BATTERIE           <->_I(forme="pile", libelle="Batteries" );
+   #define VISU_BATTERIE           <->_I(forme="pile",   libelle="Batteries" );
 
    #define LOAD                 <-> _AI();
    #define VISUEL_LOAD          <-> _I(forme="cadran",mode="progress-vor", min=0.0, max=100, seuil_nh=50,  seuil_nth=80,  decimal=1, input=LOAD);
@@ -53,10 +53,11 @@
 /***********************************            MESSAGES IMPRIMANTES           ***********************************/
                                    /*******************************************/
 /* MNEMONICS ET BITS ASSOCIES POUR EDITIONS MESSAGES -------------------------*/
-   #define MSG_CHARGE_BATTERIE_75  <->_MSG(type=etat,libelle="Charge Batterie <= 75%",notif_sms);
-   #define MSG_CHARGE_BATTERIE_50  <->_MSG(type=defaut,libelle="Charge Batterie <= 50%",notif_sms);
-   #define MSG_CHARGE_BATTERIE_25  <->_MSG(type=alarme,libelle="Charge Batterie <= 25%",notif_sms);
-   #define MSG_CHARGE_BATTERIE_10  <->_MSG(type=alarme,libelle="Charge Batterie <= 10%",notif_sms);
+   #define MSG_CHARGE_BATTERIE_100 <->_MSG(type=etat,  libelle="Batterie pleine",notif_sms);
+   #define MSG_CHARGE_BATTERIE_75  <->_MSG(type=etat,  libelle="Batterie <= 75%",notif_sms);
+   #define MSG_CHARGE_BATTERIE_50  <->_MSG(type=defaut,libelle="Batterie <= 50%",notif_sms);
+   #define MSG_CHARGE_BATTERIE_25  <->_MSG(type=alarme,libelle="Batterie <= 25%",notif_sms);
+   #define MSG_CHARGE_BATTERIE_10  <->_MSG(type=alarme,libelle="Batterie <= 10%",notif_sms);
 
    #define MSG_ALARME_CHARGE_BAT   <->_MSG(type=alarme,libelle="Alarme: Les batteries onduleur sont à plat",notif_sms);
    #define MSG_ALARME_VOLTAGE_BAT  <->_MSG(type=alarme,libelle="Alarme: Tension trop faible sur batterie onduleur",notif_sms);
@@ -175,14 +176,14 @@
 
 /* Etats charge batterie ~~~~~~~~*/
  switch
-  | -/IO_COMM                -> VISU_BATTERIE ( mode="en_charge", libelle="Etat inconnu", disable );
+  | -/IO_COMM                -> VISU_BATTERIE ( mode="0",         libelle="Etat inconnu", disable );
   | - UPS_CHARGING           -> VISU_BATTERIE ( mode="en_charge", libelle="Batteries en charge" );
-  | - BATTERY_CHARGE > 80    -> VISU_BATTERIE ( mode="100", libelle="Batteries pleines" );
-  | - BATTERY_CHARGE > 60    -> VISU_BATTERIE ( mode="80", libelle="Batteries en décharge" );
-  | - BATTERY_CHARGE > 40    -> VISU_BATTERIE ( mode="60", libelle="Batteries en décharge" );
-  | - BATTERY_CHARGE > 20    -> VISU_BATTERIE ( mode="40", libelle="Batteries sur la fin" );
-  | - BATTERY_CHARGE > 10    -> VISU_BATTERIE ( mode="20", libelle="Batteries bientot vides" );
-  | -                        -> VISU_BATTERIE ( mode="0", libelle="Batteries vides", cligno );
+  | - BATTERY_CHARGE > 80    -> VISU_BATTERIE ( mode="100",       libelle="Batteries pleines" );
+  | - BATTERY_CHARGE > 60    -> VISU_BATTERIE ( mode="80",        libelle="Batteries en décharge" );
+  | - BATTERY_CHARGE > 40    -> VISU_BATTERIE ( mode="60",        libelle="Batteries en décharge" );
+  | - BATTERY_CHARGE > 20    -> VISU_BATTERIE ( mode="40",        libelle="Batteries sur la fin" );
+  | - BATTERY_CHARGE > 10    -> VISU_BATTERIE ( mode="20",        libelle="Batteries bientot vides" );
+  | -                        -> VISU_BATTERIE ( mode="0",         libelle="Batteries vides", cligno );
 
 /* Visuels */
  - IO_COMM -> VISU_COMM_UPS(mode="checked");
@@ -196,10 +197,11 @@
  - IO_COMM.  UPS_REPLACE_BATT           -> MSG_UPS_REPLACE_BATT;
  - IO_COMM.  UPS_ALARM                  -> MSG_UPS_ALARM;
 
- - IO_COMM . BATTERY_CHARGE <= 10.0     -> MSG_CHARGE_BATTERIE_10;     /* CHARGE BATTERIES à 10% OK(AL)*/
- - IO_COMM . BATTERY_CHARGE <= 25.0     -> MSG_CHARGE_BATTERIE_25;     /* CHARGE BATTERIES à 25% OK(T)*/
- - IO_COMM . BATTERY_CHARGE <= 50.0     -> MSG_CHARGE_BATTERIE_50;     /* CHARGE BATTERIES à 50% OK(I)*/
- - IO_COMM . BATTERY_CHARGE <= 75.0     -> MSG_CHARGE_BATTERIE_75;     /* CHARGE BATTERIES à 75% OK(I)*/
+ - IO_COMM . 75 <  BATTERY_CHARGE                              -> MSG_CHARGE_BATTERIE_100;    /* CHARGE BATTERIES à 100% OK(I)*/
+ - IO_COMM . 50 <  BATTERY_CHARGE . BATTERY_CHARGE <= 75.0     -> MSG_CHARGE_BATTERIE_75;     /* CHARGE BATTERIES à 75% OK(I)*/
+ - IO_COMM . 25 <  BATTERY_CHARGE . BATTERY_CHARGE <= 50.0     -> MSG_CHARGE_BATTERIE_50;     /* CHARGE BATTERIES à 50% OK(I)*/
+ - IO_COMM . 10 <  BATTERY_CHARGE . BATTERY_CHARGE <= 25.0     -> MSG_CHARGE_BATTERIE_25;     /* CHARGE BATTERIES à 25% OK(T)*/
+ - IO_COMM . 0  <= BATTERY_CHARGE . BATTERY_CHARGE <= 10.0     -> MSG_CHARGE_BATTERIE_10;     /* CHARGE BATTERIES à 10% OK(AL)*/
 
  - MALA_CHARGE_BAT + MALAF_CHARGE_BAT   -> MSG_ALARME_CHARGE_BAT;
  - MALA_VOLTAGE_BAT + MALAF_VOLTAGE_BAT -> MSG_ALARME_VOLTAGE_BAT;

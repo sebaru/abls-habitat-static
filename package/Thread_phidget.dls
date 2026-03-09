@@ -8,7 +8,7 @@
 /*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
 /* IO_COMM:      Bit de communication positionné par le thread lui-meme                                                       */
  #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec le Phidget $THIS");
- #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Unité PHIDGET $THIS hors service", notif_sms=yes, notif_chat=yes );
+ #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Unité PHIDGET $THIS hors service", notif_sms=no, notif_chat=yes );
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 

@@ -1,0 +1,15 @@
+{
+  "intentions":
+  [ {"intention": "LightOn", "exemples": [ "Allume la lumière", "Eclaire la pièce" ] },
+    {"intention": "LightOff", "exemples": [ "Eteint la lumière" ] },
+    {"intention": "HeatOn", "exemples": [ "Allume le chauffage", "Fait chauffer la pièce" ] },
+    {"intention": "HeatOff", "exemples": [ "Eteint le chauffage" ] },
+    {"intention": "GetTime", "exemples":  [ "Quelle heure est-il", "Quelle heure il est" ] },
+    {"intention": "GetDate", "exemples":  [ "Quel jour sommes-nous", "On est quel jour" ] },
+    {"intention": "AllLightsOn", "exemples":  [ "Allume toutes les lumières" ] },
+    {"intention": "AllLightsOff", "exemples": [ "Eteint toutes les lumières" ] },
+    {"intention": "GetWeatherForecast", "exemples": [ "Quelle est la météo", "est-ce qu'il fait beau ?" ] },
+    {"intention": "GetExternalTemp", "exemples": [ "Quelle est la température extérieure", "est-ce qu'il fait chaud dehors ?" ] },
+    {"intention": "GetMasterDev", "exemples": [ "Qui sont tes developpeurs ?", "D'ou viens-tu ?", "Qui t'a créé ?" ] }
+  ]
+}
