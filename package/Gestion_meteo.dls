@@ -16,6 +16,8 @@
  #define VISU_DAY0_TEMP_MIN    <-> _I(forme="cadran", mode="texte", input=$PARAM_METEO_API_TECH_ID:DAY0_TEMP_MIN);
  #define VISU_DAY0_TEMP_MAX    <-> _I(forme="cadran", mode="texte", input=$PARAM_METEO_API_TECH_ID:DAY0_TEMP_MAX);
  #define VISU_DAY0_PROBA_PLUIE <-> _I(forme="cadran", mode="progress-vor", min=0.0, max=100.0, seuil_nh=30.0, seuil_nth=70,decimal=0, input=$PARAM_METEO_API_TECH_ID:DAY0_PROBA_PLUIE);
+ #define VISU_DAY0_PROBA_PLUIE_MM     <-> _I(forme="cadran", mode="texte", min=0.0, max=10.0, seuil_nh=5.0, seuil_nth=8,decimal=1, input=$PARAM_METEO_API_TECH_ID:DAY0_PROBA_PLUIE_MM);
+ #define VISU_DAY0_PROBA_PLUIE_MM_MAX <-> _I(forme="cadran", mode="texte", min=0.0, max=10.0, seuil_nh=5.0, seuil_nth=8,decimal=1, input=$PARAM_METEO_API_TECH_ID:DAY0_PROBA_PLUIE_MM_MAX);
  #define VISU_DAY0_PROBA_GEL   <-> _I(forme="cadran", mode="progress-vor", min=0.0, max=100.0, seuil_nh=30.0, seuil_nth=70,decimal=0, input=$PARAM_METEO_API_TECH_ID:DAY0_PROBA_GEL);
 
  #define MSG_SUNRISE           <-> _MSG(libelle="Le soleil se lève", notif_sms);
