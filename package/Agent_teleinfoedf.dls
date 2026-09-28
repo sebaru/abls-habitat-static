@@ -1,0 +1,75 @@
+/******************************************************************************************************************************/
+/* Module DLS de gestion de l'agent 'TELEINFOEDF'                                                                             */
+/* Auteurs : Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr                                                            */
+/* Date : 28/09/2026                                                                                                          */
+/* Les bits des deux modes sont déclarés : seuls ceux du mode configuré (historique ou standard) sont alimentés.              */
+/******************************************************************************************************************************/
+
+/*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
+/* IO_COMM:      Bit de communication positionné par l'agent lui-meme                                                         */
+ #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec le compteur EDF $THIS");
+ #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Téléinfo EDF $THIS hors service", notif_sms=no, notif_chat=yes );
+
+/*------------------------------------------ Mode historique -----------------------------------------------------------------*/
+ #define ADCO         <-> _AI(libelle="Numéro d'identification du compteur");
+ #define ISOUS        <-> _AI(libelle="Intensité souscrite");
+ #define BASE         <-> _AI(libelle="Index option BASE");
+ #define HCHC         <-> _AI(libelle="Index heures creuses");
+ #define HCHP         <-> _AI(libelle="Index heures pleines");
+ #define IINST        <-> _AI(libelle="Intensité instantanée");
+ #define IMAX         <-> _AI(libelle="Intensité maximale");
+ #define PAPP         <-> _AI(libelle="Puissance apparente consommée");
+
+/*------------------------------------------ Mode standard -------------------------------------------------------------------*/
+ #define IRMS1        <-> _AI(libelle="Courant efficace phase 1");
+ #define IRMS2        <-> _AI(libelle="Courant efficace phase 2");
+ #define IRMS3        <-> _AI(libelle="Courant efficace phase 3");
+ #define URMS1        <-> _AI(libelle="Tension efficace phase 1");
+ #define URMS2        <-> _AI(libelle="Tension efficace phase 2");
+ #define URMS3        <-> _AI(libelle="Tension efficace phase 3");
+ #define PREF         <-> _AI(libelle="Puissance apparente souscrite");
+ #define PCOUP        <-> _AI(libelle="Puissance apparente de coupure");
+ #define SINSTS       <-> _AI(libelle="Puissance apparente instantanée soutirée");
+ #define SINSTS1      <-> _AI(libelle="Puissance apparente instantanée soutirée phase 1");
+ #define SINSTS2      <-> _AI(libelle="Puissance apparente instantanée soutirée phase 2");
+ #define SINSTS3      <-> _AI(libelle="Puissance apparente instantanée soutirée phase 3");
+ #define SMAXSN       <-> _AI(libelle="Puissance apparente max soutirée n");
+ #define SMAXSN1      <-> _AI(libelle="Puissance apparente max soutirée n phase 1");
+ #define SMAXSN2      <-> _AI(libelle="Puissance apparente max soutirée n phase 2");
+ #define SMAXSN3      <-> _AI(libelle="Puissance apparente max soutirée n phase 3");
+ #define UMOY1        <-> _AI(libelle="Tension moyenne phase 1");
+ #define UMOY2        <-> _AI(libelle="Tension moyenne phase 2");
+ #define UMOY3        <-> _AI(libelle="Tension moyenne phase 3");
+ #define NTARF        <-> _AI(libelle="Numéro de l'index tarifaire en cours");
+ #define ADSC         <-> _AI(libelle="Adresse secondaire du compteur");
+ #define EAST         <-> _AI(libelle="Energie active soutirée totale");
+ #define EASF01       <-> _AI(libelle="Energie active fournisseur index 01");
+ #define EASF02       <-> _AI(libelle="Energie active fournisseur index 02");
+ #define EASF03       <-> _AI(libelle="Energie active fournisseur index 03");
+ #define EASF04       <-> _AI(libelle="Energie active fournisseur index 04");
+ #define EASF05       <-> _AI(libelle="Energie active fournisseur index 05");
+ #define EASF06       <-> _AI(libelle="Energie active fournisseur index 06");
+ #define EASF07       <-> _AI(libelle="Energie active fournisseur index 07");
+ #define EASF08       <-> _AI(libelle="Energie active fournisseur index 08");
+ #define EASF09       <-> _AI(libelle="Energie active fournisseur index 09");
+ #define EASF10       <-> _AI(libelle="Energie active fournisseur index 10");
+ #define EASD01       <-> _AI(libelle="Energie active distributeur index 01");
+ #define EASD02       <-> _AI(libelle="Energie active distributeur index 02");
+ #define EASD03       <-> _AI(libelle="Energie active distributeur index 03");
+ #define EASD04       <-> _AI(libelle="Energie active distributeur index 04");
+ #define PRM          <-> _AI(libelle="Numéro PRM du compteur");
+
+/*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
+ #define VISU_THREAD  <-> _I(forme="check", libelle="Module Téléinfo EDF");
+
+/*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
+
+ - IO_COMM -> VISU_THREAD(mode="checked", libelle="$THIS connecté");
+ -/IO_COMM -> MEMSA_DEFAUT,
+              VISU_THREAD(mode="unchecked", cligno, libelle="$THIS déconnecté"),
+              MSG_COMM_NOK;
+
+/* Pilotage des bits de remontées */
+ - _TRUE -> MEMSSB_VEILLE;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/

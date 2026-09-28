@@ -1,0 +1,25 @@
+/******************************************************************************************************************************/
+/* Module DLS de gestion de l'agent 'IMSG' (messagerie XMPP)                                                                  */
+/* Auteurs : Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr                                                            */
+/* Date : 28/09/2026                                                                                                          */
+/******************************************************************************************************************************/
+
+/*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
+/* IO_COMM:      Bit de communication positionné par l'agent lui-meme                                                         */
+ #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec la messagerie XMPP $THIS");
+ #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Messagerie XMPP $THIS hors service", notif_sms=yes, notif_chat=no );
+
+/*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
+ #define VISU_THREAD  <-> _I(forme="check", libelle="Module XMPP");
+
+/*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
+
+ - IO_COMM -> VISU_THREAD(mode="checked", libelle="$THIS connecté");
+ -/IO_COMM -> MEMSA_DEFAUT,
+              VISU_THREAD(mode="unchecked", cligno, libelle="$THIS déconnecté"),
+              MSG_COMM_NOK;
+
+/* Pilotage des bits de remontées */
+ - _TRUE -> MEMSSB_VEILLE;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/

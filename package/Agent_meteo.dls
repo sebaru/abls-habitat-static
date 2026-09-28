@@ -3,12 +3,227 @@
 /* Auteurs : Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr                                                            */
 /* Date : 25/03/2025                                                                                                          */
 /* 25/03/2025: Passage sous forme de package                                                                                  */
+/* 28/09/2026: Déclaration de tous les bits créés par l'agent                                                                 */
 /******************************************************************************************************************************/
 
 /*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
 /* IO_COMM:      Bit de communication positionné par le thread lui-meme                                                       */
  #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec le module METEO $THIS");
  #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Unité METEO $THIS hors service", notif_sms=no, notif_chat=yes );
+
+ #define SUNRISE      <-> _HORLOGE(libelle="Lever du soleil");
+ #define SUNSET       <-> _HORLOGE(libelle="Coucher du soleil");
+
+/* Prévisions: DAY0 = aujourd'hui, jusqu'à DAY13 */
+ #define DAY0_WEATHER                <-> _AI(libelle="J : Météo prévisionnelle");
+ #define DAY0_TEMP_MIN               <-> _AI(libelle="J : Température minimum");
+ #define DAY0_TEMP_MAX               <-> _AI(libelle="J : Température maximum");
+ #define DAY0_PROBA_PLUIE            <-> _AI(libelle="J : Probabilité de pluie");
+ #define DAY0_PROBA_PLUIE_MM         <-> _AI(libelle="J : Précipitations prévues");
+ #define DAY0_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J : Précipitations prévues maximum");
+ #define DAY0_PROBA_GEL              <-> _AI(libelle="J : Probabilité de gel");
+ #define DAY0_PROBA_BROUILLARD       <-> _AI(libelle="J : Probabilité de brouillard");
+ #define DAY0_PROBA_VENT_70          <-> _AI(libelle="J : Probabilité de vent > 70km/h");
+ #define DAY0_PROBA_VENT_100         <-> _AI(libelle="J : Probabilité de vent > 100km/h");
+ #define DAY0_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J : Rafales de vent si orage");
+ #define DAY0_VENT_A_10M             <-> _AI(libelle="J : Vent moyen à 10 mètres");
+ #define DAY0_DIRECTION_VENT         <-> _AI(libelle="J : Direction du vent");
+ #define DAY0_RAFALE_VENT            <-> _AI(libelle="J : Rafales de vent");
+
+ #define DAY1_WEATHER                <-> _AI(libelle="J+1 : Météo prévisionnelle");
+ #define DAY1_TEMP_MIN               <-> _AI(libelle="J+1 : Température minimum");
+ #define DAY1_TEMP_MAX               <-> _AI(libelle="J+1 : Température maximum");
+ #define DAY1_PROBA_PLUIE            <-> _AI(libelle="J+1 : Probabilité de pluie");
+ #define DAY1_PROBA_PLUIE_MM         <-> _AI(libelle="J+1 : Précipitations prévues");
+ #define DAY1_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+1 : Précipitations prévues maximum");
+ #define DAY1_PROBA_GEL              <-> _AI(libelle="J+1 : Probabilité de gel");
+ #define DAY1_PROBA_BROUILLARD       <-> _AI(libelle="J+1 : Probabilité de brouillard");
+ #define DAY1_PROBA_VENT_70          <-> _AI(libelle="J+1 : Probabilité de vent > 70km/h");
+ #define DAY1_PROBA_VENT_100         <-> _AI(libelle="J+1 : Probabilité de vent > 100km/h");
+ #define DAY1_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+1 : Rafales de vent si orage");
+ #define DAY1_VENT_A_10M             <-> _AI(libelle="J+1 : Vent moyen à 10 mètres");
+ #define DAY1_DIRECTION_VENT         <-> _AI(libelle="J+1 : Direction du vent");
+ #define DAY1_RAFALE_VENT            <-> _AI(libelle="J+1 : Rafales de vent");
+
+ #define DAY2_WEATHER                <-> _AI(libelle="J+2 : Météo prévisionnelle");
+ #define DAY2_TEMP_MIN               <-> _AI(libelle="J+2 : Température minimum");
+ #define DAY2_TEMP_MAX               <-> _AI(libelle="J+2 : Température maximum");
+ #define DAY2_PROBA_PLUIE            <-> _AI(libelle="J+2 : Probabilité de pluie");
+ #define DAY2_PROBA_PLUIE_MM         <-> _AI(libelle="J+2 : Précipitations prévues");
+ #define DAY2_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+2 : Précipitations prévues maximum");
+ #define DAY2_PROBA_GEL              <-> _AI(libelle="J+2 : Probabilité de gel");
+ #define DAY2_PROBA_BROUILLARD       <-> _AI(libelle="J+2 : Probabilité de brouillard");
+ #define DAY2_PROBA_VENT_70          <-> _AI(libelle="J+2 : Probabilité de vent > 70km/h");
+ #define DAY2_PROBA_VENT_100         <-> _AI(libelle="J+2 : Probabilité de vent > 100km/h");
+ #define DAY2_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+2 : Rafales de vent si orage");
+ #define DAY2_VENT_A_10M             <-> _AI(libelle="J+2 : Vent moyen à 10 mètres");
+ #define DAY2_DIRECTION_VENT         <-> _AI(libelle="J+2 : Direction du vent");
+ #define DAY2_RAFALE_VENT            <-> _AI(libelle="J+2 : Rafales de vent");
+
+ #define DAY3_WEATHER                <-> _AI(libelle="J+3 : Météo prévisionnelle");
+ #define DAY3_TEMP_MIN               <-> _AI(libelle="J+3 : Température minimum");
+ #define DAY3_TEMP_MAX               <-> _AI(libelle="J+3 : Température maximum");
+ #define DAY3_PROBA_PLUIE            <-> _AI(libelle="J+3 : Probabilité de pluie");
+ #define DAY3_PROBA_PLUIE_MM         <-> _AI(libelle="J+3 : Précipitations prévues");
+ #define DAY3_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+3 : Précipitations prévues maximum");
+ #define DAY3_PROBA_GEL              <-> _AI(libelle="J+3 : Probabilité de gel");
+ #define DAY3_PROBA_BROUILLARD       <-> _AI(libelle="J+3 : Probabilité de brouillard");
+ #define DAY3_PROBA_VENT_70          <-> _AI(libelle="J+3 : Probabilité de vent > 70km/h");
+ #define DAY3_PROBA_VENT_100         <-> _AI(libelle="J+3 : Probabilité de vent > 100km/h");
+ #define DAY3_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+3 : Rafales de vent si orage");
+ #define DAY3_VENT_A_10M             <-> _AI(libelle="J+3 : Vent moyen à 10 mètres");
+ #define DAY3_DIRECTION_VENT         <-> _AI(libelle="J+3 : Direction du vent");
+ #define DAY3_RAFALE_VENT            <-> _AI(libelle="J+3 : Rafales de vent");
+
+ #define DAY4_WEATHER                <-> _AI(libelle="J+4 : Météo prévisionnelle");
+ #define DAY4_TEMP_MIN               <-> _AI(libelle="J+4 : Température minimum");
+ #define DAY4_TEMP_MAX               <-> _AI(libelle="J+4 : Température maximum");
+ #define DAY4_PROBA_PLUIE            <-> _AI(libelle="J+4 : Probabilité de pluie");
+ #define DAY4_PROBA_PLUIE_MM         <-> _AI(libelle="J+4 : Précipitations prévues");
+ #define DAY4_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+4 : Précipitations prévues maximum");
+ #define DAY4_PROBA_GEL              <-> _AI(libelle="J+4 : Probabilité de gel");
+ #define DAY4_PROBA_BROUILLARD       <-> _AI(libelle="J+4 : Probabilité de brouillard");
+ #define DAY4_PROBA_VENT_70          <-> _AI(libelle="J+4 : Probabilité de vent > 70km/h");
+ #define DAY4_PROBA_VENT_100         <-> _AI(libelle="J+4 : Probabilité de vent > 100km/h");
+ #define DAY4_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+4 : Rafales de vent si orage");
+ #define DAY4_VENT_A_10M             <-> _AI(libelle="J+4 : Vent moyen à 10 mètres");
+ #define DAY4_DIRECTION_VENT         <-> _AI(libelle="J+4 : Direction du vent");
+ #define DAY4_RAFALE_VENT            <-> _AI(libelle="J+4 : Rafales de vent");
+
+ #define DAY5_WEATHER                <-> _AI(libelle="J+5 : Météo prévisionnelle");
+ #define DAY5_TEMP_MIN               <-> _AI(libelle="J+5 : Température minimum");
+ #define DAY5_TEMP_MAX               <-> _AI(libelle="J+5 : Température maximum");
+ #define DAY5_PROBA_PLUIE            <-> _AI(libelle="J+5 : Probabilité de pluie");
+ #define DAY5_PROBA_PLUIE_MM         <-> _AI(libelle="J+5 : Précipitations prévues");
+ #define DAY5_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+5 : Précipitations prévues maximum");
+ #define DAY5_PROBA_GEL              <-> _AI(libelle="J+5 : Probabilité de gel");
+ #define DAY5_PROBA_BROUILLARD       <-> _AI(libelle="J+5 : Probabilité de brouillard");
+ #define DAY5_PROBA_VENT_70          <-> _AI(libelle="J+5 : Probabilité de vent > 70km/h");
+ #define DAY5_PROBA_VENT_100         <-> _AI(libelle="J+5 : Probabilité de vent > 100km/h");
+ #define DAY5_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+5 : Rafales de vent si orage");
+ #define DAY5_VENT_A_10M             <-> _AI(libelle="J+5 : Vent moyen à 10 mètres");
+ #define DAY5_DIRECTION_VENT         <-> _AI(libelle="J+5 : Direction du vent");
+ #define DAY5_RAFALE_VENT            <-> _AI(libelle="J+5 : Rafales de vent");
+
+ #define DAY6_WEATHER                <-> _AI(libelle="J+6 : Météo prévisionnelle");
+ #define DAY6_TEMP_MIN               <-> _AI(libelle="J+6 : Température minimum");
+ #define DAY6_TEMP_MAX               <-> _AI(libelle="J+6 : Température maximum");
+ #define DAY6_PROBA_PLUIE            <-> _AI(libelle="J+6 : Probabilité de pluie");
+ #define DAY6_PROBA_PLUIE_MM         <-> _AI(libelle="J+6 : Précipitations prévues");
+ #define DAY6_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+6 : Précipitations prévues maximum");
+ #define DAY6_PROBA_GEL              <-> _AI(libelle="J+6 : Probabilité de gel");
+ #define DAY6_PROBA_BROUILLARD       <-> _AI(libelle="J+6 : Probabilité de brouillard");
+ #define DAY6_PROBA_VENT_70          <-> _AI(libelle="J+6 : Probabilité de vent > 70km/h");
+ #define DAY6_PROBA_VENT_100         <-> _AI(libelle="J+6 : Probabilité de vent > 100km/h");
+ #define DAY6_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+6 : Rafales de vent si orage");
+ #define DAY6_VENT_A_10M             <-> _AI(libelle="J+6 : Vent moyen à 10 mètres");
+ #define DAY6_DIRECTION_VENT         <-> _AI(libelle="J+6 : Direction du vent");
+ #define DAY6_RAFALE_VENT            <-> _AI(libelle="J+6 : Rafales de vent");
+
+ #define DAY7_WEATHER                <-> _AI(libelle="J+7 : Météo prévisionnelle");
+ #define DAY7_TEMP_MIN               <-> _AI(libelle="J+7 : Température minimum");
+ #define DAY7_TEMP_MAX               <-> _AI(libelle="J+7 : Température maximum");
+ #define DAY7_PROBA_PLUIE            <-> _AI(libelle="J+7 : Probabilité de pluie");
+ #define DAY7_PROBA_PLUIE_MM         <-> _AI(libelle="J+7 : Précipitations prévues");
+ #define DAY7_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+7 : Précipitations prévues maximum");
+ #define DAY7_PROBA_GEL              <-> _AI(libelle="J+7 : Probabilité de gel");
+ #define DAY7_PROBA_BROUILLARD       <-> _AI(libelle="J+7 : Probabilité de brouillard");
+ #define DAY7_PROBA_VENT_70          <-> _AI(libelle="J+7 : Probabilité de vent > 70km/h");
+ #define DAY7_PROBA_VENT_100         <-> _AI(libelle="J+7 : Probabilité de vent > 100km/h");
+ #define DAY7_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+7 : Rafales de vent si orage");
+ #define DAY7_VENT_A_10M             <-> _AI(libelle="J+7 : Vent moyen à 10 mètres");
+ #define DAY7_DIRECTION_VENT         <-> _AI(libelle="J+7 : Direction du vent");
+ #define DAY7_RAFALE_VENT            <-> _AI(libelle="J+7 : Rafales de vent");
+
+ #define DAY8_WEATHER                <-> _AI(libelle="J+8 : Météo prévisionnelle");
+ #define DAY8_TEMP_MIN               <-> _AI(libelle="J+8 : Température minimum");
+ #define DAY8_TEMP_MAX               <-> _AI(libelle="J+8 : Température maximum");
+ #define DAY8_PROBA_PLUIE            <-> _AI(libelle="J+8 : Probabilité de pluie");
+ #define DAY8_PROBA_PLUIE_MM         <-> _AI(libelle="J+8 : Précipitations prévues");
+ #define DAY8_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+8 : Précipitations prévues maximum");
+ #define DAY8_PROBA_GEL              <-> _AI(libelle="J+8 : Probabilité de gel");
+ #define DAY8_PROBA_BROUILLARD       <-> _AI(libelle="J+8 : Probabilité de brouillard");
+ #define DAY8_PROBA_VENT_70          <-> _AI(libelle="J+8 : Probabilité de vent > 70km/h");
+ #define DAY8_PROBA_VENT_100         <-> _AI(libelle="J+8 : Probabilité de vent > 100km/h");
+ #define DAY8_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+8 : Rafales de vent si orage");
+ #define DAY8_VENT_A_10M             <-> _AI(libelle="J+8 : Vent moyen à 10 mètres");
+ #define DAY8_DIRECTION_VENT         <-> _AI(libelle="J+8 : Direction du vent");
+ #define DAY8_RAFALE_VENT            <-> _AI(libelle="J+8 : Rafales de vent");
+
+ #define DAY9_WEATHER                <-> _AI(libelle="J+9 : Météo prévisionnelle");
+ #define DAY9_TEMP_MIN               <-> _AI(libelle="J+9 : Température minimum");
+ #define DAY9_TEMP_MAX               <-> _AI(libelle="J+9 : Température maximum");
+ #define DAY9_PROBA_PLUIE            <-> _AI(libelle="J+9 : Probabilité de pluie");
+ #define DAY9_PROBA_PLUIE_MM         <-> _AI(libelle="J+9 : Précipitations prévues");
+ #define DAY9_PROBA_PLUIE_MM_MAX     <-> _AI(libelle="J+9 : Précipitations prévues maximum");
+ #define DAY9_PROBA_GEL              <-> _AI(libelle="J+9 : Probabilité de gel");
+ #define DAY9_PROBA_BROUILLARD       <-> _AI(libelle="J+9 : Probabilité de brouillard");
+ #define DAY9_PROBA_VENT_70          <-> _AI(libelle="J+9 : Probabilité de vent > 70km/h");
+ #define DAY9_PROBA_VENT_100         <-> _AI(libelle="J+9 : Probabilité de vent > 100km/h");
+ #define DAY9_RAFALE_VENT_SI_ORAGE   <-> _AI(libelle="J+9 : Rafales de vent si orage");
+ #define DAY9_VENT_A_10M             <-> _AI(libelle="J+9 : Vent moyen à 10 mètres");
+ #define DAY9_DIRECTION_VENT         <-> _AI(libelle="J+9 : Direction du vent");
+ #define DAY9_RAFALE_VENT            <-> _AI(libelle="J+9 : Rafales de vent");
+
+ #define DAY10_WEATHER               <-> _AI(libelle="J+10 : Météo prévisionnelle");
+ #define DAY10_TEMP_MIN              <-> _AI(libelle="J+10 : Température minimum");
+ #define DAY10_TEMP_MAX              <-> _AI(libelle="J+10 : Température maximum");
+ #define DAY10_PROBA_PLUIE           <-> _AI(libelle="J+10 : Probabilité de pluie");
+ #define DAY10_PROBA_PLUIE_MM        <-> _AI(libelle="J+10 : Précipitations prévues");
+ #define DAY10_PROBA_PLUIE_MM_MAX    <-> _AI(libelle="J+10 : Précipitations prévues maximum");
+ #define DAY10_PROBA_GEL             <-> _AI(libelle="J+10 : Probabilité de gel");
+ #define DAY10_PROBA_BROUILLARD      <-> _AI(libelle="J+10 : Probabilité de brouillard");
+ #define DAY10_PROBA_VENT_70         <-> _AI(libelle="J+10 : Probabilité de vent > 70km/h");
+ #define DAY10_PROBA_VENT_100        <-> _AI(libelle="J+10 : Probabilité de vent > 100km/h");
+ #define DAY10_RAFALE_VENT_SI_ORAGE  <-> _AI(libelle="J+10 : Rafales de vent si orage");
+ #define DAY10_VENT_A_10M            <-> _AI(libelle="J+10 : Vent moyen à 10 mètres");
+ #define DAY10_DIRECTION_VENT        <-> _AI(libelle="J+10 : Direction du vent");
+ #define DAY10_RAFALE_VENT           <-> _AI(libelle="J+10 : Rafales de vent");
+
+ #define DAY11_WEATHER               <-> _AI(libelle="J+11 : Météo prévisionnelle");
+ #define DAY11_TEMP_MIN              <-> _AI(libelle="J+11 : Température minimum");
+ #define DAY11_TEMP_MAX              <-> _AI(libelle="J+11 : Température maximum");
+ #define DAY11_PROBA_PLUIE           <-> _AI(libelle="J+11 : Probabilité de pluie");
+ #define DAY11_PROBA_PLUIE_MM        <-> _AI(libelle="J+11 : Précipitations prévues");
+ #define DAY11_PROBA_PLUIE_MM_MAX    <-> _AI(libelle="J+11 : Précipitations prévues maximum");
+ #define DAY11_PROBA_GEL             <-> _AI(libelle="J+11 : Probabilité de gel");
+ #define DAY11_PROBA_BROUILLARD      <-> _AI(libelle="J+11 : Probabilité de brouillard");
+ #define DAY11_PROBA_VENT_70         <-> _AI(libelle="J+11 : Probabilité de vent > 70km/h");
+ #define DAY11_PROBA_VENT_100        <-> _AI(libelle="J+11 : Probabilité de vent > 100km/h");
+ #define DAY11_RAFALE_VENT_SI_ORAGE  <-> _AI(libelle="J+11 : Rafales de vent si orage");
+ #define DAY11_VENT_A_10M            <-> _AI(libelle="J+11 : Vent moyen à 10 mètres");
+ #define DAY11_DIRECTION_VENT        <-> _AI(libelle="J+11 : Direction du vent");
+ #define DAY11_RAFALE_VENT           <-> _AI(libelle="J+11 : Rafales de vent");
+
+ #define DAY12_WEATHER               <-> _AI(libelle="J+12 : Météo prévisionnelle");
+ #define DAY12_TEMP_MIN              <-> _AI(libelle="J+12 : Température minimum");
+ #define DAY12_TEMP_MAX              <-> _AI(libelle="J+12 : Température maximum");
+ #define DAY12_PROBA_PLUIE           <-> _AI(libelle="J+12 : Probabilité de pluie");
+ #define DAY12_PROBA_PLUIE_MM        <-> _AI(libelle="J+12 : Précipitations prévues");
+ #define DAY12_PROBA_PLUIE_MM_MAX    <-> _AI(libelle="J+12 : Précipitations prévues maximum");
+ #define DAY12_PROBA_GEL             <-> _AI(libelle="J+12 : Probabilité de gel");
+ #define DAY12_PROBA_BROUILLARD      <-> _AI(libelle="J+12 : Probabilité de brouillard");
+ #define DAY12_PROBA_VENT_70         <-> _AI(libelle="J+12 : Probabilité de vent > 70km/h");
+ #define DAY12_PROBA_VENT_100        <-> _AI(libelle="J+12 : Probabilité de vent > 100km/h");
+ #define DAY12_RAFALE_VENT_SI_ORAGE  <-> _AI(libelle="J+12 : Rafales de vent si orage");
+ #define DAY12_VENT_A_10M            <-> _AI(libelle="J+12 : Vent moyen à 10 mètres");
+ #define DAY12_DIRECTION_VENT        <-> _AI(libelle="J+12 : Direction du vent");
+ #define DAY12_RAFALE_VENT           <-> _AI(libelle="J+12 : Rafales de vent");
+
+ #define DAY13_WEATHER               <-> _AI(libelle="J+13 : Météo prévisionnelle");
+ #define DAY13_TEMP_MIN              <-> _AI(libelle="J+13 : Température minimum");
+ #define DAY13_TEMP_MAX              <-> _AI(libelle="J+13 : Température maximum");
+ #define DAY13_PROBA_PLUIE           <-> _AI(libelle="J+13 : Probabilité de pluie");
+ #define DAY13_PROBA_PLUIE_MM        <-> _AI(libelle="J+13 : Précipitations prévues");
+ #define DAY13_PROBA_PLUIE_MM_MAX    <-> _AI(libelle="J+13 : Précipitations prévues maximum");
+ #define DAY13_PROBA_GEL             <-> _AI(libelle="J+13 : Probabilité de gel");
+ #define DAY13_PROBA_BROUILLARD      <-> _AI(libelle="J+13 : Probabilité de brouillard");
+ #define DAY13_PROBA_VENT_70         <-> _AI(libelle="J+13 : Probabilité de vent > 70km/h");
+ #define DAY13_PROBA_VENT_100        <-> _AI(libelle="J+13 : Probabilité de vent > 100km/h");
+ #define DAY13_RAFALE_VENT_SI_ORAGE  <-> _AI(libelle="J+13 : Rafales de vent si orage");
+ #define DAY13_VENT_A_10M            <-> _AI(libelle="J+13 : Vent moyen à 10 mètres");
+ #define DAY13_DIRECTION_VENT        <-> _AI(libelle="J+13 : Direction du vent");
+ #define DAY13_RAFALE_VENT           <-> _AI(libelle="J+13 : Rafales de vent");
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 

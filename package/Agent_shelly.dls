@@ -1,0 +1,94 @@
+/******************************************************************************************************************************/
+/* Module DLS de gestion de l'agent 'SHELLY'                                                                                  */
+/* Auteurs : Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr                                                            */
+/* Date : 28/09/2026                                                                                                          */
+/* Les bits des deux modèles sont déclarés : seuls ceux du modèle configuré (PRO_EM_50 ou PRO_3_EM) sont alimentés.           */
+/******************************************************************************************************************************/
+
+/*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
+/* IO_COMM:      Bit de communication positionné par l'agent lui-meme                                                         */
+ #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec le Shelly $THIS");
+ #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Shelly $THIS hors service", notif_sms=no, notif_chat=yes );
+
+/*------------------------------------------ SHELLY PRO EM 50 (monophasé, 2 canaux) ------------------------------------------*/
+ #define EM10_ACT_POWER        <-> _AI(libelle="Canal 0 : Puissance active");
+ #define EM10_APRT_POWER       <-> _AI(libelle="Canal 0 : Puissance apparente");
+ #define EM10_CURRENT          <-> _AI(libelle="Canal 0 : Courant");
+ #define EM10_FREQ             <-> _AI(libelle="Canal 0 : Fréquence");
+ #define EM10_PF               <-> _AI(libelle="Canal 0 : Facteur de puissance");
+ #define EM10_VOLTAGE          <-> _AI(libelle="Canal 0 : Tension");
+ #define EM10_ENERGY           <-> _AI(libelle="Canal 0 : Energie consommée");
+ #define EM10_INJECTION        <-> _AI(libelle="Canal 0 : Energie injectée");
+ #define EM10_INDEX_IN         <-> _AI(libelle="Canal 0 : Index d'énergie consommée");
+ #define EM10_INDEX_OUT        <-> _AI(libelle="Canal 0 : Index d'énergie injectée");
+ #define EM10_RESET_INDEX_IN   <-> _DO(libelle="Canal 0 : Réinitialiser l'index d'énergie consommée");
+ #define EM10_RESET_INDEX_OUT  <-> _DO(libelle="Canal 0 : Réinitialiser l'index d'énergie injectée");
+
+ #define EM11_ACT_POWER        <-> _AI(libelle="Canal 1 : Puissance active");
+ #define EM11_APRT_POWER       <-> _AI(libelle="Canal 1 : Puissance apparente");
+ #define EM11_CURRENT          <-> _AI(libelle="Canal 1 : Courant");
+ #define EM11_FREQ             <-> _AI(libelle="Canal 1 : Fréquence");
+ #define EM11_PF               <-> _AI(libelle="Canal 1 : Facteur de puissance");
+ #define EM11_VOLTAGE          <-> _AI(libelle="Canal 1 : Tension");
+ #define EM11_ENERGY           <-> _AI(libelle="Canal 1 : Energie consommée");
+ #define EM11_INJECTION        <-> _AI(libelle="Canal 1 : Energie injectée");
+ #define EM11_INDEX_IN         <-> _AI(libelle="Canal 1 : Index d'énergie consommée");
+ #define EM11_INDEX_OUT        <-> _AI(libelle="Canal 1 : Index d'énergie injectée");
+ #define EM11_RESET_INDEX_IN   <-> _DO(libelle="Canal 1 : Réinitialiser l'index d'énergie consommée");
+ #define EM11_RESET_INDEX_OUT  <-> _DO(libelle="Canal 1 : Réinitialiser l'index d'énergie injectée");
+
+/*------------------------------------------ SHELLY PRO 3 EM (triphasé) ------------------------------------------------------*/
+ #define U1                    <-> _AI(libelle="Tension phase 1");
+ #define U2                    <-> _AI(libelle="Tension phase 2");
+ #define U3                    <-> _AI(libelle="Tension phase 3");
+ #define I1                    <-> _AI(libelle="Courant phase 1");
+ #define I2                    <-> _AI(libelle="Courant phase 2");
+ #define I3                    <-> _AI(libelle="Courant phase 3");
+ #define I_TOTAL               <-> _AI(libelle="Courant total");
+ #define ACT_TOTAL             <-> _AI(libelle="Puissance active totale");
+ #define ACT_POWER1            <-> _AI(libelle="Puissance active phase 1");
+ #define ACT_POWER2            <-> _AI(libelle="Puissance active phase 2");
+ #define ACT_POWER3            <-> _AI(libelle="Puissance active phase 3");
+ #define APRT_TOTAL            <-> _AI(libelle="Puissance apparente totale");
+ #define APRT_POWER1           <-> _AI(libelle="Puissance apparente phase 1");
+ #define APRT_POWER2           <-> _AI(libelle="Puissance apparente phase 2");
+ #define APRT_POWER3           <-> _AI(libelle="Puissance apparente phase 3");
+ #define FREQ1                 <-> _AI(libelle="Fréquence phase 1");
+ #define FREQ2                 <-> _AI(libelle="Fréquence phase 2");
+ #define FREQ3                 <-> _AI(libelle="Fréquence phase 3");
+ #define PF1                   <-> _AI(libelle="Facteur de puissance phase 1");
+ #define PF2                   <-> _AI(libelle="Facteur de puissance phase 2");
+ #define PF3                   <-> _AI(libelle="Facteur de puissance phase 3");
+ #define ENERGY1               <-> _AI(libelle="Energie consommée phase 1");
+ #define ENERGY2               <-> _AI(libelle="Energie consommée phase 2");
+ #define ENERGY3               <-> _AI(libelle="Energie consommée phase 3");
+ #define INJECTION1            <-> _AI(libelle="Energie injectée phase 1");
+ #define INJECTION2            <-> _AI(libelle="Energie injectée phase 2");
+ #define INJECTION3            <-> _AI(libelle="Energie injectée phase 3");
+ #define INDEX_IN1             <-> _AI(libelle="Index d'énergie consommée phase 1");
+ #define INDEX_IN2             <-> _AI(libelle="Index d'énergie consommée phase 2");
+ #define INDEX_IN3             <-> _AI(libelle="Index d'énergie consommée phase 3");
+ #define INDEX_OUT1            <-> _AI(libelle="Index d'énergie injectée phase 1");
+ #define INDEX_OUT2            <-> _AI(libelle="Index d'énergie injectée phase 2");
+ #define INDEX_OUT3            <-> _AI(libelle="Index d'énergie injectée phase 3");
+ #define RESET_INDEX_IN1       <-> _DO(libelle="Réinitialiser l'index d'énergie consommée phase 1");
+ #define RESET_INDEX_IN2       <-> _DO(libelle="Réinitialiser l'index d'énergie consommée phase 2");
+ #define RESET_INDEX_IN3       <-> _DO(libelle="Réinitialiser l'index d'énergie consommée phase 3");
+ #define RESET_INDEX_OUT1      <-> _DO(libelle="Réinitialiser l'index d'énergie injectée phase 1");
+ #define RESET_INDEX_OUT2      <-> _DO(libelle="Réinitialiser l'index d'énergie injectée phase 2");
+ #define RESET_INDEX_OUT3      <-> _DO(libelle="Réinitialiser l'index d'énergie injectée phase 3");
+
+/*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
+ #define VISU_THREAD  <-> _I(forme="check", libelle="Module SHELLY");
+
+/*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
+
+ - IO_COMM -> VISU_THREAD(mode="checked", libelle="$THIS connecté");
+ -/IO_COMM -> MEMSA_DEFAUT,
+              VISU_THREAD(mode="unchecked", cligno, libelle="$THIS déconnecté"),
+              MSG_COMM_NOK;
+
+/* Pilotage des bits de remontées */
+ - _TRUE -> MEMSSB_VEILLE;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/

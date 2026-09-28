@@ -5,19 +5,50 @@
 /*                                                                                                               */
 /* 26/09/2024  Reprise ancien code et passage en package                                                         */
 /* 13/05/2025  Revue des visuels et messages                                                                     */
+/* 28/09/2026  Déclaration de tous les bits créés par l'agent                                                    */
 /*****************************************************************************************************************/
+
+/*--------------------------------------------- Bits créés par l'agent ------------------------------------------*/
+   #define IO_COMM              <-> _WATCHDOG(libelle="Etat communication avec l'onduleur $THIS");
+   #define MSG_COMM_NOK         <-> _MSG(type=danger, libelle="Onduleur $THIS hors service", notif_sms=yes, notif_chat=yes );
+
+   #define OUTLET_1_STATUS      <-> _DI(libelle="Statut de la prise n°1");
+   #define OUTLET_2_STATUS      <-> _DI(libelle="Statut de la prise n°2");
+   #define UPS_ONLINE           <-> _DI(libelle="Onduleur en ligne");
+   #define UPS_CHARGING         <-> _DI(libelle="Onduleur en charge");
+   #define UPS_ON_BATT          <-> _DI(libelle="Onduleur sur batterie");
+   #define UPS_REPLACE_BATT     <-> _DI(libelle="Batteries onduleur à changer");
+   #define UPS_ALARM            <-> _DI(libelle="Onduleur en alarme");
+
+   #define INPUT_VOLTAGE        <-> _AI(libelle="Tension d'entrée");
+   #define BATTERY_RUNTIME      <-> _AI(libelle="Durée de batterie restante");
+   #define BATTERY_VOLTAGE      <-> _AI(libelle="Tension batterie");
+   #define INPUT_HZ             <-> _AI(libelle="Fréquence d'entrée");
+   #define OUTPUT_CURRENT       <-> _AI(libelle="Courant de sortie");
+   #define OUTPUT_HZ            <-> _AI(libelle="Fréquence de sortie");
+   #define OUTPUT_VOLTAGE       <-> _AI(libelle="Tension de sortie");
+
+   #define LOAD_OFF             <-> _DO(libelle="Coupe la sortie ondulée");
+   #define LOAD_ON              <-> _DO(libelle="Active la sortie ondulée");
+   #define OUTLET_1_OFF         <-> _DO(libelle="Désactive la prise n°1");
+   #define OUTLET_1_ON          <-> _DO(libelle="Active la prise n°1");
+   #define OUTLET_2_OFF         <-> _DO(libelle="Désactive la prise n°2");
+   #define OUTLET_2_ON          <-> _DO(libelle="Active la prise n°2");
+   #define START_DEEP_BAT       <-> _DO(libelle="Lance un test de décharge profond");
+   #define START_QUICK_BAT      <-> _DO(libelle="Lance un test de décharge léger");
+   #define STOP_TEST_BAT        <-> _DO(libelle="Arrête le test de décharge batterie");
 
    #define VISU_COMM_UPS           <->_I(forme="check",  libelle="Comm Onduleur");
    #define VISU_ECLAIR             <->_I(forme="eclair", libelle="Sous tension" );
    #define VISU_BATTERIE           <->_I(forme="pile",   libelle="Batteries" );
 
-   #define LOAD                 <-> _AI();
+   #define LOAD                 <-> _AI(libelle="Charge onduleur");
    #define VISUEL_LOAD          <-> _I(forme="cadran",mode="progress-vor", min=0.0, max=100, seuil_nh=50,  seuil_nth=80,  decimal=1, input=LOAD);
 
-   #define REALPOWER            <-> _AI();
+   #define REALPOWER            <-> _AI(libelle="Puissance active");
    #define VISUEL_REALPOWER     <-> _I(forme="cadran",mode="progress-vor", min=0.0, max=2200, seuil_nh=700, seuil_nth=1000, decimal=0, input=REALPOWER);
 
-   #define BATTERY_CHARGE       <-> _AI();
+   #define BATTERY_CHARGE       <-> _AI(libelle="Charge batterie");
    #define VISUEL_BATTERY_CHARGE<-> _I(forme="cadran",mode="progress-rov", min=0.0, max=100, seuil_nb=50,  seuil_ntb=20,  decimal=0, input=BATTERY_CHARGE);
 
    #define ME_SOURCE_VOLTAGE_OK <-> _M(libelle="Presence tension 220V");
@@ -124,7 +155,7 @@
 /* ACTIVITES -----------------------------------------------------------------*/
 
 /* DEFAUTS ~~~~~~~~~~~~~~~~~~~~~~*/
- - MDEF_NTH_LOAD                             -> MEMSA_DEFAUT;                      /* Synthèse Alarmes Onduleur */
+ - MDEF_NTH_LOAD + /IO_COMM                   -> MEMSA_DEFAUT;                      /* Synthèse Alarmes Onduleur */
 
 /* ALARMES ~~~~~~~~~~~~~~~~~~~~~~*/
  - MALA_CHARGE_BAT + MALA_VOLTAGE_BAT + MALA_NTH_LOAD
@@ -187,7 +218,7 @@
 
 /* Visuels */
  - IO_COMM -> VISU_COMM_UPS(mode="checked");
- -/IO_COMM -> VISU_COMM_UPS(mode="unchecked",cligno);
+ -/IO_COMM -> VISU_COMM_UPS(mode="unchecked",cligno), MSG_COMM_NOK;
 
 /* Message Etats Onduleur ~~~~~~~~*/
  - IO_COMM.  UPS_ONLINE                 -> MSG_UPS_ONLINE;
