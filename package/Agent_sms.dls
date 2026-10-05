@@ -10,6 +10,13 @@
 /* IO_COMM:      Bit de communication positionné par le thread lui-meme                                                       */
  #define IO_COMM        <-> _WATCHDOG(libelle="Etat communication avec le GSM $THIS");
  #define MSG_COMM_NOK   <-> _MSG(type=danger, libelle="Unité GSM $THIS hors service", notif_sms=yes, notif_chat=yes );
+
+/* Bits communs créés par chaque agent */
+ #define TOUR_PAR_SEC    <-> _AI(libelle="Nombre de tours par seconde");
+ #define MEMORY_RSS      <-> _AI(libelle="Mémoire RSS");
+ #define MEMORY_VIRTUAL  <-> _AI(libelle="Mémoire virtuelle");
+ #define LOG_PAR_MIN     <-> _AI(libelle="Logs par minute");
+
  #define NBR_SMS        <-> _CI(libelle="Nombre de SMS envoyés", unite="sms");
  #define SIGNAL_QUALITY <-> _AI(libelle="Qualité du signal GSM");
 

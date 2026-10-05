@@ -12,6 +12,12 @@
    #define IO_COMM              <-> _WATCHDOG(libelle="Etat communication avec l'onduleur $THIS");
    #define MSG_COMM_NOK         <-> _MSG(type=danger, libelle="Onduleur $THIS hors service", notif_sms=yes, notif_chat=yes );
 
+   /* Bits communs créés par chaque agent */
+   #define TOUR_PAR_SEC         <-> _AI(libelle="Nombre de tours par seconde");
+   #define MEMORY_RSS           <-> _AI(libelle="Mémoire RSS");
+   #define MEMORY_VIRTUAL       <-> _AI(libelle="Mémoire virtuelle");
+   #define LOG_PAR_MIN          <-> _AI(libelle="Logs par minute");
+
    #define OUTLET_1_STATUS      <-> _DI(libelle="Statut de la prise n°1");
    #define OUTLET_2_STATUS      <-> _DI(libelle="Statut de la prise n°2");
    #define UPS_ONLINE           <-> _DI(libelle="Onduleur en ligne");

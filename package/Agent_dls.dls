@@ -1,0 +1,47 @@
+/******************************************************************************************************************************/
+/* Module DLS de gestion de l'agent 'DLS'                                                                                     */
+/* Auteurs : Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr                                                            */
+/* Date : 05/10/2026                                                                                                          */
+/******************************************************************************************************************************/
+
+/*------------------------------------------ Définition des bits permanents du module ----------------------------------------*/
+/* IO_COMM:      Bit de communication positionné par l'agent lui-meme                                                         */
+ #define IO_COMM      <-> _WATCHDOG(libelle="Etat communication avec le module DLS $THIS");
+ #define MSG_COMM_NOK <-> _MSG(type=danger, libelle="Module DLS $THIS hors service", notif_sms=yes, notif_chat=yes );
+
+/* Bits communs créés par chaque agent */
+ #define TOUR_PAR_SEC    <-> _AI(libelle="Nombre de tours par seconde");
+ #define MEMORY_RSS      <-> _AI(libelle="Mémoire RSS");
+ #define MEMORY_VIRTUAL  <-> _AI(libelle="Mémoire virtuelle");
+ #define LOG_PAR_MIN     <-> _AI(libelle="Logs par minute");
+
+/* Bits créés par l'agent DLS */
+ #define BIT_PAR_MIN     <-> _AI(libelle="Nombre de changements d'état par minute");
+ #define TOP_1MIN        <-> _MONO(libelle="Impulsion toutes les minutes");
+ #define TOP_1SEC        <-> _MONO(libelle="Impulsion toutes les secondes");
+ #define TOP_5SEC        <-> _MONO(libelle="Impulsion toutes les 5 secondes");
+ #define TOP_10SEC       <-> _MONO(libelle="Impulsion toutes les 10 secondes");
+ #define TOP_2HZ         <-> _MONO(libelle="Impulsion toutes les demi-secondes");
+ #define TOP_5HZ         <-> _MONO(libelle="Impulsion toutes les 1/5 secondes");
+ #define MQTT_CONNECTED  <-> _BI(libelle="TRUE si l'agent est connecté au MQTT");
+ #define FLIPFLOP_2SEC   <-> _BI(libelle="Créneaux d'une durée de deux secondes");
+ #define FLIPFLOP_1SEC   <-> _BI(libelle="Créneaux d'une durée d'une seconde");
+ #define FLIPFLOP_2HZ    <-> _BI(libelle="Créneaux d'une durée d'une demi seconde");
+ #define FLIPFLOP_5HZ    <-> _BI(libelle="Créneaux d'une durée d'un 5ième de seconde");
+ #define TOP_ALERTE_1    <-> _DI(libelle="Demande d'alerte");
+ #define TOP_ALERTE_2    <-> _DI(libelle="Demande d'alerte");
+
+/*------------------------------------------ Définition des bits locaux au module --------------------------------------------*/
+ #define VISU_THREAD  <-> _I(forme="check", libelle="Module DLS");
+
+/*------------------------------------------------- Logique fonctionnelle ----------------------------------------------------*/
+
+ - IO_COMM -> VISU_THREAD(mode="checked", libelle="$THIS connecté");
+ -/IO_COMM -> MEMSA_DEFAUT, MEMSSP_DANGER,
+              VISU_THREAD(mode="unchecked", cligno, libelle="$THIS déconnecté"),
+              MSG_COMM_NOK;
+
+/* Pilotage des bits de remontées */
+ - _TRUE -> MEMSSB_VEILLE;
+
+/*----------------------------------------------------------------------------------------------------------------------------*/
