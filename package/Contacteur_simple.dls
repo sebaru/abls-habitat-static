@@ -1,0 +1,112 @@
+/******************************************************************************************************************************/
+/* Gestion d'un contacteur simple, sans retour d'état                                                                         */
+/*                                                                                                                            */
+/* Matériel                                                                                                                   */
+/*  - Contacteur ou relais piloté par une sortie maintenue (pas d'impulsion)                                                  */
+/*  - Pas de retour de position                                                                                               */
+/*                                                                                                                            */
+/* Fonctionnalités                                                                                                            */
+/*  - Allumage/Extinction/Bascule depuis une commande DLS                                                                     */
+/*  - Bascule depuis le clic sur le visuel                                                                                    */
+/*  - Verrouillage (lock) par clic long sur le visuel: seul le clic visuel reste actif                                        */
+/*  - Arrêt automatique optionnel (PARAM_AUTO_OFF), inhibé quand verrouillé                                                   */
+/*  - Visuel et messages paramétrables (forme, mode, couleur, libellés ON/OFF)                                                */
+/*  - Pas de détection de défaut (pas de retour d'état)                                                                       */
+/*  - Pas d'auto/manu/sauto                                                                                                   */
+/*  - Pas d'alarme/alerte/danger/derangement                                                                                  */
+/*                                                                                                                            */
+/*                                               Sébastien Lefevre - sebastien.lefevre@abls-habitat.fr    12.10.2026          */
+/* 12/10/2026 V1.0 Création à partir de Télérupteur_simple                                                                    */
+/******************************************************************************************************************************/
+
+/* Paramètre du package (aucun nom ne doit être le préfixe d'un autre: remplacement textuel) */
+ #param PARAM_FORME       (libelle="Forme du visuel", defaut="ampoule");
+ #param PARAM_ON_MODE     (libelle="Mode du visuel quand ON", defaut="on");
+ #param PARAM_ON_COLOR    (libelle="Couleur du visuel quand ON", defaut="yellow");
+ #param PARAM_ON_LIBELLE  (libelle="Libellé du visuel quand ON", defaut="Lumière allumée");
+ #param PARAM_ON_MSG      (libelle="Message quand ON", defaut="Lumière allumée");
+ #param PARAM_OFF_MODE    (libelle="Mode du visuel quand OFF", defaut="off");
+ #param PARAM_OFF_COLOR   (libelle="Couleur du visuel quand OFF", defaut="gray");
+ #param PARAM_OFF_LIBELLE (libelle="Libellé du visuel quand OFF", defaut="Lumière éteinte");
+ #param PARAM_OFF_MSG     (libelle="Message quand OFF", defaut="Lumière éteinte");
+ #param PARAM_AUTO_OFF    (libelle="Temps maximum avant arrêt automatique (en 1/10 seconde)", defaut="0");
+
+/* Bits de consommation du module */
+ #define ODLS_WANT_ON              <-> _DI(libelle="Demande DLS d'allumage");
+ #define ODLS_WANT_OFF             <-> _DI(libelle="Demande DLS d'extinction");
+ #define ODLS_WANT_TOGGLE          <-> _DI(libelle="Demande DLS de bascule");
+ #define VISU_CONTACTEUR_CLIC      <-> _DI(libelle="Appui sur VISU_CONTACTEUR");
+ #define VISU_CONTACTEUR_LONGCLIC  <-> _DI(libelle="Appui long sur VISU_CONTACTEUR");
+
+/* Bits de production du module */
+ #define ACT_CONTACTEUR       <-> _DO(libelle="Pilotage du contacteur");                     /* Sortie physique du contacteur */
+ #define MSG_CONTACTEUR_ON    <-> _MSG(type=etat,libelle="$PARAM_ON_MSG");
+ #define MSG_CONTACTEUR_OFF   <-> _MSG(type=etat,libelle="$PARAM_OFF_MSG");
+ #define MSG_OFF_BY_AUTO_OFF  <-> _MSG(type=etat,libelle="Arret sur auto OFF",notif_sms);
+ #define MSG_LOCK             <-> _MSG(type=etat,libelle="Commande verrouillée");
+ #define VISU_CONTACTEUR      <-> _I(forme="$PARAM_FORME",mode="$PARAM_OFF_MODE",color="$PARAM_OFF_COLOR",libelle="$PARAM_OFF_LIBELLE");
+ #define CI_CONTACTEUR        <-> _CI(libelle="Compteur de manoeuvres du contacteur");
+ #define CH_CONTACTEUR        <-> _CH(libelle="Compteur horaire de temps d'activation");
+
+/* Bits purement internes au module */
+ #define ME_MTCE              <-> _B(libelle="Bit de maintenance");
+ #define ME_WANT_ON           <-> _B(libelle="Etat attendu du contacteur (0=ouvert, 1=fermé)");
+ #define ME_LOCK              <-> _B(libelle="Commande verrouillée: seul le clic visuel est actif");
+
+                                         /*******************************************/
+/*****************************************                 EVENEMENTS                ******************************************/
+                                         /*******************************************/
+/* Start */
+
+ - _START -> /ACT_CONTACTEUR, /ME_WANT_ON;                                             /* Mesure de précaution au démarrage */
+
+                                        /*******************************************/
+/****************************************              FONCTIONS PILOTEES           *******************************************/
+                                        /*******************************************/
+
+/* VERROUILLAGE PAR CLIC LONG */
+  - VISU_CONTACTEUR_LONGCLIC ->
+    { switch
+       | - ME_LOCK ->/ME_LOCK;
+       | -         -> ME_LOCK;
+    }
+
+/* CALCUL ETAT ATTENDU CONTACTEUR */
+  - /ME_MTCE . (VISU_CONTACTEUR_CLIC + (/ME_LOCK . ODLS_WANT_TOGGLE)) ->
+    { switch
+       | - ME_WANT_ON ->/ME_WANT_ON;
+       | -            -> ME_WANT_ON;
+    }
+  - /ME_MTCE . /ME_LOCK . ODLS_WANT_ON  -> ME_WANT_ON;
+  - /ME_MTCE . /ME_LOCK . ODLS_WANT_OFF ->/ME_WANT_ON;
+
+/* Auto OFF */
+  - $PARAM_AUTO_OFF > 0 . /ME_LOCK . ACT_CONTACTEUR -- daa=$PARAM_AUTO_OFF -> MSG_OFF_BY_AUTO_OFF, /ME_WANT_ON;
+
+/* PILOTAGE CONTACTEUR */
+  - MEMSA_OK . ME_WANT_ON       -> ACT_CONTACTEUR, CI_CONTACTEUR;
+  -/ME_WANT_ON + /MEMSA_OK      ->/ACT_CONTACTEUR;
+
+                                          /*******************************************/
+/******************************************                   VEILLE                  *****************************************/
+                                          /*******************************************/
+ - _TRUE                                 -> MEMSSB_VEILLE;                                                   /* Report Veille */
+
+
+                                           /*******************************************/
+/*******************************************              VISUELS                      ****************************************/
+                                           /*******************************************/
+  switch
+   | - ME_MTCE        -> VISU_CONTACTEUR(mode="$PARAM_OFF_MODE", color="$PARAM_OFF_COLOR", libelle="En maintenance", disable);
+   | - ACT_CONTACTEUR -> VISU_CONTACTEUR(mode="$PARAM_ON_MODE",  color="$PARAM_ON_COLOR",  libelle="$PARAM_ON_LIBELLE");
+   | -                -> VISU_CONTACTEUR(mode="$PARAM_OFF_MODE", color="$PARAM_OFF_COLOR", libelle="$PARAM_OFF_LIBELLE");
+
+  switch
+   | - ME_LOCK        -> VISU_CONTACTEUR(badge="lock"), MSG_LOCK;
+   | -                -> VISU_CONTACTEUR(badge="none");
+
+                                     /*******************************************/
+/*************************************              MESSAGES IMPRIMANTES         **********************************************/
+                                     /*******************************************/
+  - ACT_CONTACTEUR                -> MSG_CONTACTEUR_ON, CH_CONTACTEUR;
+  -/ACT_CONTACTEUR                -> MSG_CONTACTEUR_OFF;
