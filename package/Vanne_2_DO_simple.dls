@@ -1,0 +1,77 @@
+
+ #param PARAM_VISUEL_FORME       ( libelle="Forme du visuel de la vanne.",       defaut="2d_vanne_auto");
+ #param PARAM_VISUEL_MODE_OPEN   ( libelle="Mode de la vanne quand ouverte.",    defaut="on");
+ #param PARAM_VISUEL_MODE_CLOSE  ( libelle="Mode de la vanne quand fermée.",     defaut="off");
+ #param PARAM_VISUEL_COLOR_OPEN  ( libelle="Couleur de la vanne quand ouverte.", defaut="green");
+ #param PARAM_VISUEL_COLOR_CLOSE ( libelle="Couleur de la vanne quand fermée.",  defaut="red");
+
+ #define VISUEL_VANNE         <-> _I(forme="$PARAM_VISUEL_FORME", mode="$PARAM_VISUEL_MODE_CLOSE");
+ #define B_VANNE_WANTED       <-> _B(libelle="Etat attendu de la vanne");
+ #define B_VANNE_IS_OPENED    <-> _B(libelle="True si la vanne est ouverte");
+ #define AC_VANNE_OPEN        <-> _DO; /* Vanne Power */
+ #define AC_VANNE_CLOSE       <-> _DO; /* Vanne Sens */
+ #define WTD_VANNE_MANOEUVRE  <-> _WATCHDOG(libelle="Watchdog de manoeuvre vanne", consigne=200 );
+ #define B_MTCE               <-> _B (libelle="TRUE si la vanne est en maintenance");
+
+ #define DI_DLS_WANT_TO_OPEN  <->_DI ( libelle="Demande d'ouverture de la vanne via DLS");
+ #define DI_DLS_WANT_TO_CLOSE <->_DI ( libelle="Demande de fermeture de la vanne via DLS");
+
+ #define MSG_VANNE_IS_OPENING <-> _MSG(type=etat,libelle="Vanne en cours d'ouverture");
+ #define MSG_VANNE_IS_CLOSING <-> _MSG(type=etat,libelle="Vanne en cours de fermeture");
+ #define MSG_VANNE_IS_OPENED  <-> _MSG(type=etat,libelle="Vanne ouverte");
+ #define MSG_VANNE_IS_CLOSED  <-> _MSG(type=etat,libelle="Vanne fermée");
+
+/******************************************/
+/* Gestion de la vanne arrosage PELOUSE   */
+/******************************************/
+ - /WTD_VANNE_MANOEUVRE . B_MTCE . VISUEL_VANNE_CLIC ->
+    { switch
+       | -/B_VANNE_WANTED -> B_VANNE_WANTED;
+       | -                ->/B_VANNE_WANTED;
+    }
+ - /WTD_VANNE_MANOEUVRE ./B_MTCE . DI_DLS_WANT_TO_OPEN  -> B_VANNE_WANTED;
+ - /WTD_VANNE_MANOEUVRE ./B_MTCE . DI_DLS_WANT_TO_CLOSE ->/B_VANNE_WANTED;
+
+/* Gestion de la maintenance */
+ switch
+  | -/VISUEL_VANNE_LONGCLIC -> _NOP;
+  | - B_MTCE                ->/B_MTCE;
+  | -                       -> B_MTCE;
+
+/* Detection demande de manoeuvre Vanne */
+ - _START +                                 /* Demande de manoeuvre: sur action user ou sur restart */
+   ( B_VANNE_WANTED ./B_VANNE_IS_OPENED) +
+   (/B_VANNE_WANTED . B_VANNE_IS_OPENED) -> WTD_VANNE_MANOEUVRE;
+
+/* Manoeuvre Vanne */
+ switch
+  | - WTD_VANNE_MANOEUVRE ./B_VANNE_WANTED -> AC_VANNE_CLOSE; /* Fermeture */
+  | - WTD_VANNE_MANOEUVRE . B_VANNE_WANTED -> AC_VANNE_OPEN; /* Choix rotation */
+  | -                                      ->/AC_VANNE_OPEN, /AC_VANNE_CLOSE;  /* Fin de manoeuvre : mise hors tension */
+
+/* Fin de manoeuvre : report des etats attendus */
+ -/WTD_VANNE_MANOEUVRE ./B_VANNE_WANTED ->/B_VANNE_IS_OPENED;
+ -/WTD_VANNE_MANOEUVRE . B_VANNE_WANTED -> B_VANNE_IS_OPENED;
+
+ switch
+  | - B_MTCE -> VISUEL_VANNE(badge="lock");
+  | -        -> VISUEL_VANNE(badge="none");
+
+ switch
+  | - WTD_VANNE_MANOEUVRE . B_VANNE_IS_OPENED -> VISUEL_VANNE( libelle = "En cours de fermeture",
+                                                               mode    = "$PARAM_VISUEL_MODE_OPEN",
+                                                               color   = "$PARAM_VISUEL_COLOR_OPEN", cligno),
+                                                 MSG_VANNE_IS_CLOSING;
+  | - WTD_VANNE_MANOEUVRE ./B_VANNE_IS_OPENED -> VISUEL_VANNE( libelle = "En cours d'ouverture",
+                                                               mode    = "$PARAM_VISUEL_MODE_CLOSE",
+                                                               color   = "$PARAM_VISUEL_COLOR_CLOSE", cligno),
+                                                 MSG_VANNE_IS_OPENING;
+  | - B_VANNE_IS_OPENED                       -> VISUEL_VANNE( libelle = "Ouverte",
+                                                               mode    = "$PARAM_VISUEL_MODE_OPEN",
+                                                               color   = "$PARAM_VISUEL_COLOR_OPEN"),
+                                                 MSG_VANNE_IS_OPENED;
+  | -                                         -> VISUEL_VANNE( libelle = "Fermée",
+                                                               mode    = "$PARAM_VISUEL_MODE_CLOSE",
+                                                               color   = "$PARAM_VISUEL_COLOR_CLOSE"),
+                                                 MSG_VANNE_IS_CLOSED;
+

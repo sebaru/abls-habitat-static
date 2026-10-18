@@ -1,0 +1,59 @@
+
+ #param VISUEL_FORME (libelle="Forme du visuel de la vanne.", defaut="arrosage");
+
+ #define VISUEL_VANNE         <-> _I(forme="$VISUEL_FORME", mode="off");
+ #define B_VANNE_WANTED       <-> _B(libelle="Etat attendu de la vanne");
+ #define B_VANNE_IS_OPENED    <-> _B(libelle="True si la vanne est ouverte");
+ #define AC_VANNE_POWER       <-> _DO; /* Vanne Power */
+ #define AC_VANNE_PILOTE      <-> _DO; /* Vanne Sens */
+ #define WTD_VANNE_MANOEUVRE  <-> _WATCHDOG(libelle="Watchdog de manoeuvre vanne", consigne=200 );
+ #define B_MTCE               <-> _B (libelle="TRUE si la vanne est en maintenance");
+
+ #define DI_DLS_WANT_TO_OPEN  <->_DI ( libelle="Demande d'ouverture de la vanne via DLS");
+ #define DI_DLS_WANT_TO_CLOSE <->_DI ( libelle="Demande de fermeture de la vanne via DLS");
+
+ #define MSG_VANNE_IS_OPENING <-> _MSG(type=etat,libelle="Vanne en cours d'ouverture");
+ #define MSG_VANNE_IS_CLOSING <-> _MSG(type=etat,libelle="Vanne en cours de fermeture");
+ #define MSG_VANNE_IS_OPENED  <-> _MSG(type=etat,libelle="Vanne fermée");
+ #define MSG_VANNE_IS_CLOSED  <-> _MSG(type=etat,libelle="Vanne ouverte");
+
+/******************************************/
+/* Gestion de la vanne arrosage PELOUSE   */
+/******************************************/
+ - /WTD_VANNE_MANOEUVRE . B_MTCE . VISUEL_VANNE_CLIC ->
+    { switch
+       | -/B_VANNE_WANTED -> B_VANNE_WANTED;
+       | -                ->/B_VANNE_WANTED;
+    }
+ - /WTD_VANNE_MANOEUVRE ./B_MTCE . DI_DLS_WANT_TO_OPEN  -> B_VANNE_WANTED;
+ - /WTD_VANNE_MANOEUVRE ./B_MTCE . DI_DLS_WANT_TO_CLOSE ->/B_VANNE_WANTED;
+
+ switch
+  | -/VISUEL_VANNE_LONGCLIC -> _NOP;
+  | - B_MTCE                ->/B_MTCE;
+  | -                       -> B_MTCE;
+
+/* Detection demande de manoeuvre Vanne */
+ - _START +                                 /* Demande de manoeuvre: sur action user ou sur restart */
+   ( B_VANNE_WANTED ./B_VANNE_IS_OPENED) +
+   (/B_VANNE_WANTED . B_VANNE_IS_OPENED) -> WTD_VANNE_MANOEUVRE;
+
+/* Manoeuvre Vanne */
+ - WTD_VANNE_MANOEUVRE                  -> AC_VANNE_POWER;  /* Mise sous tension Vanne */
+ - WTD_VANNE_MANOEUVRE ./B_VANNE_WANTED ->/AC_VANNE_PILOTE; /* Choix rotation */
+ - WTD_VANNE_MANOEUVRE . B_VANNE_WANTED -> AC_VANNE_PILOTE; /* Choix rotation */
+ -/WTD_VANNE_MANOEUVRE                  ->/AC_VANNE_POWER,  /* Fin de manoeuvre : mise hors tension */
+                                          /AC_VANNE_PILOTE;
+ /* Fin de manoeuvre : report des etats attendus */
+ -/WTD_VANNE_MANOEUVRE ./B_VANNE_WANTED ->/B_VANNE_IS_OPENED;
+ -/WTD_VANNE_MANOEUVRE . B_VANNE_WANTED -> B_VANNE_IS_OPENED;
+
+ switch
+  | - B_MTCE -> VISUEL_VANNE(badge="lock");
+  | -        -> VISUEL_VANNE(badge="none");
+
+ switch
+  | - WTD_VANNE_MANOEUVRE . B_VANNE_IS_OPENED -> VISUEL_VANNE(libelle="En cours de fermeture", mode="on",  cligno), MSG_VANNE_IS_CLOSING;
+  | - WTD_VANNE_MANOEUVRE ./B_VANNE_IS_OPENED -> VISUEL_VANNE(libelle="En cours d'ouverture",  mode="off", cligno), MSG_VANNE_IS_OPENING;
+  | - B_VANNE_IS_OPENED                       -> VISUEL_VANNE(libelle="Ouverte",               mode="on"),          MSG_VANNE_IS_OPENED;
+  | -                                         -> VISUEL_VANNE(libelle="Fermée",                mode="off"),         MSG_VANNE_IS_CLOSED;
