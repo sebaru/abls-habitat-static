@@ -25,7 +25,7 @@
 
  - IO_COMM -> VISU_WAGO(mode="checked", libelle="$THIS connecté");          /* Si le thread dit que le wago est UP, on l'affiche */
  -/IO_COMM -> MEMSA_DEFAUT, MEMSSP_DANGER,
-              VISU_WAGO(mode="unchecked", cligno, libelle="$THIS déconnecté"),
+              VISU_WAGO(mode="unchecked", libelle="$THIS déconnecté"),
               MSG_COMM_NOK;
 
 /* Pilotage des bits de remontées */

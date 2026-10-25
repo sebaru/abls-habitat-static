@@ -22,7 +22,7 @@
 
  - IO_COMM -> VISU_THREAD(mode="checked", libelle="$THIS connecté");
  -/IO_COMM -> MEMSA_DEFAUT, MEMSSP_DANGER,
-              VISU_THREAD(mode="unchecked", cligno, libelle="$THIS déconnecté"),
+              VISU_THREAD(mode="unchecked", libelle="$THIS déconnecté"),
               MSG_COMM_NOK;
 
 /* Pilotage des bits de remontées */

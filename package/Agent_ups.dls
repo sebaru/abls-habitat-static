@@ -224,7 +224,7 @@
 
 /* Visuels */
  - IO_COMM -> VISU_COMM_UPS(mode="checked");
- -/IO_COMM -> VISU_COMM_UPS(mode="unchecked",cligno), MSG_COMM_NOK;
+ -/IO_COMM -> VISU_COMM_UPS(mode="unchecked"), MSG_COMM_NOK;
 
 /* Message Etats Onduleur ~~~~~~~~*/
  - IO_COMM.  UPS_ONLINE                 -> MSG_UPS_ONLINE;
